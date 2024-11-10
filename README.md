@@ -1,6 +1,18 @@
-# rutas-aed
+<div align="justify">
 
-Una aplicación online puedan apuntarse personas para hacer rutas senderistas, cualquiera de ellas puede organizar una ruta  ( esteblece el recorrido, la fecha , etc) y que los demás se apuntan se pondrán fotos de las rutas
+# Routes App
+
+## Índice
+- [Descripción de la aplicación](#descripción-de-la-aplicación)
+- [Conceptos de wireframe](#conceptos-de-wireframe)
+
+<br/>
+
+___
+
+### Descripción de la aplicación
+
+ Una aplicación online puedan apuntarse personas para hacer rutas senderistas, cualquiera de ellas puede organizar una ruta  ( esteblece el recorrido, la fecha , etc) y que los demás se apuntan se pondrán fotos de las rutas
 
 La app es accesible para cualquier persona en cuanto ver las rutas realizadas ( detalles de texto de la ruta pero nada de fotos personales realizadas durante el trayecto)
 
@@ -9,3 +21,23 @@ Una vez un usuario está aceptado por un admin queda registrado ( este proceso l
 
 Son los admin los que tienen capacidad para crear una nueva ruta y/o modificarla. Siempre se especifica la fecha (con hora) y el punto de encuentro
 
+___
+
+<br/>
+
+## Conceptos de wireframe
+
+- Versión de escritorio:
+<div align="center">
+    <img src="./img/desktop.png" alt="Desktop version">
+</div>
+
+<br/>
+
+- Version para móviles:
+
+<div align="center">
+    <img src="./img/mobile.png" alt="Mobile version">
+</div>
+
+</div>
