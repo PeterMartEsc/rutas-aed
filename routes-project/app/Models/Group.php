@@ -7,24 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property integer $id
  * @property string $name
- * @property string $surname
- * @property string $email
- * @property string $phone
- * @property string $password
  * @property GroupsUser[] $groupsUsers
+ * @property Route[] $routes
  */
-class User extends Model
+class Group extends Model
 {
     /**
      * @var array
      */
-    protected $fillable = ['name', 'surname', 'email', 'phone', 'password'];
+    protected $fillable = ['name'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function groupsUsers()
     {
-        return $this->hasMany('App\Models\GroupsUser', 'id_user');
+        return $this->hasMany('App\Models\GroupsUser', 'id_group');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function routes()
+    {
+        return $this->hasMany('App\Models\Route');
     }
 }
