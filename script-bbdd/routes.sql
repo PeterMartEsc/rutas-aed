@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `groups` (
   `id` int NOT NULL,
   `name` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,7 @@ CREATE TABLE `groups_users` (
   `id` int NOT NULL,
   `id_group` int DEFAULT NULL,
   `id_user` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -54,7 +54,7 @@ CREATE TABLE `images` (
   `id` int NOT NULL,
   `image` blob,
   `type_image` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -65,7 +65,7 @@ CREATE TABLE `images` (
 CREATE TABLE `roles` (
   `id` int NOT NULL,
   `name` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -81,7 +81,7 @@ CREATE TABLE `routes` (
   `date_route` timestamp NULL DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
   `group_id` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -95,7 +95,7 @@ CREATE TABLE `users` (
   `surname` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
   `phone` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Índices para tablas volcadas
