@@ -28,16 +28,43 @@ ___
 ## Conceptos de wireframe
 
 - Versión de escritorio:
+
 <div align="center">
-    <img src="./img/desktop.png" alt="Desktop version">
+    <img src="./img/desktop/Login.png" alt="Desktop version">
 </div>
 
+<br/>
+
+<div align="center">
+    <img src="./img/desktop/Groups.png" alt="Desktop version">
+</div>
+
+<br/>
+
+<div align="center">
+    <img src="./img/desktop/Profile.png" alt="Desktop version">
+</div>
+
+<br/>
 <br/>
 
 - Version para móviles:
 
 <div align="center">
-    <img src="./img/mobile.png" alt="Mobile version">
+    <img src="./img/mobile/Home.png" alt="Mobile version">
 </div>
+
+<br/>
+
+<div align="center">
+    <img src="./img/mobile/Groups.png" alt="Mobile version">
+</div>
+
+<br/>
+
+<div align="center">
+    <img src="./img/mobile/Profile.png" alt="Mobile version">
+</div>
+
 
 </div>
