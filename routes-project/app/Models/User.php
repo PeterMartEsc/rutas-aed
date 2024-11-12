@@ -11,14 +11,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $email
  * @property string $phone
  * @property string $password
+ * @property integer $id_image
  * @property GroupsUser[] $groupsUsers
  */
-class User extends Model
-{
+class User extends Model{
     /**
      * @var array
      */
-    protected $fillable = ['name', 'surname', 'email', 'phone', 'password'];
+    protected $fillable = ['name', 'surname', 'email', 'phone', 'password', 'id_image' => null];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -27,4 +27,5 @@ class User extends Model
     {
         return $this->hasMany('App\Models\GroupsUser', 'id_user');
     }
+
 }
