@@ -5,11 +5,21 @@ namespace Tests\Feature;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class RoleTest extends TestCase
 {
+    use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Artisan::call('db:seed',
+    
+    ['--class' => 'RoleSeeder']);  
+    }
 
     public function test_001_findAll(): void {
         $roles = Role::all();
