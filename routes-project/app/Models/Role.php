@@ -3,6 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+/**
+ * @author Nabil Leon Alvarez <@nalleon>
+ * @author Pedro Martin Escuela <@PeterMartEsc>
+ */
 
 /**
  * @property integer $id
@@ -11,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     public $timestamps = false;
-    
+
     /**
      * @var array
      */

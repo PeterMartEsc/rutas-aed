@@ -7,7 +7,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
-
+/**
+ * @author Nabil Leon Alvarez <@nalleon>
+ * @author Pedro Martin Escuela <@PeterMartEsc>
+ */
 class RoleTest extends TestCase
 {
     use RefreshDatabase;
