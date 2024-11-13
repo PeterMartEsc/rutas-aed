@@ -71,7 +71,7 @@ ___
 ### Diagramas
 
 <div align="center">
-    <img src="./img/mobile/Profile.png" alt="Mobile version">
+    <img src="./img/diagrams/routes-aed_entity-relations-diagram.drawio.png" alt="E/R diagram">
 </div>
 
 </div>
