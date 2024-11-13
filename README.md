@@ -66,5 +66,12 @@ ___
     <img src="./img/mobile/Profile.png" alt="Mobile version">
 </div>
 
+<br/>
+
+### Diagramas
+
+<div align="center">
+    <img src="./img/mobile/Profile.png" alt="Mobile version">
+</div>
 
 </div>
