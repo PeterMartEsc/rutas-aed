@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 /**
@@ -15,48 +14,44 @@ class RoleTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void{
         parent::setUp();
-
         Artisan::call('db:seed',
-    
-    ['--class' => 'RoleSeeder']);  
+
+        ['--class' => 'RoleSeeder']);
     }
 
     public function test_001_findAll(): void {
         $list = Role::all();
-        
         $this->assertNotNull($list, self::MESSAGE_ERROR);
         $this->assertEquals(2, $list->count(), self::MESSAGE_ERROR);
-
     }
 
     public function test_002_findById(): void{
         $objectToFind = Role::find(1);
         $this->assertNotNull($objectToFind, self::MESSAGE_ERROR);
-        $this->assertEquals(1, $objectToFind->id, self::MESSAGE_ERROR); 
-        $this->assertEquals('Admin', $objectToFind->name, self::MESSAGE_ERROR); 
+        $this->assertEquals(1, $objectToFind->id, self::MESSAGE_ERROR);
+        $this->assertEquals('Admin', $objectToFind->name, self::MESSAGE_ERROR);
     }
 
     public function test_003_save(): void{
         $objectToAdd = new Role();
         $objectToAdd->id = 3;
-        $objectToAdd->name = 'RoleTest'; 
-        $objectToAdd->save(); 
+        $objectToAdd->name = 'RoleTest';
+        $objectToAdd->save();
 
         $objectDDBB = Role::find(3);
 
         $this->assertNotNull($objectDDBB, self::MESSAGE_ERROR);
-        $this->assertEquals(3, $objectDDBB->id, self::MESSAGE_ERROR); 
-        $this->assertEquals('RoleTest', $objectDDBB->name, self::MESSAGE_ERROR); 
+        $this->assertEquals(3, $objectDDBB->id, self::MESSAGE_ERROR);
+        $this->assertEquals('RoleTest', $objectDDBB->name, self::MESSAGE_ERROR);
     }
 
     public function test_004_update(): void{
         $objectToAdd = new Role();
         $objectToAdd->id = 3;
-        $objectToAdd->name = 'RoleTest'; 
-        $objectToAdd->save(); 
+        $objectToAdd->name = 'RoleTest';
+        $objectToAdd->save();
 
         $objectDDBB = Role::find(3);
 
@@ -67,15 +62,15 @@ class RoleTest extends TestCase
         $objectToUpdate->name = 'RoleTestUpdate';
         $objectToUpdate->save();
 
-        $this->assertEquals(3, $objectToUpdate->id, self::MESSAGE_ERROR); 
-        $this->assertEquals('RoleTestUpdate', $objectToUpdate->name, self::MESSAGE_ERROR); 
+        $this->assertEquals(3, $objectToUpdate->id, self::MESSAGE_ERROR);
+        $this->assertEquals('RoleTestUpdate', $objectToUpdate->name, self::MESSAGE_ERROR);
     }
 
     public function test_005_delete(): void{
         $objectToAdd = new Role();
         $objectToAdd->id = 3;
-        $objectToAdd->name = 'RoleTest'; 
-        $objectToAdd->save(); 
+        $objectToAdd->name = 'RoleTest';
+        $objectToAdd->save();
 
         $objectDDBB = Role::find(3);
 

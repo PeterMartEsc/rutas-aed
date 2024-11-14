@@ -16,6 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->timestamps();
         });
+
+        /**Schema::connection('sqlite')->create('roles', function (Blueprint $table) {
+            $table->integer('id')->primary();
+            $table->string('name');
+            $table->timestamps();
+        });*/
     }
 
     /**
