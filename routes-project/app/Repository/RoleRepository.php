@@ -67,7 +67,7 @@ class RoleRepository implements IRepository {
      */
     public function findById($id): object | null {
         $pToFind = null;
-        DB::connection()->enableQueryLog();
+        DB::setConnection()->enableQueryLog();
         $pToFind = Role::find(1);
         $lastQuery = DB::getQueryLog();
         //dd($lastQuery);
@@ -87,7 +87,7 @@ class RoleRepository implements IRepository {
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
-        DB::connection()->enableQueryLog();
+        DB::setConnection()->enableQueryLog();
         $pToFind = Role::find(1);
         $lastQuery = DB::getQueryLog();
         //dd($lastQuery);

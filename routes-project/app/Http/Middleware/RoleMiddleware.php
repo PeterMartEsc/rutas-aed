@@ -21,10 +21,9 @@ class RoleMiddleware
 
         $user = Auth::user();
 
-        if ($user->role->name !== $role) {
-            dd('You do not have permission to access this page');
+        if ($user->role && $user->role->name === $role) {
+            return $next($request);
         }
-
-        return $next($request);
+        abort(403, 'You do not have permission to access this page'); 
     }
 }

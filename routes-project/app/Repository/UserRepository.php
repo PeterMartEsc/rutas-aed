@@ -59,7 +59,7 @@ class UserRepository implements IRepository {
             $pSqlite->password = $p->password;
             $pSqlite->id_image = $p->id_image;
             $pSqlite->id_role = $p->id_role;
-            $pSqlite->connection("sqlite")->save();
+            $pSqlite->setConnection("sqlite")->save();
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -72,7 +72,7 @@ class UserRepository implements IRepository {
      */
     public function findById($id): object | null {
         $pToFind = null;
-        DB::connection()->enableQueryLog();
+        DB::setConnection()->enableQueryLog();
         $pToFind = User::find(1);
         $lastQuery = DB::getQueryLog();
         //dd($lastQuery);
@@ -92,7 +92,7 @@ class UserRepository implements IRepository {
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
-        DB::connection()->enableQueryLog();
+        DB::setConnection()->enableQueryLog();
         $pToFind = User::find(1);
         $lastQuery = DB::getQueryLog();
         //dd($lastQuery);

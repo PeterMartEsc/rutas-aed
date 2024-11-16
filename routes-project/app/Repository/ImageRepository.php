@@ -68,7 +68,7 @@ class ImageRepository implements IRepository {
      */
     public function findById($id): object | null {
         $pToFind = null;
-        DB::connection()->enableQueryLog();
+        DB::setConnection()->enableQueryLog();
         $pToFind = Image::find(1);
         $lastQuery = DB::getQueryLog();
         //dd($lastQuery);
@@ -88,7 +88,7 @@ class ImageRepository implements IRepository {
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
-        DB::connection()->enableQueryLog();
+        DB::setConnection()->enableQueryLog();
         $pToFind = Image::find(1);
         $lastQuery = DB::getQueryLog();
         //dd($lastQuery);

@@ -16,8 +16,20 @@ return new class extends Migration
     {
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->unique();
+            $table->string('location');
+            $table->integer('distance')->nullable();
+            $table->timestamp('date_route')->useCurrent();
+            $table->integer('difficulty')->nullable();
+            $table->boolean('pets_allowed')->default(false);
+            $table->boolean('vehicle_needed')->default(false);
+            $table->string('description')->nullable();
             $table->timestamps();
+            $table->foreignId('user_id')->constrained('users', 'id');
         });
+
+
+
     }
 
     /**

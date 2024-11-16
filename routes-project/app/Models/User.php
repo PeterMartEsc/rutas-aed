@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 /**
  * @author Nabil Leon Alvarez <@nalleon>
  * @author Pedro Martin Escuela <@PeterMartEsc>
@@ -21,8 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property Role $role
  * @property Image $image
  */
-class User extends Model
+class User extends Authenticatable
 {
+    public $timestamps = false;
     /**
      * @var array
      */

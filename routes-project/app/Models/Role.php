@@ -16,12 +16,12 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
 
+    public $timestamps = false;
+    
     /**
      * @var array
      */
     protected $fillable = ['name'];
-
-    public $timestamps = false;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
