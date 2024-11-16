@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Models\Role;
+use App\Models\Route;
 use App\Repository\Interface\IRepository;
 use Exception;
 
@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
  * @author Nabil Leon Alvarez <@nalleon>
  * @author Pedro Martin Escuela <@PeterMartEsc>
  */
-
 class RoleRepository implements IRepository {
 
     /**
@@ -20,16 +19,16 @@ class RoleRepository implements IRepository {
     public function __construct(){}
 
     /**
-     * Function to find all roles 
+     * Function to find all routes 
      */
     public function findAll(): array{
         $list = [];
         try {
-            $rolesMysql = Role::on("mysql")->all();
-            $list = $rolesMysql->toArray();
+            $routesMysql = Route::on("mysql")->all();
+            $list = $routesMysql->toArray();
     
             if (empty($list)) {
-                $imagesSqlite = Role::on("sqlite")->all();
+                $imagesSqlite = Route::on("sqlite")->all();
                 $list = $imagesSqlite->toArray();
             }
     
@@ -41,7 +40,7 @@ class RoleRepository implements IRepository {
     }
     
     /**
-     * Function to add an role 
+     * Function to add an route 
      */
     public function save($p): object | null{
         $result = null;
@@ -50,9 +49,17 @@ class RoleRepository implements IRepository {
             $p->refresh();
             $result = $p;
 
-            $pSqlite = new Role();
+            $pSqlite = new Route();
             $pSqlite->id = $p->id;
-            $pSqlite->name = $p->name;
+            $pSqlite->title = $p->title;
+            $pSqlite->location = $p->location;
+            $pSqlite->distance = $p->distance;
+            $pSqlite->date_route = $p->date_route;
+            $pSqlite->difficulty = $p->difficulty;
+            $pSqlite->pets_allowed = $p->pets_allowed;
+            $pSqlite->vehicle_needed = $p->vehicle_needed;
+            $pSqlite->description = $p->description;
+            $pSqlite->user_id = $p->user_id;
 
             $pSqlite->setConnection("sqlite")->save();
         } catch (\Exception $e) {
@@ -63,66 +70,82 @@ class RoleRepository implements IRepository {
     }
 
     /**
-     * Function to find by Id an role
+     * Function to find by Id a route
      */
     public function findById($id): object | null {
         $pToFind = null;
         DB::connection()->enableQueryLog();
-        $pToFind = Role::find(1);
+        $pToFind = Route::find(1);
         $lastQuery = DB::getQueryLog();
         //dd($lastQuery);
 
         try{
-            $pToFind = Role::on("mysql")->where("id", $id)->first();
+            $pToFind = Route::on("mysql")->where("id", $id)->first();
         }catch(Exception $e){
             echo $e->getMessage();
-            $pToFind = Role::on("sqlite")->where("id", $id)->first();
+            $pToFind = Route::on("sqlite")->where("id", $id)->first();
         }
 
         return $pToFind;
     }
 
     /**
-     * Function to find by name an role
+     * Function to find by name a route
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
         DB::connection()->enableQueryLog();
-        $pToFind = Role::find(1);
+        $pToFind = Route::find(1);
         $lastQuery = DB::getQueryLog();
         //dd($lastQuery);
 
         try{
-            $pToFind = Role::on("mysql")->where("name", $uniqueKey)->first();
+            $pToFind = Route::on("mysql")->where("title", $uniqueKey)->first();
         }catch(Exception $e){
             echo $e->getMessage();
-            $pToFind = Role::on("sqlite")->where("name", $uniqueKey)->first();
+            $pToFind = Route::on("sqlite")->where("title", $uniqueKey)->first();
         }
 
         return $pToFind;
     }
 
     /**
-     * Function to to update an role
+     * Function to to update a route
      */
     public function update($p): bool {
         $updated = false;
     
         try {
-            $pUpdate = Role::on("mysql")->find($p->id);
+            $pUpdate = Route::on("mysql")->find($p->id);
     
             if ($pUpdate) {
                 $pUpdate->id = $p->id;
-                $pUpdate->name = $p->name;
+                $pUpdate->title = $p->title;
+                $pUpdate->location = $p->location;
+                $pUpdate->distance = $p->distance;
+                $pUpdate->date_route = $p->date_route;
+                $pUpdate->difficulty = $p->difficulty;
+                $pUpdate->pets_allowed = $p->pets_allowed;
+                $pUpdate->vehicle_needed = $p->vehicle_needed;
+                $pUpdate->description = $p->description;
+                $pUpdate->user_id = $p->user_id;
                 $pUpdate->save();
                 $updated = true;
             }
     
-            $pUpdateSqlite = Role::on("sqlite")->find($p->id);
+            $pUpdateSqlite = Route::on("sqlite")->find($p->id);
     
             if ($pUpdateSqlite) {
                 $pUpdateSqlite->id = $p->id;
-                $pUpdateSqlite->name = $p->name;
+                $pUpdateSqlite->title = $p->title;
+                $pUpdateSqlite->location = $p->location;
+                $pUpdateSqlite->distance = $p->distance;
+                $pUpdateSqlite->date_route = $p->date_route;
+                $pUpdateSqlite->difficulty = $p->difficulty;
+                $pUpdateSqlite->pets_allowed = $p->pets_allowed;
+                $pUpdateSqlite->vehicle_needed = $p->vehicle_needed;
+                $pUpdateSqlite->description = $p->description;
+                $pUpdateSqlite->user_id = $p->user_id;
                 $pUpdateSqlite->save();
                 $updated = true;
             }
@@ -135,19 +158,18 @@ class RoleRepository implements IRepository {
     }
 
     /**
-     * Function to delete an role
+     * Function to delete a route
      */
     public function delete($id): bool{
         $deleted = false;
-
         try {
-            $mySqlItem = Role::on("mysql")->find($id);
+            $mySqlItem = Route::on("mysql")->find($id);
             if ($mySqlItem) {
                 $mySqlItem->delete();
                 $deleted = true;
             }
     
-            $sqliteItem = Role::on("sqlite")->find($id);
+            $sqliteItem = Route::on("sqlite")->find($id);
             if ($sqliteItem) {
                 $sqliteItem->delete();
                 $deleted = true;

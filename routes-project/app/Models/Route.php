@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property User $user
  */
-class Routes extends Model
+class Route extends Model
 {
     public $timestamps = false;
     

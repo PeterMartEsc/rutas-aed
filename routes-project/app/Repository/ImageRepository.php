@@ -123,9 +123,9 @@ class ImageRepository implements IRepository {
             $pUpdateSqlite = Image::on("sqlite")->find($p->id);
     
             if ($pUpdateSqlite) {
-                $$pUpdateSqlite->id = $p->id;
-                $$pUpdateSqlite->image = $p->image;
-                $$pUpdateSqlite->type_image = $p->type_image;
+                $pUpdateSqlite->id = $p->id;
+                $pUpdateSqlite->image = $p->image;
+                $pUpdateSqlite->type_image = $p->type_image;
                 $pUpdateSqlite->save();
                 $updated = true;
             }
