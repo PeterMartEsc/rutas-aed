@@ -59,7 +59,7 @@ class UserRepository implements IRepository {
             $pSqlite->password = $p->password;
             $pSqlite->id_image = $p->id_image;
             $pSqlite->id_role = $p->id_role;
-            $pSqlite->setConnection("sqlite")->save();
+            $pSqlite->connection("sqlite")->save();
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
