@@ -3,35 +3,48 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-/**
- * @author Nabil Leon Alvarez <@nalleon>
- * @author Pedro Martin Escuela <@PeterMartEsc>
- */
 
 /**
  * @property integer $id
+ * @property integer $id_image
+ * @property integer $id_role
  * @property string $name
  * @property string $surname
  * @property string $email
  * @property string $phone
  * @property string $password
- * @property integer $id_image
- * @property GroupsUser[] $groupsUsers
+ * @property Route[] $routes
+ * @property Role $role
+ * @property Image $image
  */
-
-class User extends Authenticatable{
+class User extends Model
+{
     /**
      * @var array
      */
-    protected $fillable = ['name', 'surname', 'email', 'phone', 'password', 'id_image' => null];
+    protected $fillable = ['id_image', 'id_role', 'name', 'surname', 'email', 'phone', 'password'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function groupsUsers()
+    public function routes()
     {
-        return $this->hasMany('App\Models\GroupsUser', 'id_user');
+        return $this->hasMany('App\Models\Route');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role', 'id_role');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function image()
+    {
+        return $this->belongsTo('App\Models\Image', 'id_image');
+    }
 }
