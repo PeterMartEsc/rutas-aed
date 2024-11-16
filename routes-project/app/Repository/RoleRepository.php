@@ -2,17 +2,17 @@
 
 namespace App\Repository;
 
-use App\Models\Image;
+use App\Models\Role;
 use App\Repository\Interface\IRepository;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Support\Facades\DB;
 /**
  * @author Nabil Leon Alvarez <@nalleon>
  * @author Pedro Martin Escuela <@PeterMartEsc>
  */
 
-class ImageRepository implements IRepository {
+class RoleRepository implements IRepository {
 
     /**
      * Default constructor of the repository
@@ -20,16 +20,16 @@ class ImageRepository implements IRepository {
     public function __construct(){}
 
     /**
-     * Function to find all images 
+     * Function to find all roles 
      */
     public function findAll(): array{
         $list = [];
         try {
-            $imagesMysql = Image::on("mysql")->all();
-            $list = $imagesMysql->toArray();
+            $rolesMysql = Role::on("mysql")->all();
+            $list = $rolesMysql->toArray();
     
             if (empty($list)) {
-                $imagesSqlite = Image::on("sqlite")->all();
+                $imagesSqlite = Role::on("sqlite")->all();
                 $list = $imagesSqlite->toArray();
             }
     
@@ -41,7 +41,7 @@ class ImageRepository implements IRepository {
     }
     
     /**
-     * Function to add an image 
+     * Function to add an role 
      */
     public function save($p): object | null{
         $result = null;
@@ -50,10 +50,9 @@ class ImageRepository implements IRepository {
             $p->refresh();
             $result = $p;
 
-            $pSqlite = new Image();
+            $pSqlite = new Role();
             $pSqlite->id = $p->id;
-            $pSqlite->image = $p->image;
-            $pSqlite->type_image = $p->type_image;
+            $pSqlite->name = $p->name;
 
             $pSqlite->setConnection("sqlite")->save();
         } catch (\Exception $e) {
@@ -64,68 +63,66 @@ class ImageRepository implements IRepository {
     }
 
     /**
-     * Function to find by Id an image
+     * Function to find by Id an role
      */
     public function findById($id): object | null {
         $pToFind = null;
         DB::connection()->enableQueryLog();
-        $pToFind = Image::find(1);
+        $pToFind = Role::find(1);
         $lastQuery = DB::getQueryLog();
         //dd($lastQuery);
 
         try{
-            $pToFind = Image::on("mysql")->where("id", $id)->first();
+            $pToFind = Role::on("mysql")->where("id", $id)->first();
         }catch(Exception $e){
             echo $e->getMessage();
-            $pToFind = Image::on("sqlite")->where("id", $id)->first();
+            $pToFind = Role::on("sqlite")->where("id", $id)->first();
         }
 
         return $pToFind;
     }
 
     /**
-     * Function to find by name an image
+     * Function to find by name an role
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
         DB::connection()->enableQueryLog();
-        $pToFind = Image::find(1);
+        $pToFind = Role::find(1);
         $lastQuery = DB::getQueryLog();
         //dd($lastQuery);
 
         try{
-            $pToFind = Image::on("mysql")->where("image", $uniqueKey)->first();
+            $pToFind = Role::on("mysql")->where("name", $uniqueKey)->first();
         }catch(Exception $e){
             echo $e->getMessage();
-            $pToFind = Image::on("sqlite")->where("image", $uniqueKey)->first();
+            $pToFind = Role::on("sqlite")->where("name", $uniqueKey)->first();
         }
 
         return $pToFind;
     }
 
     /**
-     * Function to to update an image
+     * Function to to update an role
      */
     public function update($p): bool {
         $updated = false;
     
         try {
-            $pUpdate = Image::on("mysql")->find($p->id);
+            $pUpdate = Role::on("mysql")->find($p->id);
     
             if ($pUpdate) {
                 $pUpdate->id = $p->id;
-                $pUpdate->image = $p->image;
-                $pUpdate->type_image = $p->type_image;
+                $pUpdate->name = $p->name;
                 $pUpdate->save();
                 $updated = true;
             }
     
-            $pUpdateSqlite = Image::on("sqlite")->find($p->id);
+            $pUpdateSqlite = Role::on("sqlite")->find($p->id);
     
             if ($pUpdateSqlite) {
                 $$pUpdateSqlite->id = $p->id;
-                $$pUpdateSqlite->image = $p->image;
-                $$pUpdateSqlite->type_image = $p->type_image;
+                $$pUpdateSqlite->name = $p->name;
                 $pUpdateSqlite->save();
                 $updated = true;
             }
@@ -138,19 +135,19 @@ class ImageRepository implements IRepository {
     }
 
     /**
-     * Function to delete an image
+     * Function to delete an role
      */
     public function delete($id): bool{
         $deleted = false;
 
         try {
-            $mySqlItem = Image::on("mysql")->find($id);
+            $mySqlItem = Role::on("mysql")->find($id);
             if ($mySqlItem) {
                 $mySqlItem->delete();
                 $deleted = true;
             }
     
-            $sqliteItem = Image::on("sqlite")->find($id);
+            $sqliteItem = Role::on("sqlite")->find($id);
             if ($sqliteItem) {
                 $sqliteItem->delete();
                 $deleted = true;
