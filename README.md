@@ -36,16 +36,37 @@ ___
 <br/>
 
 <div align="center">
-    <img src="./img/desktop/Groups.png" alt="Desktop version">
+    <img src="./img/desktop/User-Profile.png" alt="Desktop version">
 </div>
 
 <br/>
 
 <div align="center">
-    <img src="./img/desktop/Profile.png" alt="Desktop version">
+    <img src="./img/desktop/Admin-Profile.png" alt="Desktop version">
 </div>
 
 <br/>
+
+<div align="center">
+    <img src="./img/desktop/Routes.png" alt="Desktop version">
+</div>
+
+<br/>
+
+<div align="center">
+    <img src="./img/desktop/User-Managment.png" alt="Desktop version">
+</div>
+
+<br/>
+
+<div align="center">
+    <img src="./img/desktop/Route-Managment.png" alt="Desktop version">
+</div>
+
+<br/>
+
+____
+
 <br/>
 
 - Version para móviles:
