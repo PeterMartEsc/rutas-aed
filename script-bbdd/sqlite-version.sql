@@ -40,3 +40,6 @@ CREATE TABLE `routes` (
   `user_id` INTEGER,
   FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 );
+
+INSERT INTO `roles` (`id`,`name`) VALUES (1, 'Admin'); 
+INSERT INTO `roles` (`id`,`name`) VALUES (2, 'User');  
