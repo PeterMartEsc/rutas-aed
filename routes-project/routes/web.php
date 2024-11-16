@@ -19,8 +19,8 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::resource('/users', UserController::class); // CRUD para usuarios
+    //Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    //Route::resource('/users', UserController::class); // CRUD para usuarios
 });
 
 Route::get('/dashboard', function () {
