@@ -44,9 +44,9 @@
 
                     <!-- Phone number -->
                     <div class="col-8 col-sm-8 col-md-10 mb-3">
-                        <x-input-label for="phonenum" class="form-label fw-bold text-uppercase text-center" :value="__('Phone number')" />
-                        <x-text-input id="phonenum" type="text" name="phonenum" :value="old('phonenum')"  class="form-control" required autofocus autocomplete="phonenum" />
-                        <x-input-error :messages="$errors->get('phonenum')" class="mt-2" />
+                        <x-input-label for="phone" class="form-label fw-bold text-uppercase text-center" :value="__('Phone number')" />
+                        <x-text-input id="phone" type="text" name="phone" :value="old('phone')"  class="form-control" required autofocus autocomplete="phonenum" />
+                        <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                     </div>
 
                     <!-- Password -->

@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Routes extends Model
 {
+    public $timestamps = false;
+    
     /**
      * @var array
      */
