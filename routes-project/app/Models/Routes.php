@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property integer $id
+ * @property integer $user_id
+ * @property string $title
+ * @property string $location
+ * @property integer $distance
+ * @property string $date_route
+ * @property integer $difficulty
+ * @property boolean $pets_allowed
+ * @property boolean $vehicle_needed
+ * @property string $description
+ * @property User $user
+ */
+class Routes extends Model
+{
+    /**
+     * @var array
+     */
+    protected $fillable = ['user_id', 'title', 'location', 'distance', 'date_route', 'difficulty', 'pets_allowed', 'vehicle_needed', 'description'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+}
