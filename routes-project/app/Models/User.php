@@ -33,7 +33,7 @@ class User extends Model
      */
     public function routes()
     {
-        return $this->hasMany('App\Models\Route');
+        return $this->hasMany(Route::class);
     }
 
     /**
@@ -41,7 +41,7 @@ class User extends Model
      */
     public function role()
     {
-        return $this->belongsTo('App\Models\Role', 'id_role');
+        return $this->belongsTo(Role::class, 'id_role');
     }
 
     /**
@@ -49,6 +49,6 @@ class User extends Model
      */
     public function image()
     {
-        return $this->belongsTo('App\Models\Image', 'id_image');
+        return $this->belongsTo(Image::class, 'id_image');
     }
 }

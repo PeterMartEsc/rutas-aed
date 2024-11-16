@@ -19,13 +19,13 @@ class Image extends Model
     /**
      * @var array
      */
-    protected $fillable = ['image', 'type_image'];
+    protected $fillable = [Image::class, 'type_image'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function users()
     {
-        return $this->hasMany('App\Models\User', 'id_image');
+        return $this->hasMany(User::class, 'id_image');
     }
 }
