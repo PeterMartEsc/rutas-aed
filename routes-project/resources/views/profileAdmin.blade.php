@@ -11,11 +11,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        .info{
-            height: 300px;
+        html, body {
+            height: 100%;
         }
 
-        .options{
+        .info{
             height: 300px;
         }
 
@@ -23,60 +23,113 @@
             border: solid 1px black;
 
             height: 300px;
-            margin: 20px;
-            margin-left: 50px;
+
+            align-self:flex-end;
         }
+
+        .edit-card{
+            height: 300px;
+        }
+        /*.borde{
+            border: solid 1px black;
+        }*/
     </style>
 </head>
 <body>
     <!--Contenedor principal -->
-    <div class="container">
-        <div class="text-end">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault(); this.closest('form').submit();">
-                    {{ __('Log Out') }}
-                </x-dropdown-link>
-            </form>
+    <div class="container h-100 profile-container">
+
+        <div class="row pt-3">
+            <div class="logout text-end">
+
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-success">
+                        {{ __('Log Out') }}
+                    </button>
+                </form>
+            </div>
         </div>
-        <div class="row">
+
+        <div class="row h-100">
             @auth
+
+            <!-- Columna Izquierda-->
             <div class="col-6 ">
+
                 <div class="info d-flex align-items-center">
                     <img class="p-5" src="example.png" alt="ppp"/>
                     <p class="pe-5"><b>Name: </b>{{auth()->user()->name}}</p>
                     <p class="pe-5"><b>Surname: </b> {{auth()->user()->surname}}</p>
                 </div>
                 <br/>
-                <div class="options">
-                    <div class="btn-group-vertical w-100 ">
-                        <a href="/editPer" class="btn btn-outline-success text-start" >
-                            <i class="bi bi-person p-2 pe-3"></i>
-                            Edit personal information
-                        </a>
-                        <a href="/routCompanions" class="btn btn-outline-success text-start">
-                            <i class="bi bi-people-fill p-2 pe-3"></i>
-                            Route companions
-                        </a>
+                <div class="card p-3">
+
+                    <div class="options">
+                        <div class="btn-group-vertical w-100 ">
+                            <a href="/editPer" class="btn btn-outline-success text-start" >
+                                <i class="bi bi-person p-2 pe-3"></i>
+                                Edit personal information
+                            </a>
+                            <a href="/routCompanions" class="btn btn-outline-success text-start">
+                                <i class="bi bi-people-fill p-2 pe-3"></i>
+                                Route companions
+                            </a>
+                        </div>
                     </div>
+
                 </div>
+
             </div>
+
+            <!-- Columna Derecha -->
             <div class="col-6">
-                
-                <div class="row">
-                    <div class="col edit-users">
+
+                <div class="row h-50 d-flex align-items-center borde">
+                    <!-- Contenedor Gestion Usuarios -->
+                    <div class="col mb-4 ">
+
+                        <div class="card edit-card">
+                            <div class="card-header section-title">Users</div>
+                            <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
+                            <div class="card-body overflow-auto">
+                                <ul class="list-group">
+                                    <!-- Usuario de ejemplo -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
+                                        <span><i class="bi bi-person"></i> User 1</span>
+                                        <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
+                                    </li>
+                                    <!-- Añadir más usuarios aquí -->
+                                </ul>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
 
-                <br/>
+                <div class="row h-50 d-flex align-items-center borde">
+                    <!-- Contenedor Gestion Rutas -->
+                    <div class="col">
 
-                <div class="row">
-                    <div class="col edit-routes">
+                        <div class="card edit-card">
+                            <div class="card-header section-title">Routes</div>
+                            <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
+                            <div class="card-body overflow-auto">
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span><i class="bi bi-map"></i> Route 1</span>
+                                        <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
+                                    </li>
+
+                                    <!-- Añadir más rutas aquí -->
+                                </ul>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
+
             </div>
             @endauth
         </div>
