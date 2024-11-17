@@ -31,7 +31,13 @@
 <body>
     <!--Contenedor principal -->
     <div class="container">
-
+        <div class="text-end">
+            @csrf
+                <x-dropdown-link :href="route('logout')"
+                                onclick="event.preventDefault(); this.closest('form').submit();">
+                    {{ __('Log Out') }}
+                </x-dropdown-link>
+            <div>
         <div class="row">
             @auth
             <div class="col-6 ">
@@ -55,6 +61,7 @@
                 </div>
             </div>
             <div class="col-6">
+                
                 <div class="row">
                     <div class="col edit-users">
 
