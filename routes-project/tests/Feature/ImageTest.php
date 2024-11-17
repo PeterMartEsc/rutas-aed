@@ -96,6 +96,17 @@ class ImageTest extends TestCase{
             $this->assertNull(Image::find(3), self::MESSAGE_ERROR);
             $this->assertEquals(2, $list->count(), self::MESSAGE_ERROR);
         }
+
+        public function test_006_image_has_many_users(): void
+        {
+            $image = Image::first();
+    
+            $this->assertNotNull($image->users, self::MESSAGE_ERROR);
+    
+            $users = $image->users;
+    
+            $this->assertTrue($users->count() > 0, self::MESSAGE_ERROR);
+        }
         
     }
     

@@ -16,9 +16,10 @@ class RoleTest extends TestCase
 
     protected function setUp(): void{
         parent::setUp();
-        Artisan::call('db:seed',
-
-        ['--class' => 'RoleSeeder']);
+        Artisan::call('db:seed', ['--class' => 'RoleSeeder']);
+        Artisan::call('db:seed', ['--class' => 'ImageSeeder']);
+        Artisan::call('db:seed', ['--class' => 'UserSeeder']);
+        Artisan::call('db:seed', ['--class' => 'RouteSeeder']);
     }
 
     public function test_001_findAll(): void {
@@ -81,6 +82,16 @@ class RoleTest extends TestCase
 
         $this->assertNull(Role::find(3), self::MESSAGE_ERROR);
         $this->assertEquals(2, $list->count(), self::MESSAGE_ERROR);
+    }
+
+    public function test_006_role_has_many_users(): void{
+        $role = Role::first();
+
+        $this->assertNotNull($role->users, self::MESSAGE_ERROR);
+
+        $users = $role->users;
+
+        $this->assertTrue($users->count() > 0, self::MESSAGE_ERROR);
     }
 }
 

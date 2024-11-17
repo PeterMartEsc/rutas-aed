@@ -145,6 +145,16 @@ class RouteTest extends TestCase{
         $this->assertEquals(4, $list->count(), self::MESSAGE_ERROR);
     }
     
+    public function test_006_route_belongs_to_user(): void {
+        $route = Route::first(); 
+
+        $this->assertNotNull($route->user, self::MESSAGE_ERROR);
+
+        $user = $route->user;
+
+        $this->assertEquals('admin@example.com', $user->email, self::MESSAGE_ERROR);
+    }
+
 }
 
 
