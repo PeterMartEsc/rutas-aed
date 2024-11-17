@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
  * @author Nabil Leon Alvarez <@nalleon>
  * @author Pedro Martin Escuela <@PeterMartEsc>
  */
-class RoleRepository implements IRepository {
+class RouteRepository implements IRepository {
 
     /**
      * Default constructor of the repository
