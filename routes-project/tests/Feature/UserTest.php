@@ -19,8 +19,8 @@ class UserTest extends TestCase{
             parent::setUp();
 
             Artisan::call('db:seed', ['--class' => 'RoleSeeder']);
+            Artisan::call('db:seed', ['--class' => 'ImageSeeder']);
             Artisan::call('db:seed', ['--class' => 'UserSeeder']);
-
         }
     
         public function test_001_findAll(): void {
@@ -37,7 +37,7 @@ class UserTest extends TestCase{
             $this->assertEquals('Administrator', $objectToFind->surname, self::MESSAGE_ERROR);
             $this->assertEquals('admin@example.com', $objectToFind->email, self::MESSAGE_ERROR);
             $this->assertEquals('+34123456789', $objectToFind->phone, self::MESSAGE_ERROR);
-            $this->assertTrue(Hash::check('1q2w3e4r', $objectToFind->password));
+            $this->assertTrue(Hash::check('1q2w3e4r', $objectToFind->password), self::MESSAGE_ERROR);
             $this->assertEquals(1, $objectToFind->id_role, self::MESSAGE_ERROR);
         }
     
@@ -48,30 +48,31 @@ class UserTest extends TestCase{
             $user->email = 'test@email.com';
             $user->password = Hash::make('testingPassword');
             $user->phone = '+34123456789';
+            $user->id_image = 2;
             $user->id_role = 2;
             $user->save();
         
             $savedUser = User::find($user->id); 
 
-            $this->assertNotNull($savedUser);
-            $this->assertEquals('nameTest', $savedUser->name);
-            $this->assertEquals('surnameTest', $savedUser->surname);
-            $this->assertEquals('test@email.com', $savedUser->email);
-            $this->assertTrue(Hash::check('testingPassword', $savedUser->password));
-            $this->assertEquals('+34123456789', $savedUser->phone);
-            $this->assertEquals(2, $savedUser->id_role);
+            $this->assertNotNull($savedUser, self::MESSAGE_ERROR);
+            $this->assertEquals('nameTest', $savedUser->name, self::MESSAGE_ERROR);
+            $this->assertEquals('surnameTest', $savedUser->surname, self::MESSAGE_ERROR);
+            $this->assertEquals('test@email.com', $savedUser->email, self::MESSAGE_ERROR);
+            $this->assertTrue(Hash::check('testingPassword', $savedUser->password), self::MESSAGE_ERROR);
+            $this->assertEquals('+34123456789', $savedUser->phone, self::MESSAGE_ERROR);
+            $this->assertEquals(2, $savedUser->id_image, self::MESSAGE_ERROR);
+            $this->assertEquals(2, $savedUser->id_role, self::MESSAGE_ERROR);
         }
         
     
         public function test_004_update(): void{
-   
-    
             $objectToAdd = new User();
             $objectToAdd->name = 'nameTest';
             $objectToAdd->surname = 'surnameTest';
             $objectToAdd->email = 'test@email.com';
             $objectToAdd->password = Hash::make('testingPassword');
             $objectToAdd->phone = '+34123456789';
+            $objectToAdd->id_image = 2;
             $objectToAdd->id_role = 2;
             $objectToAdd->save();
 
@@ -86,16 +87,18 @@ class UserTest extends TestCase{
             $objectToUpdate->email = 'testUpdate@email.com';
             $objectToUpdate->password = Hash::make('testingPasswordUpdate');
             $objectToUpdate->phone = '+3412345689';
-            $objectToUpdate->id_role = 1;
+            $objectToUpdate->id_role=1;
+            $objectToUpdate->id_image= 1;
             $objectToUpdate->save();
     
             $this->assertEquals(3, $objectToUpdate->id, self::MESSAGE_ERROR);
             $this->assertEquals('nameTestUpdate', $objectToUpdate->name, self::MESSAGE_ERROR);
             $this->assertEquals('surnameTestUpdate', $objectToUpdate->surname, self::MESSAGE_ERROR);
             $this->assertEquals('testUpdate@email.com', $objectToUpdate->email, self::MESSAGE_ERROR);
-            $this->assertTrue(Hash::check('testingPasswordUpdate', $objectToUpdate->password));
-            $this->assertEquals('+3412345689', $objectToUpdate->phone);
+            $this->assertTrue(Hash::check('testingPasswordUpdate', $objectToUpdate->password), self::MESSAGE_ERROR);
+            $this->assertEquals('+3412345689', $objectToUpdate->phone, self::MESSAGE_ERROR);
             $this->assertEquals(1, $objectToUpdate->id_role, self::MESSAGE_ERROR);
+            $this->assertEquals(1, $objectToUpdate->id_image, self::MESSAGE_ERROR);
         }
     
         public function test_005_delete(): void{
@@ -105,6 +108,7 @@ class UserTest extends TestCase{
             $objectToAdd->email = 'test@email.com';
             $objectToAdd->password = Hash::make('testingPassword');
             $objectToAdd->phone = '+34123456789';
+            $objectToAdd->id_image = 2;
             $objectToAdd->id_role = 2;
             $objectToAdd->save();
 
