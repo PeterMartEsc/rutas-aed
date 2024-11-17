@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +24,16 @@ Route::get('/', function () {
 /**
  * For administration
  */
-Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth', 'role:admin']);
+Route::middleware(['role:Admin'])->group(function () {
+    Route::get('/admin/profile', [AdminController::class, 'index'])->name('admin-profile');
+});
+
+/**
+ * For users 
+ */
+Route::middleware(['role:User'])->group(function () {
+    Route::get('/user-dashboard', [UserController::class, 'index'])->name('user-dashboard');
+});
 
 
 Route::get('/dashboard', function () {

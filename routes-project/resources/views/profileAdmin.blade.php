@@ -33,17 +33,14 @@
     <div class="container">
 
         <div class="row">
+            @auth
             <div class="col-6 ">
-
                 <div class="info d-flex align-items-center">
-                    <!-- Foto de perfil -->
-                    <img class="p-5" src="" alt="ppp"/>
-                    <p class="pe-5"><b>Name: </b>Nombre</p>
-                    <p class="pe-5"><b>Surname: </b> Apellidos</p>
+                    <img class="p-5" src="example.png" alt="ppp"/>
+                    <p class="pe-5"><b>Name: </b>{{auth()->user()->name}}</p>
+                    <p class="pe-5"><b>Surname: </b> {{auth()->user()->surname}}</p>
                 </div>
-
                 <br/>
-
                 <div class="options">
                     <div class="btn-group-vertical w-100 ">
                         <a href="/editPer" class="btn btn-outline-success text-start" >
@@ -56,9 +53,7 @@
                         </a>
                     </div>
                 </div>
-
             </div>
-
             <div class="col-6">
                 <div class="row">
                     <div class="col edit-users">
@@ -74,6 +69,7 @@
                     </div>
                 </div>
             </div>
+            @endauth
         </div>
 
     </div>

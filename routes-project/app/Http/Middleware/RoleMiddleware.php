@@ -21,9 +21,16 @@ class RoleMiddleware
 
         $user = Auth::user();
 
-        if ($user->role && $user->role->name === $role) {
-            return $next($request);
+        if ($user->role) {
+            if ($user->role->name === 'Admin' && $user->role->name === $role) {
+                return $next($request); 
+            }
+    
+            if ($user->role->name === 'User' && $user->role->name === $role) {
+                return redirect('/user-dashboard');
+            }
         }
+
         abort(403, 'You do not have permission to access this page'); 
     }
 }
