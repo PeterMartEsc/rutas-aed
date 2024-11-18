@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Models\Role;
+use App\Repository\Abstract\RepositoryAbstract;
 use App\Repository\Interface\IRepository;
 use Exception;
 
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\DB;
  * @author Pedro Martin Escuela <@PeterMartEsc>
  */
 
-class RoleRepository implements IRepository {
+class RoleRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Default constructor of the repository
@@ -20,37 +21,39 @@ class RoleRepository implements IRepository {
     public function __construct(){}
 
     /**
-     * Function to find all roles 
+     * Function to find all roles
      */
     public function findAll(): array{
         $list = [];
         try {
-            $rolesMysql = Role::on("mysql")->get();
+            $rolesMysql = Role::on($this->connectionMySql)->get();
             $list = $rolesMysql->toArray();
-    
+
         } catch (\Exception $e) {
-            $rolesSqlite = Role::on("sqlite")->get();
+            $rolesSqlite = Role::on($this->connectionSqlite)->get();
             $list = $rolesSqlite->toArray();
         }
-    
+
         return $list;
     }
-    
+
     /**
-     * Function to add an role 
+     * Function to add an role
      */
     public function save($p): object | null{
         $result = null;
         try {
-            $p->setConnection("mysql")->save();
+            $p->setConnection($this->connectionMySql)->save();
             $p->refresh();
             $result = $p;
 
-            $pSqlite = new Role();
-            $pSqlite->id = $p->id;
-            $pSqlite->name = $p->name;
+            if(!app()->runningUnitTests()){
+                $pSqlite = new Role();
+                $pSqlite->id = $p->id;
+                $pSqlite->name = $p->name;
+                $pSqlite->setConnection($this->connectionSqlite)->save();
+            }
 
-            $pSqlite->setConnection("sqlite")->save();
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -69,10 +72,10 @@ class RoleRepository implements IRepository {
         //dd($lastQuery);
 
         try{
-            $pToFind = Role::on("mysql")->where("id", $id)->first();
+            $pToFind = Role::on($this->connectionMySql)->where("id", $id)->first();
         }catch(Exception $e){
             echo $e->getMessage();
-            $pToFind = Role::on("sqlite")->where("id", $id)->first();
+            $pToFind = Role::on($this->connectionSqlite)->where("id", $id)->first();
         }
 
         return $pToFind;
@@ -89,10 +92,10 @@ class RoleRepository implements IRepository {
         //dd($lastQuery);
 
         try{
-            $pToFind = Role::on("mysql")->where("name", $uniqueKey)->first();
+            $pToFind = Role::on($this->connectionMySql)->where("name", $uniqueKey)->first();
         }catch(Exception $e){
             echo $e->getMessage();
-            $pToFind = Role::on("sqlite")->where("name", $uniqueKey)->first();
+            $pToFind = Role::on($this->connectionSqlite)->where("name", $uniqueKey)->first();
         }
 
         return $pToFind;
@@ -103,30 +106,31 @@ class RoleRepository implements IRepository {
      */
     public function update($p): bool {
         $updated = false;
-    
+
         try {
-            $pUpdate = Role::on("mysql")->find($p->id);
-    
+            $pUpdate = Role::on($this->connectionMySql)->find($p->id);
+
             if ($pUpdate) {
                 $pUpdate->id = $p->id;
                 $pUpdate->name = $p->name;
                 $pUpdate->save();
                 $updated = true;
             }
-    
-            $pUpdateSqlite = Role::on("sqlite")->find($p->id);
-    
-            if ($pUpdateSqlite) {
-                $pUpdateSqlite->id = $p->id;
-                $pUpdateSqlite->name = $p->name;
-                $pUpdateSqlite->save();
-                $updated = true;
+
+            if(!app()->runningUnitTests()){
+                $pUpdateSqlite = Role::on($this->connectionSqlite)->find($p->id);
+                if ($pUpdateSqlite) {
+                    $pUpdateSqlite->id = $p->id;
+                    $pUpdateSqlite->name = $p->name;
+                    $pUpdateSqlite->save();
+                    $updated = true;
+                }
             }
-    
+
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
-    
+
         return $updated;
     }
 
@@ -137,22 +141,24 @@ class RoleRepository implements IRepository {
         $deleted = false;
 
         try {
-            $mySqlItem = Role::on("mysql")->find($id);
+            $mySqlItem = Role::on($this->connectionMySql)->find($id)->first();
             if ($mySqlItem) {
                 $mySqlItem->delete();
                 $deleted = true;
             }
-    
-            $sqliteItem = Role::on("sqlite")->find($id);
-            if ($sqliteItem) {
-                $sqliteItem->delete();
-                $deleted = true;
+
+            if(!app()->runningUnitTests()){
+                $sqliteItem = Role::on($this->connectionSqlite)->find($id)->first();
+                if ($sqliteItem) {
+                    $sqliteItem->delete();
+                    $deleted = true;
+                }
             }
-    
+
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
-    
+
         return $deleted;
     }
 }

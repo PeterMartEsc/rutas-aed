@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Mockery;
 use Tests\TestCase;
 
-class UserRepositoryTest extends TestCase
-{
+class UserRepositoryTest extends TestCase {
     private $userRepository;
 
     use RefreshDatabase;

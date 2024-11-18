@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Models\User;
+use App\Repository\Abstract\RepositoryAbstract;
 use App\Repository\Interface\IRepository;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -12,10 +13,8 @@ use Illuminate\Support\Facades\DB;
  * @author Pedro Martin Escuela <@PeterMartEsc>
  */
 
-class UserRepository implements IRepository {
+class UserRepository extends RepositoryAbstract implements IRepository{
 
-    public $connectionMySql = "mysql";
-    public $connectionSqlite = "sqlite";
 
     /**
      * Default constructor of the repository
@@ -53,17 +52,17 @@ class UserRepository implements IRepository {
             $p->refresh();
             $result = $p;
 
-            $pSqlite = new User();
-            $pSqlite->id = $p->id;
-            $pSqlite->name = $p->name;
-            $pSqlite->surname = $p->surname;
-            $pSqlite->email = $p->email;
-            $pSqlite->phone = $p->phone;
-            $pSqlite->password = $p->password;
-            $pSqlite->id_image = $p->id_image;
-            $pSqlite->id_role = $p->id_role;
-
             if(!app()->runningUnitTests()){
+                $pSqlite = new User();
+                $pSqlite->id = $p->id;
+                $pSqlite->name = $p->name;
+                $pSqlite->surname = $p->surname;
+                $pSqlite->email = $p->email;
+                $pSqlite->phone = $p->phone;
+                $pSqlite->password = $p->password;
+                $pSqlite->id_image = $p->id_image;
+                $pSqlite->id_role = $p->id_role;
+
                 $pSqlite->setConnection($this->connectionSqlite)->save();
             }
 
@@ -121,7 +120,7 @@ class UserRepository implements IRepository {
         $updated = false;
 
         try {
-            $pUpdate = User::on($this->connectionMySql)->find($p->id);
+            $pUpdate = User::on($this->connectionMySql)->find($p->id)->first();
 
             if ($pUpdate) {
                 $pUpdate->name = $p->name;
@@ -136,19 +135,20 @@ class UserRepository implements IRepository {
                 $updated = true;
             }
 
-            $pUpdateSqlite = User::on($this->connectionSqlite)->find($p->id);
 
-            if ($pUpdateSqlite) {
-                $pUpdateSqlite->name = $p->name;
-                $pUpdateSqlite->surname = $p->surname;
-                $pUpdateSqlite->email = $p->email;
-                $pUpdateSqlite->phone = $p->phone;
-                $pUpdateSqlite->password = $p->password;
-                $pUpdateSqlite->id_image = $p->id_image;
-                $pUpdateSqlite->id_role = $p->id_role;
-
-                $pUpdateSqlite->save();
-                $updated = true;
+            if(!app()->runningUnitTests()){
+                $pUpdateSqlite = User::on($this->connectionSqlite)->find($p->id)->first();
+                if ($pUpdateSqlite) {
+                    $pUpdateSqlite->name = $p->name;
+                    $pUpdateSqlite->surname = $p->surname;
+                    $pUpdateSqlite->email = $p->email;
+                    $pUpdateSqlite->phone = $p->phone;
+                    $pUpdateSqlite->password = $p->password;
+                    $pUpdateSqlite->id_image = $p->id_image;
+                    $pUpdateSqlite->id_role = $p->id_role;
+                    $pUpdateSqlite->save();
+                    $updated = true;
+                }
             }
 
         } catch (\Exception $e) {
@@ -171,12 +171,13 @@ class UserRepository implements IRepository {
                 $deleted = true;
             }
 
-            $sqliteItem = User::on($this->connectionSqlite)->find($id)->first();
-            if ($sqliteItem != null) {
-                $sqliteItem->delete();
-                $deleted = true;
+            if(!app()->runningUnitTests()){
+                $sqliteItem = User::on($this->connectionSqlite)->find($id)->first();
+                if ($sqliteItem != null) {
+                    $sqliteItem->delete();
+                    $deleted = true;
+                }
             }
-
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -184,8 +185,5 @@ class UserRepository implements IRepository {
         return $deleted;
     }
 
-    public function setTestConnection() : void{
-        $this->connectionMySql= "sqlite";
-        $this->connectionSqlite= "sqlite";
-    }
+
 }
