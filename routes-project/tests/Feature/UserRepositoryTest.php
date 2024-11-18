@@ -13,13 +13,14 @@ use Tests\TestCase;
 
 class UserRepositoryTest extends TestCase
 {
-    private $userRepository; 
-    
+    private $userRepository;
+
     use RefreshDatabase;
 
     protected function setUp(): void{
         parent::setUp();
         $this->userRepository = new UserRepository();
+        $this->userRepository->setTestConnection();
     }
 
     public function test_001_findAll(): void {
@@ -42,9 +43,9 @@ class UserRepositoryTest extends TestCase
         $user->phone = '+34123456789';
         $user->id_image = null;
         $user->id_role = 2;
-    
+
         $savedUser = $this->userRepository->save($user);
-    
+
         $this->assertEquals($user->name, $savedUser->name);
         $this->assertEquals($user->surname, $savedUser->surname);
         $this->assertEquals($user->email, $savedUser->email);
