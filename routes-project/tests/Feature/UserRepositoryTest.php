@@ -12,28 +12,27 @@ use Mockery;
 use Tests\TestCase;
 
 class UserRepositoryTest extends TestCase {
-    private $userRepository;
+    private $repository;
 
     use RefreshDatabase;
 
     protected function setUp(): void{
         parent::setUp();
-        $this->userRepository = new UserRepository();
-        $this->userRepository->setTestConnection();
+        $this->repository = new UserRepository();
+        Artisan::call('db:seed', ['--database' => 'sqlite']);
+        $this->repository->setTestConnection();
     }
 
     public function test_001_findAll(): void {
-        $users = $this->userRepository->findAll();
+        $users = $this->repository->findAll();
         $this->assertNotNull($users, self::MESSAGE_ERROR);
-    }
 
-    public function test_002_findAll_mysqlite(): void {
-        $this->userRepository = new UserRepository('fakeDb');
-        $usersSqlite = $this->userRepository->findAll();
+        $this->repository = new UserRepository('fakeDb');
+        $usersSqlite = $this->repository->findAll();
         $this->assertNotNull($usersSqlite, self::MESSAGE_ERROR);
     }
 
-    public function test_003_save_delete(): void {
+    public function test_002_save(): void {
         $user = new User();
         $user->name = 'nameTest';
         $user->surname = 'surnameTest';
@@ -43,18 +42,47 @@ class UserRepositoryTest extends TestCase {
         $user->id_image = null;
         $user->id_role = 2;
 
-        $savedUser = $this->userRepository->save($user);
+        $saved = $this->repository->save($user);
 
-        $this->assertEquals($user->name, $savedUser->name, self::MESSAGE_ERROR);
-        $this->assertEquals($user->surname, $savedUser->surname, self::MESSAGE_ERROR);
-        $this->assertEquals($user->email, $savedUser->email, self::MESSAGE_ERROR);
-        $this->assertEquals($user->phone, $savedUser->phone, self::MESSAGE_ERROR);
-        $this->assertEquals($user->id_image, $savedUser->id_image, self::MESSAGE_ERROR);
-        $this->assertEquals($user->id_role, $savedUser->id_role, self::MESSAGE_ERROR);
+        $this->assertEquals($user->name, $saved->name, self::MESSAGE_ERROR);
+        $this->assertEquals($user->surname, $saved->surname, self::MESSAGE_ERROR);
+        $this->assertEquals($user->email, $saved->email, self::MESSAGE_ERROR);
+        $this->assertEquals($user->phone, $saved->phone, self::MESSAGE_ERROR);
+        $this->assertEquals($user->id_image, $saved->id_image, self::MESSAGE_ERROR);
+        $this->assertEquals($user->id_role, $saved->id_role, self::MESSAGE_ERROR);
 
-        $this->userRepository->delete($savedUser);
-        $deletedUser = User::find($savedUser->id);
-        $this->assertNull($deletedUser, self::MESSAGE_ERROR);
+        
+        try {
+            $this->repository = new UserRepository('fakeDb');
+            $this->repository->save($user);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
+    }
+
+    public function test_003_delete(): void {
+        $user = new User();
+        $user->name = 'nameTest';
+        $user->surname = 'surnameTest';
+        $user->email = 'test@email.com';
+        $user->password = Hash::make('testingPassword');
+        $user->phone = '+34123456789';
+        $user->id_image = null;
+        $user->id_role = 2;
+
+        $saved = $this->repository->save($user);
+        $this->assertNotNull($saved, self::MESSAGE_ERROR);
+
+        $deleted = $this->repository->delete($saved->id);
+        $this->assertTrue($deleted, self::MESSAGE_ERROR);
+
+        try {
+            $this->repository = new UserRepository('fakeDb');
+            $this->repository->delete($saved->id);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
+
     }
 
     public function test_004_update(): void {
@@ -67,31 +95,39 @@ class UserRepositoryTest extends TestCase {
         $user->id_image = null;
         $user->id_role = 2;
 
-        $savedUser = $this->userRepository->save($user);
+        $saved = $this->repository->save($user);
+        $this->assertNotNull($saved, self::MESSAGE_ERROR);
 
-        $this->assertNotNull($savedUser, self::MESSAGE_ERROR);
+        $objectToUpdate = new User();
+        $objectToUpdate = $saved;
+        $objectToUpdate->name = 'nameTestUpdate';
+        $objectToUpdate->surname = 'surnameTestUpdate';
+        $objectToUpdate->email = 'testUpdate@email.com';
+        $objectToUpdate->password = Hash::make('testingPasswordUpdate');
+        $objectToUpdate->phone = '+34987654321';
+        $objectToUpdate->id_image = 1;
+        $objectToUpdate->id_role = 1;
 
-        $userUpdate = new User();
-        $userUpdate = $user;
-        $userUpdate->name = 'nameTestUpdate';
-        $userUpdate->surname = 'surnameTestUpdate';
-        $userUpdate->email = 'testUpdate@email.com';
-        $userUpdate->password = Hash::make('testingPasswordUpdate');
-        $userUpdate->phone = '+34987654321';
-        $userUpdate->id_image = 1;
-        $userUpdate->id_role = 1;
 
-        $this->userRepository->update($userUpdate);
+        $update = $this->repository->update($objectToUpdate);
+        $this->assertTrue($update, self::MESSAGE_ERROR);
 
-        $userUpdated = $this->userRepository->findById($userUpdate->id);
+        $updated = $this->repository->findById($objectToUpdate->id);
 
-        $this->assertEquals($userUpdate->id, $userUpdated->id);
-        $this->assertEquals($userUpdate->name, $userUpdated->name);
-        $this->assertEquals($userUpdate->surname, $userUpdated->surname);
-        $this->assertEquals($userUpdate->email, $userUpdated->email);
-        $this->assertEquals($userUpdate->phone, $userUpdated->phone);
-        $this->assertEquals($userUpdate->id_image, $userUpdated->id_image);
-        $this->assertEquals($userUpdate->id_role, $userUpdated->id_role);
+        $this->assertEquals($objectToUpdate->id, $updated->id);
+        $this->assertEquals($objectToUpdate->name, $updated->name);
+        $this->assertEquals($objectToUpdate->surname, $updated->surname);
+        $this->assertEquals($objectToUpdate->email, $updated->email);
+        $this->assertEquals($objectToUpdate->phone, $updated->phone);
+        $this->assertEquals($objectToUpdate->id_image, $updated->id_image);
+        $this->assertEquals($objectToUpdate->id_role, $updated->id_role);
+
+        try {
+            $this->repository = new UserRepository('fakeDb');
+            $this->repository->update($saved);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
     }
 
     public function test_005_find_by_id(): void {
@@ -104,13 +140,13 @@ class UserRepositoryTest extends TestCase {
         $user->id_image = null;
         $user->id_role = 2;
 
-        $savedUser = $this->userRepository->save($user);
+        $saved = $this->repository->save($user);
 
-        $userFind =$this->userRepository->findById($savedUser->id);
+        $userFind =$this->repository->findById($saved->id);
         $this->assertNotNull($userFind, self::MESSAGE_ERROR);
 
-        $this->userRepository = new UserRepository('fakeDb');
-        $userFind =$this->userRepository->findById($savedUser->id);
+        $this->repository = new UserRepository('fakeDb');
+        $userFind =$this->repository->findById($saved->id);
         $this->assertNotNull($userFind, self::MESSAGE_ERROR);
 
     }
@@ -126,13 +162,13 @@ class UserRepositoryTest extends TestCase {
         $user->id_image = null;
         $user->id_role = 2;
 
-        $savedUser = $this->userRepository->save($user);
+        $saved = $this->repository->save($user);
 
-        $userFind =$this->userRepository->findByUniqueKey($savedUser->email);
+        $userFind =$this->repository->findByUniqueKey($saved->email);
         $this->assertNotNull($userFind, self::MESSAGE_ERROR);
 
-        $this->userRepository = new UserRepository('fakeDb');
-        $userFind =$this->userRepository->findByUniqueKey($savedUser->email);
+        $this->repository = new UserRepository('fakeDb');
+        $userFind =$this->repository->findByUniqueKey($saved->email);
         $this->assertNotNull($userFind, self::MESSAGE_ERROR);
 
     }

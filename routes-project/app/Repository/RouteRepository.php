@@ -49,19 +49,20 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
             $result = $p;
 
-            $pSqlite = new Route();
-            $pSqlite->id = $p->id;
-            $pSqlite->title = $p->title;
-            $pSqlite->location = $p->location;
-            $pSqlite->distance = $p->distance;
-            $pSqlite->date_route = $p->date_route;
-            $pSqlite->difficulty = $p->difficulty;
-            $pSqlite->pets_allowed = $p->pets_allowed;
-            $pSqlite->vehicle_needed = $p->vehicle_needed;
-            $pSqlite->description = $p->description;
-            $pSqlite->user_id = $p->user_id;
+
 
             if(!app()->runningUnitTests()){
+                $pSqlite = new Route();
+                $pSqlite->id = $p->id;
+                $pSqlite->title = $p->title;
+                $pSqlite->location = $p->location;
+                $pSqlite->distance = $p->distance;
+                $pSqlite->date_route = $p->date_route;
+                $pSqlite->difficulty = $p->difficulty;
+                $pSqlite->pets_allowed = $p->pets_allowed;
+                $pSqlite->vehicle_needed = $p->vehicle_needed;
+                $pSqlite->description = $p->description;
+                $pSqlite->user_id = $p->user_id;
                 $pSqlite->setConnection($this->connectionSqlite)->save();
             }
 
@@ -109,7 +110,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         $updated = false;
 
         try {
-            $pUpdate = Route::on($this->connectionMySql)->find($p->id)->first();
+            $pUpdate = Route::on($this->connectionMySql)->find($p->id);
 
             if ($pUpdate) {
                 $pUpdate->id = $p->id;
@@ -128,7 +129,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
 
             if(!app()->runningUnitTests()){
-                $pUpdateSqlite = Route::on($this->connectionSqlite)->find($p->id)->first();
+                $pUpdateSqlite = Route::on($this->connectionSqlite)->find($p->id);
                 if ($pUpdateSqlite) {
                     $pUpdateSqlite->id = $p->id;
                     $pUpdateSqlite->title = $p->title;

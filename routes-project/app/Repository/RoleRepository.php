@@ -100,7 +100,7 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
         $updated = false;
 
         try {
-            $pUpdate = Role::on($this->connectionMySql)->find($p->id);
+            $pUpdate = Role::on($this->connectionMySql)->where("id", $p->id)->first();
 
             if ($pUpdate) {
                 $pUpdate->id = $p->id;
@@ -110,7 +110,7 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
             }
 
             if(!app()->runningUnitTests()){
-                $pUpdateSqlite = Role::on($this->connectionSqlite)->find($p->id);
+                $pUpdateSqlite = Role::on($this->connectionSqlite)->where("id", $p->id)->first();
                 if ($pUpdateSqlite) {
                     $pUpdateSqlite->id = $p->id;
                     $pUpdateSqlite->name = $p->name;
@@ -133,7 +133,7 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
         $deleted = false;
 
         try {
-            $mySqlItem = Role::on($this->connectionMySql)->find($id)->first();
+            $mySqlItem = Role::on($this->connectionMySql)->find($id)->first();        
             if ($mySqlItem) {
                 $mySqlItem->delete();
                 $deleted = true;

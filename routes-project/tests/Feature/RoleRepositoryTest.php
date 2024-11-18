@@ -25,26 +25,48 @@ class RoleRepositoryTest extends TestCase {
     public function test_001_findAll(): void {
         $list = $this->repository->findAll();
         $this->assertNotNull($list, self::MESSAGE_ERROR);
-    }
 
-    public function test_002_findAll_mysqlite(): void {
         $this->repository = new RoleRepository('fakeDb');
         $usersSqlite = $this->repository->findAll();
         $this->assertNotNull($usersSqlite, self::MESSAGE_ERROR);
     }
 
-    public function test_003_save_delete(): void {
-        $route = new Role();
-        $route->name = 'roleTest';
+    public function test_002_save(): void {
+        $role = new Role();
+        $role->name = 'roleTest';
 
-        $saved = $this->repository->save($route);
+        $saved = $this->repository->save($role);
+        $this->assertNotNull($saved, self::MESSAGE_ERROR);
 
-        $this->assertEquals($route->id, $saved->id, self::MESSAGE_ERROR);
-        $this->assertEquals($route->name, $saved->name, self::MESSAGE_ERROR);
+        $this->assertEquals($role->id, $saved->id, self::MESSAGE_ERROR);
+        $this->assertEquals($role->name, $saved->name, self::MESSAGE_ERROR);
+
+        try {
+            $this->repository = new RoleRepository('fakeDb');
+            $this->repository->save($role);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
+
+    }
+
+    public function test_003_delete(): void {
+        $role = new Role();
+        $role->name = 'roleTest';
+
+        $saved = $this->repository->save($role);
+        $this->assertNotNull($saved, self::MESSAGE_ERROR);
 
         $deleted = $this->repository->delete($saved);
 
         $this->assertTrue($deleted, self::MESSAGE_ERROR);
+
+        try {
+            $this->repository = new RoleRepository('fakeDb');
+            $this->repository->delete($role);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
     }
 
     public function test_004_update(): void {
@@ -52,7 +74,6 @@ class RoleRepositoryTest extends TestCase {
         $objectToAdd->name = 'roleTest';
 
         $objectDDBB = $this->repository->save($objectToAdd);
-
 
         $this->assertNotNull($objectDDBB, self::MESSAGE_ERROR);
 
@@ -68,7 +89,12 @@ class RoleRepositoryTest extends TestCase {
 
         $this->assertEquals($objectDDBB->id, $updated->id, self::MESSAGE_ERROR);
         $this->assertEquals($objectToUpdate->name, $updated->name, self::MESSAGE_ERROR);
-
+        try {
+            $this->repository = new RoleRepository('fakeDb');
+            $this->repository->update($objectDDBB);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
     }
 
     public function test_005_find_by_id(): void {

@@ -26,15 +26,13 @@ class ImageRepositoryTest extends TestCase {
     public function test_001_findAll(): void {
         $list = $this->repository->findAll();
         $this->assertNotNull($list, self::MESSAGE_ERROR);
-    }
 
-    public function test_002_findAll_mysqlite(): void {
         $this->repository = new ImageRepository('fakeDb');
         $usersSqlite = $this->repository->findAll();
         $this->assertNotNull($usersSqlite, self::MESSAGE_ERROR);
     }
 
-    public function test_003_save_delete(): void {
+    public function test_002_save(): void {
         $image = new Image();
         $imagePathTest = storage_path('images/photoTest2.jpg');
         $image->image = file_get_contents($imagePathTest);
@@ -45,10 +43,34 @@ class ImageRepositoryTest extends TestCase {
         $this->assertEquals($image->id, $saved->id, self::MESSAGE_ERROR);
         $this->assertEquals($image->image, $saved->image, self::MESSAGE_ERROR);
         $this->assertEquals($image->type_image, $saved->type_image, self::MESSAGE_ERROR);
+        
+        try {
+            $this->repository = new ImageRepository('fakeDb');
+            $this->repository->save($image);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
+    }
 
-        $deleted = $this->repository->delete($saved);
+    public function test_003_delete(): void {
+        $image = new Image();
+        $imagePathTest = storage_path('images/photoTest2.jpg');
+        $image->image = file_get_contents($imagePathTest);
+        $image->type_image = 'jpg';
+        
+        $saved = $this->repository->save($image);
+        $this->assertNotNull($saved, self::MESSAGE_ERROR);
+
+        $deleted = $this->repository->delete($saved->id);
 
         $this->assertTrue($deleted, self::MESSAGE_ERROR);
+
+        try {
+            $this->repository = new ImageRepository('fakeDb');
+            $this->repository->delete($saved->id);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
     }
 
     public function test_004_update(): void {
@@ -79,6 +101,12 @@ class ImageRepositoryTest extends TestCase {
         $this->assertEquals($objectToUpdate->image, $updated->image, self::MESSAGE_ERROR);
         $this->assertEquals($objectToUpdate->type_image, $updated->type_image, self::MESSAGE_ERROR);
 
+        try {
+            $this->repository = new ImageRepository('fakeDb');
+            $this->repository->update($objectDDBB);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
     }
 
     public function test_005_find_by_id(): void {

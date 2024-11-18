@@ -51,17 +51,16 @@ class UserRepository extends RepositoryAbstract implements IRepository{
             $p->refresh();
             $result = $p;
 
-            $pSqlite = new User();
-            $pSqlite->id = $p->id;
-            $pSqlite->name = $p->name;
-            $pSqlite->surname = $p->surname;
-            $pSqlite->email = $p->email;
-            $pSqlite->phone = $p->phone;
-            $pSqlite->password = $p->password;
-            $pSqlite->id_image = $p->id_image;
-            $pSqlite->id_role = $p->id_role;
-
             if(!app()->runningUnitTests()){
+                $pSqlite = new User();
+                $pSqlite->id = $p->id;
+                $pSqlite->name = $p->name;
+                $pSqlite->surname = $p->surname;
+                $pSqlite->email = $p->email;
+                $pSqlite->phone = $p->phone;
+                $pSqlite->password = $p->password;
+                $pSqlite->id_image = $p->id_image;
+                $pSqlite->id_role = $p->id_role;    
                 $pSqlite->setConnection($this->connectionSqlite)->save();
             }
 
@@ -77,11 +76,9 @@ class UserRepository extends RepositoryAbstract implements IRepository{
      */
     public function findById($id): object | null {
         $pToFind = null;
-        //dd($lastQuery);
 
         try{
             $pToFind = User::on($this->connectionMySql)->where("id", $id)->first();
-            //dd($pToFind);
         }catch(Exception $e){
             echo $e->getMessage();
             $pToFind = User::on($this->connectionSqlite)->where("id", $id)->first();
@@ -114,7 +111,7 @@ class UserRepository extends RepositoryAbstract implements IRepository{
         $updated = false;
 
         try {
-            $pUpdate = User::on($this->connectionMySql)->find($p->id)->first();
+            $pUpdate = User::on($this->connectionMySql)->where("id", $p->id)->first();
             if ($pUpdate) {
                 $pUpdate->name = $p->name;
                 $pUpdate->surname = $p->surname;
@@ -123,15 +120,13 @@ class UserRepository extends RepositoryAbstract implements IRepository{
                 $pUpdate->password = $p->password;
                 $pUpdate->id_image = $p->id_image;
                 $pUpdate->id_role = $p->id_role;
-
                 $pUpdate->save();
-
                 $updated = true;
             }
 
 
             if(!app()->runningUnitTests()){
-                $pUpdateSqlite = User::on($this->connectionSqlite)->find($p->id)->first();
+                $pUpdateSqlite = User::on($this->connectionSqlite)->where("id", $p->id)->first();
                 if ($pUpdateSqlite) {
                     $pUpdateSqlite->name = $p->name;
                     $pUpdateSqlite->surname = $p->surname;
@@ -160,15 +155,14 @@ class UserRepository extends RepositoryAbstract implements IRepository{
         $deleted = false;
 
         try {
-            $mySqlItem = User::on($this->connectionMySql)->find($id)->first();
+            $mySqlItem = User::on($this->connectionMySql)->where("id", $id)->first();
             if ($mySqlItem != null) {
                 $mySqlItem->delete();
                 $deleted = true;
             }
 
-
             if(!app()->runningUnitTests()){
-                $sqliteItem = User::on($this->connectionSqlite)->find($id)->first();
+                $sqliteItem = User::on($this->connectionMySql)->where("id", $id)->first();
                 if ($sqliteItem != null) {
                     $sqliteItem->delete();
                     $deleted = true;

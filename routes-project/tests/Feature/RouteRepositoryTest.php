@@ -29,15 +29,13 @@ class RouteRepositoryTest extends TestCase {
     public function test_001_findAll(): void {
         $list = $this->repository->findAll();
         $this->assertNotNull($list, self::MESSAGE_ERROR);
-    }
 
-    public function test_002_findAll_mysqlite(): void {
-        $this->repository = new RouteRepository('sqlite');
+        $this->repository = new RouteRepository('fakeDb');
         $usersSqlite = $this->repository->findAll();
         $this->assertNotNull($usersSqlite, self::MESSAGE_ERROR);
     }
 
-    public function test_003_save_delete(): void {
+    public function test_002_save(): void {
         $route = new Route();
         $route->title = 'title';
         $route->location = 'location';
@@ -61,9 +59,39 @@ class RouteRepositoryTest extends TestCase {
         $this->assertEquals($route->vehicle_needed, $saved->vehicle_needed, self::MESSAGE_ERROR);
         $this->assertEquals($route->user_id, $saved->user_id, self::MESSAGE_ERROR);
 
+        try {
+            $this->repository = new RouteRepository('fakeDb');
+            $this->repository->save($route);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
+    }
+
+    public function test_003_delete(): void {
+        $route = new Route();
+        $route->title = 'title';
+        $route->location = 'location';
+        $route->distance = 12;
+        $route->date_route =Carbon::now()->format('Y-m-d H:m:s');
+        $route->difficulty = 2;
+        $route->pets_allowed = true;
+        $route->vehicle_needed = false;
+        $route->description = 'descriptionTest';
+        $route->user_id = 1;
+
+        $saved = $this->repository->save($route);
+
+        $this->assertNotNull($saved, self::MESSAGE_ERROR);
+
         $deleted = $this->repository->delete($saved);
-        //dd($deleted);
         $this->assertTrue($deleted, self::MESSAGE_ERROR);
+
+        try {
+            $this->repository = new RouteRepository('fakeDb');
+            $this->repository->delete($saved);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
     }
 
     public function test_004_update(): void {
@@ -80,7 +108,6 @@ class RouteRepositoryTest extends TestCase {
 
         $objectDDBB = $this->repository->save($objectToAdd);
 
-
         $this->assertNotNull($objectDDBB, self::MESSAGE_ERROR);
 
         $objectToUpdate = new Route();
@@ -94,8 +121,12 @@ class RouteRepositoryTest extends TestCase {
         $objectToUpdate->vehicle_needed = true;
         $objectToUpdate->description = 'descriptionTestUpdate';
         $objectToUpdate->user_id = 2;
-        $updated = $this->repository->save($objectToAdd);
 
+
+        $update = $this->repository->update($objectToUpdate);
+        $this->assertTrue($update, self::MESSAGE_ERROR);
+
+        $updated = $this->repository->findById($objectToUpdate->id);
         $this->assertEquals($objectDDBB->id, $updated->id, self::MESSAGE_ERROR);
         $this->assertEquals($objectToUpdate->title, $updated->title, self::MESSAGE_ERROR);
         $this->assertEquals($objectToUpdate->location, $updated->location, self::MESSAGE_ERROR);
@@ -105,6 +136,13 @@ class RouteRepositoryTest extends TestCase {
         $this->assertEquals($objectToUpdate->pets_allowed, $updated->pets_allowed, self::MESSAGE_ERROR);
         $this->assertEquals($objectToUpdate->vehicle_needed, $updated->vehicle_needed, self::MESSAGE_ERROR);
         $this->assertEquals($objectToUpdate->user_id, $updated->user_id, self::MESSAGE_ERROR);
+    
+        try {
+            $this->repository = new RouteRepository('fakeDb');
+            $this->repository->update($objectDDBB);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
     }
 
     public function test_005_find_by_id(): void {
