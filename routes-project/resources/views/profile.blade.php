@@ -67,11 +67,11 @@
 
                     <div class="options">
                         <div class="btn-group-vertical w-100 ">
-                            <a href="/editPer" class="btn btn-outline-success text-start" >
+                            <a href="/edit-profile" class="btn btn-outline-success text-start" >
                                 <i class="bi bi-person p-2 pe-3"></i>
                                 Edit personal information
                             </a>
-                            <a href="/routCompanions" class="btn btn-outline-success text-start">
+                            <a href="/rout-companions" class="btn btn-outline-success text-start">
                                 <i class="bi bi-people-fill p-2 pe-3"></i>
                                 Route companions
                             </a>
@@ -94,11 +94,14 @@
                             <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                             <div class="card-body overflow-auto">
                                 <ul class="list-group">
-                                    <!-- Unica ruta. Ejemplo -->
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
-                                        <span><i class="bi bi-person"></i> Route</span>
-                                    </li>
+                                    @if(isset($routes))
+                                        @foreach ( $routes as $route )
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
+                                                <span><i class="bi bi-map"></i> {{$route['title']}}</span>
+                                            </li>
+                                        @endforeach
+                                    @endif
                                     <!-- Añadir más usuarios aquí -->
                                 </ul>
                             </div>
