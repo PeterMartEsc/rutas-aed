@@ -159,13 +159,13 @@ class UserRepository implements IRepository {
 
         try {
             $mySqlItem = User::on("mysql")->find($id);
-            if ($mySqlItem) {
+            if ($mySqlItem != null) {
                 $mySqlItem->delete();
                 $deleted = true;
             }
     
             $sqliteItem = User::on("sqlite")->find($id);
-            if ($sqliteItem) {
+            if ($sqliteItem != null) {
                 $sqliteItem->delete();
                 $deleted = true;
             }

@@ -23,10 +23,12 @@ class ImageSeeder extends Seeder
 
         DB::table('images')->insert([
             [
+                'id' => 1, 
                 'image' => file_get_contents($imagePath1),  
                 'type_image' => 'jpg', 
             ],
             [
+                'id' => 2, 
                 'image' => file_get_contents($imagePath2),  
                 'type_image' => 'jpg', 
             ],

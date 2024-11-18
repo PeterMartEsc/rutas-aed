@@ -19,10 +19,6 @@ class UserRepositoryTest extends TestCase
 
     protected function setUp(): void{
         parent::setUp();
-        Artisan::call('db:seed', ['--class' => 'RoleSeeder']);
-        Artisan::call('db:seed', ['--class' => 'ImageSeeder']);
-        Artisan::call('db:seed', ['--class' => 'UserSeeder']);
-        Artisan::call('db:seed', ['--class' => 'RouteSeeder']);
         $this->userRepository = new UserRepository();
     }
 
@@ -37,14 +33,14 @@ class UserRepositoryTest extends TestCase
         $this->assertNotNull($usersSqlite, self::MESSAGE_ERROR);
     }
 
-    public function test_003_save(): void {
+    public function test_003_save_delete(): void {
         $user = new User();
         $user->name = 'nameTest';
         $user->surname = 'surnameTest';
         $user->email = 'test@email.com';
         $user->password = Hash::make('testingPassword');
         $user->phone = '+34123456789';
-        $user->id_image = 2;
+        $user->id_image = null;
         $user->id_role = 2;
     
         $savedUser = $this->userRepository->save($user);
@@ -55,6 +51,10 @@ class UserRepositoryTest extends TestCase
         $this->assertEquals($user->phone, $savedUser->phone);
         $this->assertEquals($user->id_image, $savedUser->id_image);
         $this->assertEquals($user->id_role, $savedUser->id_role);
+
+        $this->userRepository->delete($savedUser);
+        $deletedUser = User::find($savedUser->id);
+        $this->assertNull($deletedUser, self::MESSAGE_ERROR);
     }
 
 
