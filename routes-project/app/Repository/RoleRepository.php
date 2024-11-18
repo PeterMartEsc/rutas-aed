@@ -65,11 +65,7 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
      * Function to find by Id an role
      */
     public function findById($id): object | null {
-        $pToFind = null;
-        DB::setConnection()->enableQueryLog();
-        $pToFind = Role::find(1);
-        $lastQuery = DB::getQueryLog();
-        //dd($lastQuery);
+        $pToFind = null;    
 
         try{
             $pToFind = Role::on($this->connectionMySql)->where("id", $id)->first();
@@ -86,10 +82,6 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
-        DB::setConnection()->enableQueryLog();
-        $pToFind = Role::find(1);
-        $lastQuery = DB::getQueryLog();
-        //dd($lastQuery);
 
         try{
             $pToFind = Role::on($this->connectionMySql)->where("name", $uniqueKey)->first();

@@ -125,7 +125,7 @@ class RouteRepositoryTest extends TestCase {
         $this->assertNotNull($find, self::MESSAGE_ERROR);
 
 
-        $this->repository = new RouteRepository('users_sqlite');
+        $this->repository = new RouteRepository('fakeDb');
         $find =$this->repository->findById($saved->id);
         $this->assertNotNull($find, self::MESSAGE_ERROR);
 
@@ -149,7 +149,7 @@ class RouteRepositoryTest extends TestCase {
         $find =$this->repository->findByUniqueKey($saved->title);
         $this->assertNotNull($find, self::MESSAGE_ERROR);
 
-        $this->repository = new RouteRepository('users_sqlite');
+        $this->repository = new RouteRepository('fakeDb');
         $find =$this->repository->findByUniqueKey($saved->title);
         $this->assertNotNull($find, self::MESSAGE_ERROR);
 

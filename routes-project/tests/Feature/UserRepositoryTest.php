@@ -28,7 +28,7 @@ class UserRepositoryTest extends TestCase {
     }
 
     public function test_002_findAll_mysqlite(): void {
-        $this->userRepository = new UserRepository('users_sqlite');
+        $this->userRepository = new UserRepository('fakeDb');
         $usersSqlite = $this->userRepository->findAll();
         $this->assertNotNull($usersSqlite, self::MESSAGE_ERROR);
     }
@@ -109,8 +109,7 @@ class UserRepositoryTest extends TestCase {
         $userFind =$this->userRepository->findById($savedUser->id);
         $this->assertNotNull($userFind, self::MESSAGE_ERROR);
 
-
-        $this->userRepository = new UserRepository('users_sqlite');
+        $this->userRepository = new UserRepository('fakeDb');
         $userFind =$this->userRepository->findById($savedUser->id);
         $this->assertNotNull($userFind, self::MESSAGE_ERROR);
 
@@ -132,7 +131,7 @@ class UserRepositoryTest extends TestCase {
         $userFind =$this->userRepository->findByUniqueKey($savedUser->email);
         $this->assertNotNull($userFind, self::MESSAGE_ERROR);
 
-        $this->userRepository = new UserRepository('users_sqlite');
+        $this->userRepository = new UserRepository('fakeDb');
         $userFind =$this->userRepository->findByUniqueKey($savedUser->email);
         $this->assertNotNull($userFind, self::MESSAGE_ERROR);
 
