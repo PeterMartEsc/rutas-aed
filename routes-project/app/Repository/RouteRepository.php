@@ -72,11 +72,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
      */
     public function findById($id): object | null {
         $pToFind = null;
-        DB::setConnection()->enableQueryLog();
-        $pToFind = Route::find(1);
-        $lastQuery = DB::getQueryLog();
-        //dd($lastQuery);
-
+        
         try{
             $pToFind = Route::on($this->connectionMySql)->where("id", $id)->first();
         }catch(Exception $e){

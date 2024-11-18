@@ -14,7 +14,7 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role): Response{
+    public function handle(Request $request, Closure $next): Response{
         if (!Auth::check()) {
             return redirect('login');
         }
@@ -22,15 +22,10 @@ class RoleMiddleware
         $user = Auth::user();
 
         if ($user->role) {
-            if ($user->role->name === 'Admin' && $user->role->name === $role) {
-                return $next($request); 
-            }
-    
-            if ($user->role->name === 'User' && $user->role->name === $role) {
-                return redirect('/user-dashboard');
+            if ($user->role->name != null) {
+                return $next($request);
             }
         }
-
-        abort(403, 'You do not have permission to access this page'); 
+        abort(403, 'You do not have permission to access this page');
     }
 }
