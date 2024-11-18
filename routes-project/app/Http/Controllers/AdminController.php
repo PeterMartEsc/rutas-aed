@@ -31,7 +31,6 @@ class AdminController extends Controller
      * in for a route it cant be deleted
      */
 
-
     public function createRoute(Request $request){
         $title = $request->input('title');
         $location = $request->input('location');
@@ -105,6 +104,19 @@ class AdminController extends Controller
         if (!$route){
             $message = "Something went wrong while updating the route";
         }
+
+        return redirect()->route('admin.profile')->with('message', $message);
+    }
+
+    public function deleteRoute($id){
+        $deleted = $this->routesRepository->delete($id);
+
+        $message = "Something went wrong while deleting the route";
+
+        if($deleted){
+            $message = "Route successfully deleted";
+        }
+
 
         return redirect()->route('admin.profile')->with('message', $message);
     }
