@@ -25,16 +25,12 @@ class RoleRepository implements IRepository {
     public function findAll(): array{
         $list = [];
         try {
-            $rolesMysql = Role::on("mysql")->all();
+            $rolesMysql = Role::on("mysql")->get();
             $list = $rolesMysql->toArray();
     
-            if (empty($list)) {
-                $imagesSqlite = Role::on("sqlite")->all();
-                $list = $imagesSqlite->toArray();
-            }
-    
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            $rolesSqlite = Role::on("sqlite")->get();
+            $list = $rolesSqlite->toArray();
         }
     
         return $list;

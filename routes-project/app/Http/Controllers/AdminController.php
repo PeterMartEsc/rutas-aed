@@ -23,7 +23,11 @@ class AdminController extends Controller
     }
 
     public function index(){
-        return view('profileAdmin');
+        $users = $this->userRepository->findAll();
+        $routes = $this->routesRepository->findAll();
+
+       // dd($users, $routes);
+        return view('profileAdmin', compact('users', 'routes'));
     }
 
     /**
@@ -35,7 +39,7 @@ class AdminController extends Controller
       */
     public function findAllUsers(){
         $users = $this->userRepository->findAll();
-        return view('admin.manageUsers', compact('users'));
+        return view('profileAdmin', compact('users'));
     }
 
 
@@ -99,6 +103,14 @@ class AdminController extends Controller
      */
 
 
+    /**
+     * function to find all routes
+     */
+    public function findAllRoutes(){
+        $routes = $this->routesRepository->findAll();
+        return view('adminRoutes', compact('routes'));
+    }
+    
     /**
      * Function to create a route
      */

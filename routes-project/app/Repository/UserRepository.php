@@ -26,7 +26,7 @@ class UserRepository implements IRepository {
         $list = [];
         try {
 
-            $usersMysql = User::on('mysql')->all();
+            $usersMysql = User::on('mysql')->get();
             $list = $usersMysql->toArray();        
         
         } catch (\Exception $e) {

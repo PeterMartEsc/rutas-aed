@@ -25,11 +25,11 @@ class ImageRepository implements IRepository {
     public function findAll(): array{
         $list = [];
         try {
-            $imagesMysql = Image::on("mysql")->all();
+            $imagesMysql = Image::on("mysql")->get();
             $list = $imagesMysql->toArray();
     
             if (empty($list)) {
-                $imagesSqlite = Image::on("sqlite")->all();
+                $imagesSqlite = Image::on("sqlite")->get();
                 $list = $imagesSqlite->toArray();
             }
     
