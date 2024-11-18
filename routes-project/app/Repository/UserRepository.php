@@ -78,13 +78,11 @@ class UserRepository extends RepositoryAbstract implements IRepository{
      */
     public function findById($id): object | null {
         $pToFind = null;
-        DB::setConnection()->enableQueryLog();
-        $pToFind = User::find(1);
-        $lastQuery = DB::getQueryLog();
         //dd($lastQuery);
 
         try{
             $pToFind = User::on($this->connectionMySql)->where("id", $id)->first();
+            //dd($pToFind);
         }catch(Exception $e){
             echo $e->getMessage();
             $pToFind = User::on($this->connectionSqlite)->where("id", $id)->first();
@@ -98,10 +96,7 @@ class UserRepository extends RepositoryAbstract implements IRepository{
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
-        DB::setConnection()->enableQueryLog();
         $pToFind = User::find(1);
-        $lastQuery = DB::getQueryLog();
-        //dd($lastQuery);
 
         try{
             $pToFind = User::on($this->connectionMySql)->where("email", $uniqueKey)->first();
@@ -121,7 +116,6 @@ class UserRepository extends RepositoryAbstract implements IRepository{
 
         try {
             $pUpdate = User::on($this->connectionMySql)->find($p->id)->first();
-
             if ($pUpdate) {
                 $pUpdate->name = $p->name;
                 $pUpdate->surname = $p->surname;
@@ -132,6 +126,7 @@ class UserRepository extends RepositoryAbstract implements IRepository{
                 $pUpdate->id_role = $p->id_role;
 
                 $pUpdate->save();
+
                 $updated = true;
             }
 
@@ -150,6 +145,7 @@ class UserRepository extends RepositoryAbstract implements IRepository{
                     $updated = true;
                 }
             }
+
 
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
@@ -170,6 +166,7 @@ class UserRepository extends RepositoryAbstract implements IRepository{
                 $mySqlItem->delete();
                 $deleted = true;
             }
+
 
             if(!app()->runningUnitTests()){
                 $sqliteItem = User::on($this->connectionSqlite)->find($id)->first();
