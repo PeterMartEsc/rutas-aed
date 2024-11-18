@@ -29,7 +29,7 @@ Route::middleware(['role:Admin'])->group(function () {
 });
 
 /**
- * For users 
+ * For users
  */
 Route::middleware(['role:User'])->group(function () {
     Route::get('/user-dashboard', [UserController::class, 'index'])->name('user-dashboard');
@@ -48,8 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/PrProfile', function () {
-    return view('profile');
+Route::get('/RoutesManage', function () {
+    return view('routesManage');
 });
 
 
