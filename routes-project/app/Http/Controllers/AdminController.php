@@ -15,18 +15,17 @@ class AdminController extends Controller
     protected $userRepository;
 
     public function __construct(){
-        $this->middleware('auth'); 
+        $this->middleware('auth');
         $this->middleware('role:Admin');
 
         $this->routesRepository = new RouteRepository();
-        $this->userRepository = new UserRepository();  
+        $this->userRepository = new UserRepository();
     }
 
     public function index(){
         $users = $this->userRepository->findAll();
         $routes = $this->routesRepository->findAll();
 
-       // dd($users, $routes);
         return view('profileAdmin', compact('users', 'routes'));
     }
 
@@ -43,13 +42,13 @@ class AdminController extends Controller
     }
 
 
-    
+
     /**
       * Function to search for a specific user to edit it
       */
     public function searchUserToEdit($id, $email){
         $user = $this->userRepository->findById($id);
-        
+
         if($user && $user->email === $email){
             return view('editUser', compact('user'));
         }
@@ -79,7 +78,7 @@ class AdminController extends Controller
     }
 
 
-    
+
     /**
      * Function to delete a user
      * TODO: if user has routes published the fk on routes must change to null before deleting
@@ -98,7 +97,7 @@ class AdminController extends Controller
 
     /**
      * TODO: admin must have the permission to create, edit and delete a route or user. therefore all users must
-     * have the permission to edit their own routes and sign for new routes if there is at least one person signed 
+     * have the permission to edit their own routes and sign for new routes if there is at least one person signed
      * in for a route it cant be deleted
      */
 
@@ -110,7 +109,7 @@ class AdminController extends Controller
         $routes = $this->routesRepository->findAll();
         return view('adminRoutes', compact('routes'));
     }
-    
+
     /**
      * Function to create a route
      */
@@ -153,7 +152,7 @@ class AdminController extends Controller
      */
     public function searchRouteToEdit($id, $title){
         $route = $this->routesRepository->findById($id);
-        
+
         if($route && $route->title === $title){
             return view('editRoute', compact('route'));
         }
@@ -196,7 +195,7 @@ class AdminController extends Controller
     }
 
 
-    
+
     /**
      * Function to delete a route
      */
