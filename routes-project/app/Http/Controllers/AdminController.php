@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Route;
+use App\Models\User;
 use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
@@ -22,7 +23,77 @@ class AdminController extends Controller
     }
 
     public function index(){
-        return view('profileAdmin');
+        $users = $this->userRepository->findAll();
+        $routes = $this->routesRepository->findAll();
+
+       // dd($users, $routes);
+        return view('profileAdmin', compact('users', 'routes'));
+    }
+
+    /**
+     * User management
+     */
+
+    /**
+      * Function to find all users in the database
+      */
+    public function findAllUsers(){
+        $users = $this->userRepository->findAll();
+        return view('profileAdmin', compact('users'));
+    }
+
+
+    
+    /**
+      * Function to search for a specific user to edit it
+      */
+    public function searchUserToEdit($id, $email){
+        $user = $this->userRepository->findById($id);
+        
+        if($user && $user->email === $email){
+            return view('editUser', compact('user'));
+        }
+    }
+
+    /**
+     * Function to edit a user
+     */
+    public function editUser(Request $request, $id){
+        $name = $request->input('name');
+        $surname = $request->input('surname');
+        $email = $request->input('email');
+        $phone = $request->input('phone');
+        $password = $request->input('password');
+        $role = $request->input('role');
+        $user = $this->userRepository->update(new User([
+            'name' => $name,
+            'surname' => $surname,
+            'email' => $email,
+            'phone' => $phone,
+            'password' => $password,
+            'id_role' => $role,
+            'id_image' => null, // TODO: add image upload feature
+        ]), $id);
+
+        return redirect()->route('admin.manageUsers')->with('message', 'User updated successfully');
+    }
+
+
+    
+    /**
+     * Function to delete a user
+     * TODO: if user has routes published the fk on routes must change to null before deleting
+     */
+    public function deleteUser($id){
+        $deleted = $this->userRepository->delete($id);
+
+        $message = "Something went wrong while deleting the user";
+
+        if($deleted){
+            $message = "User successfully deleted";
+        }
+
+        return redirect()->route('admin.profile')->with('message', $message);;
     }
 
     /**
@@ -32,6 +103,17 @@ class AdminController extends Controller
      */
 
 
+    /**
+     * function to find all routes
+     */
+    public function findAllRoutes(){
+        $routes = $this->routesRepository->findAll();
+        return view('adminRoutes', compact('routes'));
+    }
+    
+    /**
+     * Function to create a route
+     */
     public function createRoute(Request $request){
         $title = $request->input('title');
         $location = $request->input('location');
@@ -66,6 +148,9 @@ class AdminController extends Controller
 
 
 
+    /**
+     * Function to search for a route to edit
+     */
     public function searchRouteToEdit($id, $title){
         $route = $this->routesRepository->findById($id);
         
@@ -74,8 +159,9 @@ class AdminController extends Controller
         }
     }
 
-
-
+    /**
+     * Function to edit/update a route
+     */
     public function editRoute(Request $request, $id){
         $title = $request->input('title');
         $location = $request->input('location');
@@ -104,6 +190,23 @@ class AdminController extends Controller
 
         if (!$route){
             $message = "Something went wrong while updating the route";
+        }
+
+        return redirect()->route('admin.profile')->with('message', $message);
+    }
+
+
+    
+    /**
+     * Function to delete a route
+     */
+    public function deleteRoute($id){
+        $deleted = $this->routesRepository->delete($id);
+
+        $message = "Something went wrong while deleting the route";
+
+        if($deleted){
+            $message = "Route successfully deleted";
         }
 
         return redirect()->route('admin.profile')->with('message', $message);

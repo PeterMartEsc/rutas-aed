@@ -94,13 +94,17 @@
                             <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                             <div class="card-body overflow-auto">
                                 <ul class="list-group">
-                                    <!-- Usuario de ejemplo -->
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
-                                        <span><i class="bi bi-person"></i> User 1</span>
-                                        <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
-                                    </li>
-                                    <!-- Añadir más usuarios aquí -->
+                                    @if(isset($users))
+                                        @foreach ( $users as $user )
+                                        <!-- Usuario de ejemplo -->
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
+                                            <span><i class="bi bi-person"></i> {{$user['name']}} ({{$user['email']}})</span>
+                                            <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
+                                        </li>
+                                        @endforeach
+                                    @endif
+                                        <!-- Añadir más usuarios aquí -->
                                 </ul>
                             </div>
                         </div>
@@ -117,11 +121,15 @@
                             <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                             <div class="card-body overflow-auto">
                                 <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="bi bi-map"></i> Route 1</span>
-                                        <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
-                                    </li>
-
+                                    @if(isset($routes))
+                                        @foreach ( $routes as $route )
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <span><i class="bi bi-map"></i> {{$route['title']}}</span>
+                                                <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
+                                            </li>
+    
+                                        @endforeach
+                                    @endif
                                     <!-- Añadir más rutas aquí -->
                                 </ul>
                             </div>

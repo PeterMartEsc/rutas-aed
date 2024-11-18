@@ -24,16 +24,12 @@ class RouteRepository implements IRepository {
     public function findAll(): array{
         $list = [];
         try {
-            $routesMysql = Route::on("mysql")->all();
+            $routesMysql = Route::on("mysql")->get();
             $list = $routesMysql->toArray();
     
-            if (empty($list)) {
-                $imagesSqlite = Route::on("sqlite")->all();
-                $list = $imagesSqlite->toArray();
-            }
-    
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            $routesSqlite = Route::on("sqlite")->get();
+            $list = $routesSqlite->toArray();
         }
     
         return $list;

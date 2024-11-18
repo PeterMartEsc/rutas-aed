@@ -25,18 +25,15 @@ class UserRepository implements IRepository {
     public function findAll(): array{
         $list = [];
         try {
-            $usersMysql = User::on("mysql")->all();
-            $list = $usersMysql->toArray();
-    
-            if (empty($list)) {
-                $usersSqlite = User::on("sqlite")->all();
-                $list = $usersSqlite->toArray();
-            }
-    
+
+            $usersMysql = User::on('mysql')->get();
+            $list = $usersMysql->toArray();        
+        
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
+            $usersSqlite = User::on("sqlite")->get();
+            $list = $usersSqlite->toArray();
         }
-    
+
         return $list;
     }
     
@@ -46,10 +43,12 @@ class UserRepository implements IRepository {
     public function save($p): object | null{
         $result = null;
         try {
+            
             $p->setConnection("mysql")->save();
             $p->refresh();
             $result = $p;
 
+        
             $pSqlite = new User();
             $pSqlite->id = $p->id;
             $pSqlite->name = $p->name;
@@ -59,6 +58,7 @@ class UserRepository implements IRepository {
             $pSqlite->password = $p->password;
             $pSqlite->id_image = $p->id_image;
             $pSqlite->id_role = $p->id_role;
+
             $pSqlite->setConnection("sqlite")->save();
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
@@ -159,13 +159,13 @@ class UserRepository implements IRepository {
 
         try {
             $mySqlItem = User::on("mysql")->find($id);
-            if ($mySqlItem) {
+            if ($mySqlItem != null) {
                 $mySqlItem->delete();
                 $deleted = true;
             }
     
             $sqliteItem = User::on("sqlite")->find($id);
-            if ($sqliteItem) {
+            if ($sqliteItem != null) {
                 $sqliteItem->delete();
                 $deleted = true;
             }
