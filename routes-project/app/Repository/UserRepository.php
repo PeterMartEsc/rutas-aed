@@ -52,17 +52,17 @@ class UserRepository extends RepositoryAbstract implements IRepository{
             $p->refresh();
             $result = $p;
 
-            if(!app()->runningUnitTests()){
-                $pSqlite = new User();
-                $pSqlite->id = $p->id;
-                $pSqlite->name = $p->name;
-                $pSqlite->surname = $p->surname;
-                $pSqlite->email = $p->email;
-                $pSqlite->phone = $p->phone;
-                $pSqlite->password = $p->password;
-                $pSqlite->id_image = $p->id_image;
-                $pSqlite->id_role = $p->id_role;
+            $pSqlite = new User();
+            $pSqlite->id = $p->id;
+            $pSqlite->name = $p->name;
+            $pSqlite->surname = $p->surname;
+            $pSqlite->email = $p->email;
+            $pSqlite->phone = $p->phone;
+            $pSqlite->password = $p->password;
+            $pSqlite->id_image = $p->id_image;
+            $pSqlite->id_role = $p->id_role;
 
+            if(!app()->runningUnitTests()){
                 $pSqlite->setConnection($this->connectionSqlite)->save();
             }
 

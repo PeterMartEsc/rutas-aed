@@ -29,16 +29,12 @@ Route::middleware(['role:Admin'])->group(function () {
 });
 
 /**
- * For users 
+ * For users
  */
 Route::middleware(['role:User'])->group(function () {
     Route::get('/user-dashboard', [UserController::class, 'index'])->name('user-dashboard');
 });
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 
