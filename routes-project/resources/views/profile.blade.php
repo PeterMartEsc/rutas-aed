@@ -94,13 +94,11 @@
                             <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                             <div class="card-body overflow-auto">
                                 <ul class="list-group">
-                                    @if(isset($routes))
-                                        @foreach ( $routes as $route )
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
-                                                <span><i class="bi bi-map"></i> {{$route['title']}}</span>
-                                            </li>
-                                        @endforeach
+                                    @if(isset($nextroute))
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
+                                            <span><i class="bi bi-map"></i> {{$nextroute['title']}}</span>
+                                        </li>
                                     @endif
                                     <!-- Añadir más usuarios aquí -->
                                 </ul>
@@ -119,15 +117,14 @@
                             <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                             <div class="card-body overflow-auto">
                                 <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="bi bi-map"></i> Route 1</span>
-                                        <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="bi bi-map"></i> Route 2</span>
-                                        <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
-                                    </li>
-
+                                    @if(isset($followedroutes))
+                                        @foreach ( $followedroutes as $route )
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
+                                                <span><i class="bi bi-map"></i> {{$route['title']}}</span>
+                                            </li>
+                                        @endforeach
+                                    @endif
                                     <!-- Añadir más rutas aquí -->
                                 </ul>
                             </div>
@@ -145,14 +142,14 @@
                             <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                             <div class="card-body overflow-auto">
                                 <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="bi bi-map"></i> Route 1</span>
-                                        <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><i class="bi bi-map"></i> Route 2</span>
-                                        <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
-                                    </li>
+                                    @if(isset($createdroutes))
+                                        @foreach ( $createdroutes as $route )
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
+                                                <span><i class="bi bi-map"></i> {{$route['title']}}</span>
+                                            </li>
+                                        @endforeach
+                                    @endif
                                     <!-- Añadir más rutas aquí -->
                                 </ul>
                             </div>
