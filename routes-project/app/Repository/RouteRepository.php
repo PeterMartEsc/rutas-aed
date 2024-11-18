@@ -43,23 +43,28 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         $result = null;
         try {
             $p->setConnection($this->connectionMySql)->save();
+
+
             $p->refresh();
+
             $result = $p;
 
+            $pSqlite = new Route();
+            $pSqlite->id = $p->id;
+            $pSqlite->title = $p->title;
+            $pSqlite->location = $p->location;
+            $pSqlite->distance = $p->distance;
+            $pSqlite->date_route = $p->date_route;
+            $pSqlite->difficulty = $p->difficulty;
+            $pSqlite->pets_allowed = $p->pets_allowed;
+            $pSqlite->vehicle_needed = $p->vehicle_needed;
+            $pSqlite->description = $p->description;
+            $pSqlite->user_id = $p->user_id;
+
             if(!app()->runningUnitTests()){
-                $pSqlite = new Route();
-                $pSqlite->id = $p->id;
-                $pSqlite->title = $p->title;
-                $pSqlite->location = $p->location;
-                $pSqlite->distance = $p->distance;
-                $pSqlite->date_route = $p->date_route;
-                $pSqlite->difficulty = $p->difficulty;
-                $pSqlite->pets_allowed = $p->pets_allowed;
-                $pSqlite->vehicle_needed = $p->vehicle_needed;
-                $pSqlite->description = $p->description;
-                $pSqlite->user_id = $p->user_id;
                 $pSqlite->setConnection($this->connectionSqlite)->save();
             }
+
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -72,11 +77,10 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
      */
     public function findById($id): object | null {
         $pToFind = null;
-        
+
         try{
             $pToFind = Route::on($this->connectionMySql)->where("id", $id)->first();
         }catch(Exception $e){
-            echo $e->getMessage();
             $pToFind = Route::on($this->connectionSqlite)->where("id", $id)->first();
         }
 
@@ -88,15 +92,10 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
-        DB::setConnection()->enableQueryLog();
-        $pToFind = Route::find(1);
-        $lastQuery = DB::getQueryLog();
-        //dd($lastQuery);
 
         try{
             $pToFind = Route::on($this->connectionMySql)->where("title", $uniqueKey)->first();
         }catch(Exception $e){
-            echo $e->getMessage();
             $pToFind = Route::on($this->connectionSqlite)->where("title", $uniqueKey)->first();
         }
 

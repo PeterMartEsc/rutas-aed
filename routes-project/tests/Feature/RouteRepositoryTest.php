@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Role;
+use App\Models\Route;
 use App\Models\User;
-use App\Repository\UserRepository;
+use App\Repository\RouteRepository;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
@@ -12,130 +14,144 @@ use Illuminate\Support\Facades\Hash;
 use Mockery;
 use Tests\TestCase;
 
-class RoleRepositoryTest extends TestCase {
+class RouteRepositoryTest extends TestCase {
     private $repository;
 
     use RefreshDatabase;
 
     protected function setUp(): void{
         parent::setUp();
-        $this->repository = new Role();
+        $this->repository = new RouteRepository();
         $this->repository->setTestConnection();
+        Artisan::call('db:seed', ['--database' => 'sqlite']);
     }
 
     public function test_001_findAll(): void {
-        $users = $this->repository->findAll();
-        $this->assertNotNull($users, self::MESSAGE_ERROR);
+        $list = $this->repository->findAll();
+        $this->assertNotNull($list, self::MESSAGE_ERROR);
     }
 
     public function test_002_findAll_mysqlite(): void {
-        $this->repository = new UserRepository('users_sqlite');
+        $this->repository = new RouteRepository('sqlite');
         $usersSqlite = $this->repository->findAll();
         $this->assertNotNull($usersSqlite, self::MESSAGE_ERROR);
     }
 
     public function test_003_save_delete(): void {
-        $user = new User();
-        $user->name = 'nameTest';
-        $user->surname = 'surnameTest';
-        $user->email = 'test@email.com';
-        $user->password = Hash::make('testingPassword');
-        $user->phone = '+34123456789';
-        $user->id_image = null;
-        $user->id_role = 2;
+        $route = new Route();
+        $route->title = 'title';
+        $route->location = 'location';
+        $route->distance = 12;
+        $route->date_route =Carbon::now()->format('Y-m-d H:m:s');
+        $route->difficulty = 2;
+        $route->pets_allowed = true;
+        $route->vehicle_needed = false;
+        $route->description = 'descriptionTest';
+        $route->user_id = 1;
 
-        $savedUser = $this->repository->save($user);
+        $saved = $this->repository->save($route);
 
-        $this->assertEquals($user->name, $savedUser->name, self::MESSAGE_ERROR);
-        $this->assertEquals($user->surname, $savedUser->surname, self::MESSAGE_ERROR);
-        $this->assertEquals($user->email, $savedUser->email, self::MESSAGE_ERROR);
-        $this->assertEquals($user->phone, $savedUser->phone, self::MESSAGE_ERROR);
-        $this->assertEquals($user->id_image, $savedUser->id_image, self::MESSAGE_ERROR);
-        $this->assertEquals($user->id_role, $savedUser->id_role, self::MESSAGE_ERROR);
+        $this->assertEquals($route->id, $saved->id, self::MESSAGE_ERROR);
+        $this->assertEquals($route->title, $saved->title, self::MESSAGE_ERROR);
+        $this->assertEquals($route->location, $saved->location, self::MESSAGE_ERROR);
+        $this->assertEquals($route->date_route,$saved->date_route, self::MESSAGE_ERROR);
+        $this->assertEquals($route->distance, $saved->distance, self::MESSAGE_ERROR);
+        $this->assertEquals($route->description, $saved->description, self::MESSAGE_ERROR);
+        $this->assertEquals($route->pets_allowed, $saved->pets_allowed, self::MESSAGE_ERROR);
+        $this->assertEquals($route->vehicle_needed, $saved->vehicle_needed, self::MESSAGE_ERROR);
+        $this->assertEquals($route->user_id, $saved->user_id, self::MESSAGE_ERROR);
 
-        $this->repository->delete($savedUser);
-        $deletedUser = User::find($savedUser->id);
-        $this->assertNull($deletedUser, self::MESSAGE_ERROR);
+        $deleted = $this->repository->delete($saved);
+        //dd($deleted);
+        $this->assertTrue($deleted, self::MESSAGE_ERROR);
     }
 
     public function test_004_update(): void {
-        $user = new User();
-        $user->name = 'nameTest';
-        $user->surname = 'surnameTest';
-        $user->email = 'test@email.com';
-        $user->password = Hash::make('testingPassword');
-        $user->phone = '+34123456789';
-        $user->id_image = null;
-        $user->id_role = 2;
+        $objectToAdd = new Route();
+        $objectToAdd->title = 'title';
+        $objectToAdd->location = 'location';
+        $objectToAdd->distance = 12;
+        $objectToAdd->date_route = Carbon::now()->format('Y-m-d H:m:s');
+        $objectToAdd->difficulty = 2;
+        $objectToAdd->pets_allowed = true;
+        $objectToAdd->vehicle_needed = false;
+        $objectToAdd->description = 'descriptionTest';
+        $objectToAdd->user_id = 1;
 
-        $savedUser = $this->repository->save($user);
+        $objectDDBB = $this->repository->save($objectToAdd);
 
-        $this->assertNotNull($savedUser, self::MESSAGE_ERROR);
 
-        $userUpdate = new User();
-        $userUpdate = $user;
-        $userUpdate->name = 'nameTestUpdate';
-        $userUpdate->surname = 'surnameTestUpdate';
-        $userUpdate->email = 'testUpdate@email.com';
-        $userUpdate->password = Hash::make('testingPasswordUpdate');
-        $userUpdate->phone = '+34987654321';
-        $userUpdate->id_image = 1;
-        $userUpdate->id_role = 1;
+        $this->assertNotNull($objectDDBB, self::MESSAGE_ERROR);
 
-        $this->repository->update($userUpdate);
+        $objectToUpdate = new Route();
+        $objectToUpdate = $objectDDBB;
+        $objectToUpdate->title = 'titleUpdate';
+        $objectToUpdate->location = 'locationUpdate';
+        $objectToUpdate->distance = 5;
+        $objectToUpdate->date_route = Carbon::now()->format('Y-m-d H:m:s');
+        $objectToUpdate->difficulty = 10;
+        $objectToUpdate->pets_allowed = false;
+        $objectToUpdate->vehicle_needed = true;
+        $objectToUpdate->description = 'descriptionTestUpdate';
+        $objectToUpdate->user_id = 2;
+        $updated = $this->repository->save($objectToAdd);
 
-        $userUpdated = $this->repository->findById($userUpdate->id);
-
-        $this->assertEquals($userUpdate->id, $userUpdated->id);
-        $this->assertEquals($userUpdate->name, $userUpdated->name);
-        $this->assertEquals($userUpdate->surname, $userUpdated->surname);
-        $this->assertEquals($userUpdate->email, $userUpdated->email);
-        $this->assertEquals($userUpdate->phone, $userUpdated->phone);
-        $this->assertEquals($userUpdate->id_image, $userUpdated->id_image);
-        $this->assertEquals($userUpdate->id_role, $userUpdated->id_role);
+        $this->assertEquals($objectDDBB->id, $updated->id, self::MESSAGE_ERROR);
+        $this->assertEquals($objectToUpdate->title, $updated->title, self::MESSAGE_ERROR);
+        $this->assertEquals($objectToUpdate->location, $updated->location, self::MESSAGE_ERROR);
+        $this->assertNotNull($updated->date_route, self::MESSAGE_ERROR);
+        $this->assertEquals($objectToUpdate->distance, $updated->distance, self::MESSAGE_ERROR);
+        $this->assertEquals($objectToUpdate->description, $updated->description, self::MESSAGE_ERROR);
+        $this->assertEquals($objectToUpdate->pets_allowed, $updated->pets_allowed, self::MESSAGE_ERROR);
+        $this->assertEquals($objectToUpdate->vehicle_needed, $updated->vehicle_needed, self::MESSAGE_ERROR);
+        $this->assertEquals($objectToUpdate->user_id, $updated->user_id, self::MESSAGE_ERROR);
     }
 
     public function test_005_find_by_id(): void {
-        $user = new User();
-        $user->name = 'nameTest';
-        $user->surname = 'surnameTest';
-        $user->email = 'test@email.com';
-        $user->password = Hash::make('testingPassword');
-        $user->phone = '+34123456789';
-        $user->id_image = null;
-        $user->id_role = 2;
+        $route = new Route();
+        $route->title = 'title';
+        $route->location = 'location';
+        $route->distance = 12;
+        $route->date_route =Carbon::now()->format('Y-m-d H:m:s');
+        $route->difficulty = 2;
+        $route->pets_allowed = true;
+        $route->vehicle_needed = false;
+        $route->description = 'descriptionTest';
+        $route->user_id = 1;
 
-        $savedUser = $this->repository->save($user);
+        $saved = $this->repository->save($route);
 
-        $userFind =$this->repository->findById($savedUser->id);
-        $this->assertNotNull($userFind, self::MESSAGE_ERROR);
+        $find =$this->repository->findById($saved->id);
+        $this->assertNotNull($find, self::MESSAGE_ERROR);
 
 
-        $this->repository = new UserRepository('users_sqlite');
-        $userFind =$this->repository->findById($savedUser->id);
-        $this->assertNotNull($userFind, self::MESSAGE_ERROR);
+        $this->repository = new RouteRepository('users_sqlite');
+        $find =$this->repository->findById($saved->id);
+        $this->assertNotNull($find, self::MESSAGE_ERROR);
 
     }
 
 
     public function test_006_find_by_unique_key(): void {
-        $user = new User();
-        $user->name = 'nameTest';
-        $user->surname = 'surnameTest';
-        $user->email = 'test@email.com';
-        $user->password = Hash::make('testingPassword');
-        $user->phone = '+34123456789';
-        $user->id_image = null;
-        $user->id_role = 2;
+        $route = new Route();
+        $route->title = 'title';
+        $route->location = 'location';
+        $route->distance = 12;
+        $route->date_route =Carbon::now()->format('Y-m-d H:m:s');
+        $route->difficulty = 2;
+        $route->pets_allowed = true;
+        $route->vehicle_needed = false;
+        $route->description = 'descriptionTest';
+        $route->user_id = 1;
 
-        $savedUser = $this->repository->save($user);
+        $saved = $this->repository->save($route);
 
-        $userFind =$this->repository->findByUniqueKey($savedUser->email);
-        $this->assertNotNull($userFind, self::MESSAGE_ERROR);
+        $find =$this->repository->findByUniqueKey($saved->title);
+        $this->assertNotNull($find, self::MESSAGE_ERROR);
 
-        $this->repository = new UserRepository('users_sqlite');
-        $userFind =$this->repository->findByUniqueKey($savedUser->email);
-        $this->assertNotNull($userFind, self::MESSAGE_ERROR);
+        $this->repository = new RouteRepository('users_sqlite');
+        $find =$this->repository->findByUniqueKey($saved->title);
+        $this->assertNotNull($find, self::MESSAGE_ERROR);
 
     }
 }
