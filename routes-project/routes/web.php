@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -33,8 +34,9 @@ Route::middleware(['role:Admin'])->group(function () {
  */
 Route::middleware(['role:User'])->group(function () {
     Route::get('/user/profile', [UserController::class, 'index'])->name('user-dashboard');
-    Route::get('/routes', [UserController::class, 'prepareRoutes'])->name('routes');    
+    Route::get('/routes', [UserController::class, 'prepareRoutes'])->name('routes');
     Route::post('/routes/selected', [UserController::class, 'selectRoute'])->name('selected.route');
+    Route::get('/route/{routeId}/upload-images', [ImageController::class, 'index'])->name('upload-images.route');
 });
 
 

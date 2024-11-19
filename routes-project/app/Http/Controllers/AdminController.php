@@ -208,4 +208,9 @@ class AdminController extends Controller
 
         return redirect()->route('admin.profile')->with('message', $message);
     }
+
+    // TODO: search functional, pfp profile selection
+    // sign for routes + signout,
+    // if the route is mine i can edit/delete
+    // if not mine i can only see/sign for routes
 }

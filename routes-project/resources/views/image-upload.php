@@ -38,13 +38,12 @@
 <body>
     <!--Contenedor principal -->
     <div class="container h-100 profile-container">
-
         <div class="row pt-3">
             <div class="logout text-end">
-
-                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                <form action="{{route('logout') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-success">
+                        <!-- not on use, allows app to translate text to the language selected in the aplication -->
                         {{ __('Log Out') }}
                     </button>
                 </form>
@@ -58,7 +57,7 @@
                     <label for="image">Upload Image</label>
                     <input type="file" name="image" id="image" class="form-control" required>
                 </div>
-                
+
                 <div class="form-group">
                     <button type="submit" class="btn btn-sucess">Upload</button>
                 </div>

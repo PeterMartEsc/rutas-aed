@@ -18,11 +18,13 @@ class ImageController extends Controller
     }
 
     public function index(){
-
-        return;
+        return view('image-upload');
     }
 
-    public function uploadImages($routeId, Request $request){  
+
+
+
+    public function uploadImages($routeId, Request $request){
         $route = $this->routesRepository->findById($routeId);
 
         if($route && $route->date_route < now()){
@@ -36,8 +38,9 @@ class ImageController extends Controller
                 $imageName = Carbon::parse($route->date_route)->format('Y-m-d') . '_' . auth()->user()->name.  '_' .$image->getClientOriginalExtension();
                 $image->storeAs($path, $imageName);
             }
+
         }
-        
+
         return true;
     }
 }
