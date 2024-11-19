@@ -69,7 +69,7 @@
                     <form action="" method="POST">
                         <label for="name">
                             <b>Name:</b>
-                            <input type="time" name="name" id="name">
+                            <input type="text" name="name" id="name">
                         </label>
                         <label for="surname">
                             <b>Surname:</b>
@@ -85,7 +85,7 @@
                     <form action="" method="POST">
                         <label for="password">
                             <b>New password:</b>
-                            <input type="time" name="password" id="password">
+                            <input type="text" name="password" id="password">
                         </label>
                         <!-- confirm new password -->
                         <button type="submit">Update</button>
