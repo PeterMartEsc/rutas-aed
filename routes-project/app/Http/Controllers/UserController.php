@@ -41,12 +41,14 @@ class UserController extends Controller
     }
 
     public function selectRoute(Request $request){
+
         $selectedid = $request->route_id;
         $selectedroute = $this->routesRepository->findById($selectedid);
 
         $routes = $this->getAvailableRoutes();
+        $followedroutes = $this->routesRepository->getRoutesOrderedByDate(auth()->user()->id);
 
-        return view('routes', compact('selectedroute', 'routes'));
+        return view('routes', compact('selectedroute', 'routes', 'followedroutes'));
     }
 
 }
