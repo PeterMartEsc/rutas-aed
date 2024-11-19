@@ -34,6 +34,7 @@ Route::middleware(['role:Admin'])->group(function () {
  */
 Route::middleware(['role:User'])->group(function () {
     Route::get('/user/profile', [UserController::class, 'index'])->name('user-dashboard');
+    Route::get('/user/profile/edit', [UserController::class, 'indexEditProfile'])->name('edit.profile');
     Route::get('/routes', [UserController::class, 'prepareRoutes'])->name('routes');
     Route::any('/routes/selected', [UserController::class, 'selectRoute'])->name('selected.route');
     Route::get('/route/{routeId}/upload-images', [ImageController::class, 'index'])->name('upload-images.route');

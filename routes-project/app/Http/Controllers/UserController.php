@@ -26,6 +26,12 @@ class UserController extends Controller
         return view('profile', compact('nextroute', 'followedroutes', 'createdroutes'));
     }
 
+    public function indexEditProfile(){
+
+
+        return view('editUser');
+    }
+
     public function prepareRoutes(){
 
         $routes = $this->routeRepository->findAll();
@@ -53,7 +59,7 @@ class UserController extends Controller
             $selectedroute = $this->routeRepository->findById($selectedid);
 
             $routes = $this->routeRepository->findAll();
-            $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);   
+            $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
             dd($followedroutes);
             return view('routes', compact('selectedroute', 'routes', 'followedroutes'));
         }
