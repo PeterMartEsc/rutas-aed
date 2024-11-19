@@ -24,8 +24,6 @@ class UserController extends Controller
     }
 
     public function indexEditProfile(){
-
-
         return view('editUser');
     }
 
@@ -33,7 +31,6 @@ class UserController extends Controller
         $routes = $this->routeRepository->findAll();
         $nearestRouteByUser = $this->routeRepository->getNearestDateRouteByUser(auth()->user()->id);
         $nearestRouteGlobally = $this->routeRepository->getNearestDateRouteGlobally();
-
 
         $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
         $routeIsInMyFollowing = false;
@@ -96,7 +93,20 @@ class UserController extends Controller
         }
 
         return redirect()->route('routes');
+    }
 
+    /**
+     * Show the search form and results.
+     */
+    public function search(Request $request){
+        $filter = $request->input('filter', ''); 
+        $routes = [];
+
+        if (!empty($filter)) {
+            $routes = $this->routeRepository->filterRoutes($filter);
+        }
+
+        return view('routes', compact('routes', 'filter'));
     }
 
 
