@@ -176,4 +176,74 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
         return $deleted;
     }
+
+
+    /**
+     * Function find all routes created by a user
+     */
+    public function findRouteByUserId($userId): array{
+        $list = [];
+
+        try {
+            $routesMysql = Route::on($this->connectionMySql)->get()->where("user_id", $userId);
+            $list = $routesMysql->toArray();
+
+        } catch (\Exception $e) {
+            $routesSqlite = Route::on($this->connectionSqlite)->get()->where("user_id", $userId);
+            $list = $routesSqlite->toArray();
+        }
+        return $list;
+    }
+
+    /**
+     * Function to find all routes of an users ordered by date
+     */
+    public function getRoutesOrderedByDate($userId): array{
+        $list = [];
+    
+        try {
+            $routesMysql = Route::on($this->connectionMySql)
+                ->join('users_routes', 'users_routes.route_id', '=', 'routes.id') 
+                ->where('users_routes.user_id', '=', $userId) 
+                ->orderBy('routes.date_route', 'asc')
+                ->get(['routes.*']); 
+
+            $list = $routesMysql->toArray();
+            
+        } catch (\Exception $e) {
+            $routesSqlite = Route::on($this->connectionSqlite)
+                ->join('users_routes', 'users_routes.route_id', '=', 'routes.id')
+                ->where('users_routes.user_id', '=', $userId)
+                ->orderBy('routes.date_route', 'asc')
+                ->get(['routes.*']);
+
+            $list = $routesSqlite->toArray();
+        }
+
+        return $list;
+    }
+
+    /**
+     * Function to find the nearest route of an user
+     */
+    public function getNearestDateRoute($userId): ?array{
+        $route = null;
+    
+        try {
+            $route = Route::on($this->connectionMySql)
+                ->join('users_routes', 'users_routes.route_id', '=', 'routes.id') 
+                ->where('users_routes.user_id', '=', $userId) 
+                ->orderBy('routes.date_route', 'asc')
+                ->first(['routes.*']); 
+            
+        } catch (\Exception $e) {
+            $route = Route::on($this->connectionSqlite)
+                ->join('users_routes', 'users_routes.route_id', '=', 'routes.id')
+                ->where('users_routes.user_id', '=', $userId)
+                ->orderBy('routes.date_route', 'asc')
+                ->first(['routes.*']);
+        }
+
+        return $route ? $route->toArray() : null ;
+    }
 }
