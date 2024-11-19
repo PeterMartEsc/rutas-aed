@@ -16,37 +16,53 @@ class UserController extends Controller
     }
 
     public function index(){
-        //nearest route
-        $nextroute = $this->routeRepository->getNearestDateRoute(auth()->user()->id);
-        //filter followed routes
+        $nextroute = $this->routeRepository->getNearestDateRouteByUser(auth()->user()->id);
         $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
-        //filter created routes
         $createdroutes = $this->routeRepository->findRoutesCreatedByUserId(auth()->user()->id);
 
         return view('profile', compact('nextroute', 'followedroutes', 'createdroutes'));
     }
 
     public function indexEditProfile(){
-
-
         return view('editUser');
     }
 
     public function prepareRoutes(){
-
         $routes = $this->routeRepository->findAll();
+        $nearestRouteByUser = $this->routeRepository->getNearestDateRouteByUser(auth()->user()->id);
+        $nearestRouteGlobally = $this->routeRepository->getNearestDateRouteGlobally();
 
-        return view('routes', compact('routes'));
+        $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
+        $routeIsInMyFollowing = false;
+        
+        foreach($followedroutes as $followedRoute){
+            if($followedRoute['id'] == $nearestRouteByUser['id']){
+                $routeIsInMyFollowing = true;
+                break;
+            }
+        }
+
+        return view('routes', compact('routes', 'nearestRouteByUser', 'nearestRouteGlobally', 'routeIsInMyFollowing'));
     }
 
 
     public function selectRoute(Request $request){
         $selectedid = $request->route_id;
-        $selectedroute = $this->routeRepository->findById($selectedid);
+        $selectedroute = $this->routeRepository->findById($selectedid);        
 
         $routes = $this->routeRepository->findAll();
         $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
-        return view('routes', compact('selectedroute', 'routes', 'followedroutes'));
+
+        $routeIsInMyFollowing = false;
+
+        foreach($followedroutes as $followedRoute){ 
+            if($followedRoute['id'] == $selectedroute['id']){
+                $routeIsInMyFollowing = true;
+                break;
+            }
+        }
+
+        return view('routes', compact('selectedroute', 'routes', 'followedroutes', 'routeIsInMyFollowing'));
     }
 
     public function signInForRoute(Request $request){
@@ -54,15 +70,11 @@ class UserController extends Controller
         $routeId = $request->input('routeId');
         $isSigned = $this->routeRepository->signForRoute($userId, $routeId);
 
-        if($isSigned){
-            $selectedid = $request->route_id;
-            $selectedroute = $this->routeRepository->findById($selectedid);
-
-            $routes = $this->routeRepository->findAll();
-            $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
-            dd($followedroutes);
-            return view('routes', compact('selectedroute', 'routes', 'followedroutes'));
+        if (!$isSigned){
+            return redirect()->route('routes');
         }
+
+        return redirect()->route('routes');
 
     }
 
@@ -75,15 +87,26 @@ class UserController extends Controller
 
         $aux = $this->routeRepository->getRoutesOrderedByDate($userId);
 
-        if($isSigned){
-            $selectedid = $request->route_id;
-            $selectedroute = $this->routeRepository->findById($selectedid);
-
-            $routes = $this->routeRepository->findAll();
-            $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
-            return view('routes', compact('selectedroute', 'routes', 'followedroutes'));
+        
+        if (!$isSigned){
+            return redirect()->route('routes');
         }
 
+        return redirect()->route('routes');
+    }
+
+    /**
+     * Show the search form and results.
+     */
+    public function search(Request $request){
+        $filter = $request->input('filter', ''); 
+        $routes = [];
+
+        if (!empty($filter)) {
+            $routes = $this->routeRepository->filterRoutes($filter);
+        }
+
+        return view('routes', compact('routes', 'filter'));
     }
 
 

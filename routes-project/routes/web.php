@@ -40,6 +40,7 @@ Route::middleware(['role:User'])->group(function () {
     Route::get('/route/{routeId}/upload-images', [ImageController::class, 'index'])->name('upload-images.route');
     Route::post('/route/selected/signin', [UserController::class, 'signInForRoute'])->name('sign-route');
     Route::post('/route/selected/signout', [UserController::class, 'signOutForRoute'])->name('signout-route');
+    Route::get('/routes/search', [UserController::class, 'search'])->name('routes.search');
 });
 
 

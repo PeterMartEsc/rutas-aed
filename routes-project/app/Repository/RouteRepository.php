@@ -227,7 +227,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
     /**
      * Function to find the nearest route of an user
      */
-    public function getNearestDateRoute($userId): ?array{
+    public function getNearestDateRouteByUser($userId): ?array{
         $route = null;
 
         try {
@@ -248,62 +248,65 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         return $route ? $route->toArray() : null ;
     }
 
-    public function signForRoute($userId, $routeId) : bool {
-        $result = false;
+    public function getNearestDateRouteGlobally(): ?array{
+        $route = null;
 
         try {
-            $routeSql = new Route();
-            $routeSql->id = $routeId;
-
-            $routeSql->users()->attach($userId);
-
-            $userSql = new User();
-            $userSql->id = $userId;
-            $userSql->routesUsers()->attach($routeId);
-
-            $result = true;
-
-            if(!app()->runningUnitTests()){
-                //setConnection($this->connectionSqlite)->save();
-                return true;
-            }
+            $route = Route::on($this->connectionMySql)
+                ->orderBy('routes.date_route', 'asc')
+                ->first(['routes.*']);
 
         } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
-            return $result;
+            $route = Route::on($this->connectionSqlite)
+                ->orderBy('routes.date_route', 'asc')
+                ->first(['routes.*']);
         }
 
-        return $result;
+        return $route ? $route->toArray() : null ;
+    }
 
+    public function signForRoute($userId, $routeId) : bool {
+        try {
+            $route = $this->findById($routeId);
+
+            $route->users()->attach($userId);
+            if(!app()->runningUnitTests()){
+                if (!$route->users()->where('user_id', $userId)->exists()) {
+                    $route->users()->attach($userId);
+                    return true;
+                }
+            }
+
+    
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    
+        return false;
     }
 
     public function signoutForRoute($userId, $routeId) : bool {
-        $result = false;
 
         try {
+            $route = $this->findById($routeId);
 
-            $routeSql = new Route();
-            $routeSql->id = $routeId;
-
-            $routeSql->users()->detach($userId);
-
-            $userSql = new User();
-            $userSql->id = $userId;
-            $userSql->routesUsers()->detach($routeId);
-
-            $result = true;
+            if (!$route) {
+                return false;
+            }
 
             if(!app()->runningUnitTests()){
-                return true;
+                if ($route->users()->where('user_id', $userId)->exists()) {
+                    $route->users()->detach($userId);
+                    return true;
+                }
             }
 
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
-            return $result;
+            return false;
         }
 
-        return $result;
-
+        return false;
     }
 
     public function checkIfRouteIsMine($userId, $routeId) : Route | null{
@@ -323,5 +326,21 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         return $route;
     }
 
+    public function filterRoutes($filter){
+        $list = [];
+        try {
+            $routesMysql = Route::on($this->connectionMySql)
+            ->where('title', 'regexp', "^$filter")->get();
+            $list = $routesMysql->toArray();
+
+        } catch (\Exception $e) {
+            $routesSqlite = Route::on($this->connectionSqlite)
+            ->where('title', 'regexp', "^$filter")->get();
+            $list = $routesSqlite->toArray();
+        }
+
+        return $list;
+    
+    }
 }
 
