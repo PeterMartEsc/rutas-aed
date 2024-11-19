@@ -84,98 +84,268 @@
 
             <!-- Ruta seleccionada -->
             <div class="col-9 p-2 selected-route">
-                <div class="card routes-list">
-                    <div class="card-header section-title selected-header">
-                        <p class="pb-3">
-                            @if(isset($selectedroute))
-                                {{$selectedroute['title']}}
-                            @endif
-                        </p>
-                    </div>
-                    <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
-                    <div class="card-body overflow-auto">
-                        <ul class="list-group">
-                            @if(isset($selectedroute))
-                                <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
-                                alt="{{$selectedroute['id']}}" class="selected-image mx-auto">
-                                <div class="row m-auto">
-                                    <div class="col-6 p-3">
-                                            <label for="where">
-                                                <b>Where:</b>
-                                                <!--<input type="text" name="where" value="" readonly>-->
-                                                {{$selectedroute['location']}}
-                                            </label><br/>
-                                            <label for="date">
-                                                <b>Date:</b>
-                                                <!--<input type="text" name="where" value="" readonly>-->
-                                                {{$selectedroute['date_route']}}
-                                            </label><br/>
-                                            <label for="distance">
-                                                <b>Distance:</b>
-                                                <!--<input type="text" name="where" value="" readonly>-->
-                                                {{$selectedroute['distance']}} km
-                                            </label><br/>
-                                            <label for="difficulty">
-                                                <b>Difficulty:</b>
-                                                <!--<input type="text" name="where" value="" readonly>-->
-                                                {{$selectedroute['difficulty']}}
-                                            </label><br/>
-                                            <label for="vehicle">
-                                                <b>Vehicle:</b>
-                                                <label for="yes">
-                                                    Yes
-                                                    <input type="radio" name="yesV" id="yesV" value="1" {{ $selectedroute['vehicle_needed'] == 1 ? 'checked' : '' }} disabled >
+                @if (isset($selectedroute))
+                    <div class="card routes-list">
+                        <div class="card-header section-title selected-header">
+                            <p class="pb-3">
+                                @if(isset($selectedroute))
+                                    {{$selectedroute['title']}}
+                                @endif
+                            </p>
+                        </div>
+                        <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
+                        <div class="card-body overflow-auto">
+                            <ul class="list-group">
+                                @if(isset($selectedroute))
+                                    <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
+                                    alt="{{$selectedroute['id']}}" class="selected-image mx-auto">
+                                    <div class="row m-auto">
+                                        <div class="col-6 p-3">
+                                                <label for="where">
+                                                    <b>Where:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$selectedroute['location']}}
+                                                </label><br/>
+                                                <label for="date">
+                                                    <b>Date:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$selectedroute['date_route']}}
+                                                </label><br/>
+                                                <label for="distance">
+                                                    <b>Distance:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$selectedroute['distance']}} km
+                                                </label><br/>
+                                                <label for="difficulty">
+                                                    <b>Difficulty:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$selectedroute['difficulty']}}
+                                                </label><br/>
+                                                <label for="vehicle">
+                                                    <b>Vehicle:</b>
+                                                    <label for="yes">
+                                                        Yes
+                                                        <input type="radio" name="yesV" id="yesV" value="1" {{ $selectedroute['vehicle_needed'] == 1 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                    <label for="no">
+                                                        No
+                                                        <input type="radio" name="noV" id="noV" value="0" {{ $selectedroute['vehicle_needed'] == 0 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                </label><br/>
+                                                <label for="vehicle">
+                                                    <b>Pets:</b>
+                                                    <label for="yes">
+                                                        Yes
+                                                        <input type="radio" name="yesP" id="yesP" value="1" {{ $selectedroute['pets_allowed'] == 1 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                    <label for="no">
+                                                        No
+                                                        <input type="radio" name="noP" id="noP" value="0" {{ $selectedroute['pets_allowed'] == 0 ? 'checked' : '' }} disabled >
+                                                    </label>
                                                 </label>
-                                                <label for="no">
-                                                    No
-                                                    <input type="radio" name="noV" id="noV" value="0" {{ $selectedroute['vehicle_needed'] == 0 ? 'checked' : '' }} disabled >
-                                                </label>
-                                            </label><br/>
-                                            <label for="vehicle">
-                                                <b>Pets:</b>
-                                                <label for="yes">
-                                                    Yes
-                                                    <input type="radio" name="yesP" id="yesP" value="1" {{ $selectedroute['pets_allowed'] == 1 ? 'checked' : '' }} disabled >
-                                                </label>
-                                                <label for="no">
-                                                    No
-                                                    <input type="radio" name="noP" id="noP" value="0" {{ $selectedroute['pets_allowed'] == 0 ? 'checked' : '' }} disabled >
-                                                </label>
-                                            </label>
-                                    </div>
+                                        </div>
 
-                                    <div class="col-6 p-3">
-                                        <p>{{$selectedroute['title']}}</p>
-                                        <p>{{$selectedroute['description']}}</p>
+                                        <div class="col-6 p-3">
+                                            <p>{{$selectedroute['title']}}</p>
+                                            <p>{{$selectedroute['description']}}</p>
 
-                                        @if (in_array($selectedroute, $followedroutes))
-                                            <form action="{{route('signout-route')}}" method="POST" class="d-inline">
-                                                @csrf
-                                                <input type="hidden" name="userId" value={{auth()->user()->id}}>
-                                                <input type="hidden" name="routeId" value={{$selectedroute['id']}}>
-                                                <button type="submit" class="btn btn-danger">
-                                                    Sign me out
-                                                </button>
-                                            </form>
-                                        @else
-                                            <form action="{{route('sign-route')}}" method="POST" class="d-inline">
-                                                @csrf
-                                                <input type="hidden" name="userId" value={{auth()->user()->id}}>
-                                                <input type="hidden" name="routeId" value={{$selectedroute['id']}}>
-                                                <button type="submit" class="btn btn-success">
-                                                    Sign me in
-                                                </button>
-                                            </form>
-                                        @endif
+                                        </div>
+
+                                        <div class="text-center mt-4">
+                                            @if ($routeIsInMyFollowing)
+                                                    <form action="{{route('signout-route')}}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="userId" value={{auth()->user()->id}}>
+                                                    <input type="hidden" name="routeId" value={{$selectedroute['id']}}>
+                                                    <button type="submit" class="btn btn-danger">
+                                                        Sign me out
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="{{route('sign-route')}}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="userId" value={{auth()->user()->id}}>
+                                                    <input type="hidden" name="routeId" value={{$selectedroute['id']}}>
+                                                    <button type="submit" class="btn btn-success">
+                                                        Sign me in
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
-                            @endif
-                        </ul>
+                                @endif
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                @elseif(isset($nearestRoute))
+                    <div class="card routes-list">
+                        <div class="card-header section-title selected-header">
+                            <p class="pb-3">
+                                @if(isset($nearestRoute))
+                                    {{$nearestRoute['title']}}
+                                @endif
+                            </p>
+                        </div>
+                        <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
+                        <div class="card-body overflow-auto">
+                            <ul class="list-group">
+                                @if(isset($nearestRoute))
+                                    <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
+                                    alt="{{$nearestRoute['id']}}" class="selected-image mx-auto">
+                                    <div class="row m-auto">
+                                        <div class="col-6 p-3">
+                                                <label for="where">
+                                                    <b>Where:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$nearestRoute['location']}}
+                                                </label><br/>
+                                                <label for="date">
+                                                    <b>Date:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$nearestRoute['date_route']}}
+                                                </label><br/>
+                                                <label for="distance">
+                                                    <b>Distance:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$nearestRoute['distance']}} km
+                                                </label><br/>
+                                                <label for="difficulty">
+                                                    <b>Difficulty:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$nearestRoute['difficulty']}}
+                                                </label><br/>
+                                                <label for="vehicle">
+                                                    <b>Vehicle:</b>
+                                                    <label for="yes">
+                                                        Yes
+                                                        <input type="radio" name="yesV" id="yesV" value="1" {{ $nearestRoute['vehicle_needed'] == 1 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                    <label for="no">
+                                                        No
+                                                        <input type="radio" name="noV" id="noV" value="0" {{ $nearestRoute['vehicle_needed'] == 0 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                </label><br/>
+                                                <label for="vehicle">
+                                                    <b>Pets:</b>
+                                                    <label for="yes">
+                                                        Yes
+                                                        <input type="radio" name="yesP" id="yesP" value="1" {{ $nearestRoute['pets_allowed'] == 1 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                    <label for="no">
+                                                        No
+                                                        <input type="radio" name="noP" id="noP" value="0" {{ $nearestRoute['pets_allowed'] == 0 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                </label>
+                                        </div>
+
+                                        <div class="col-6 p-3">
+                                            <p>{{$nearestRoute['title']}}</p>
+                                            <p>{{$nearestRoute['description']}}</p>
+
+                                        </div>
+
+                                        <div class="text-center mt-4">
+                                            @if ($routeIsInMyFollowing)
+                                                    <form action="{{route('signout-route')}}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="userId" value={{auth()->user()->id}}>
+                                                    <input type="hidden" name="routeId" value={{$nearestRoute['id']}}>
+                                                    <button type="submit" class="btn btn-danger">
+                                                        Sign me out
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="{{route('sign-route')}}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="userId" value={{auth()->user()->id}}>
+                                                    <input type="hidden" name="routeId" value={{$nearestRoute['id']}}>
+                                                    <button type="submit" class="btn btn-success">
+                                                        Sign me in
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                @else
+                    <div class="card routes-list">
+                        <div class="card-header section-title selected-header">
+                            <p class="pb-3">
+                                @if(isset($nearestRouteGlobally))
+                                    {{$nearestRouteGlobally['title']}}
+                                @endif
+                            </p>
+                        </div>
+                        <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
+                        <div class="card-body overflow-auto">
+                            <ul class="list-group">
+                                @if(isset($nearestRouteGlobally))
+                                    <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
+                                    alt="{{$nearestRouteGlobally['id']}}" class="selected-image mx-auto">
+                                    <div class="row m-auto">
+                                        <div class="col-6 p-3">
+                                                <label for="where">
+                                                    <b>Where:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$nearestRouteGlobally['location']}}
+                                                </label><br/>
+                                                <label for="date">
+                                                    <b>Date:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$nearestRouteGlobally['date_route']}}
+                                                </label><br/>
+                                                <label for="distance">
+                                                    <b>Distance:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$nearestRouteGlobally['distance']}} km
+                                                </label><br/>
+                                                <label for="difficulty">
+                                                    <b>Difficulty:</b>
+                                                    <!--<input type="text" name="where" value="" readonly>-->
+                                                    {{$nearestRouteGlobally['difficulty']}}
+                                                </label><br/>
+                                                <label for="vehicle">
+                                                    <b>Vehicle:</b>
+                                                    <label for="yes">
+                                                        Yes
+                                                        <input type="radio" name="yesV" id="yesV" value="1" {{ $nearestRouteGlobally['vehicle_needed'] == 1 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                    <label for="no">
+                                                        No
+                                                        <input type="radio" name="noV" id="noV" value="0" {{ $nearestRouteGlobally['vehicle_needed'] == 0 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                </label><br/>
+                                                <label for="vehicle">
+                                                    <b>Pets:</b>
+                                                    <label for="yes">
+                                                        Yes
+                                                        <input type="radio" name="yesP" id="yesP" value="1" {{ $nearestRouteGlobally['pets_allowed'] == 1 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                    <label for="no">
+                                                        No
+                                                        <input type="radio" name="noP" id="noP" value="0" {{ $nearestRouteGlobally['pets_allowed'] == 0 ? 'checked' : '' }} disabled >
+                                                    </label>
+                                                </label>
+                                        </div>
+
+                                        <div class="col-6 p-3">
+                                            <p>{{$nearestRouteGlobally['title']}}</p>
+                                            <p>{{$nearestRouteGlobally['description']}}</p>
+
+                                        </div>
+
+                                    </div>
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                @endif
             </div>
-        </div>
 
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
