@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Image;
-use App\Models\Role;
 use App\Repository\ImageRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;

@@ -18,9 +18,7 @@ class ImageTest extends TestCase{
         protected function setUp(): void{
             parent::setUp();
 
-            Artisan::call('db:seed', ['--class' => 'RoleSeeder']);
-            Artisan::call('db:seed', ['--class' => 'ImageSeeder']);
-            Artisan::call('db:seed', ['--class' => 'UserSeeder']);
+            Artisan::call('db:seed', ['--database' => 'sqlite']);
         }
     
         public function test_001_findAll(): void {

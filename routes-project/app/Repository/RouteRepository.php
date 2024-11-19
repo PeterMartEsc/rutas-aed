@@ -43,13 +43,8 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         $result = null;
         try {
             $p->setConnection($this->connectionMySql)->save();
-
-
             $p->refresh();
-
             $result = $p;
-
-
 
             if(!app()->runningUnitTests()){
                 $pSqlite = new Route();
@@ -110,8 +105,9 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         $updated = false;
 
         try {
-            $pUpdate = Route::on($this->connectionMySql)->find($p->id);
+            $pUpdate = Route::on($this->connectionMySql)->where("id", $p->id)->first();
 
+            
             if ($pUpdate) {
                 $pUpdate->id = $p->id;
                 $pUpdate->title = $p->title;
@@ -129,7 +125,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
 
             if(!app()->runningUnitTests()){
-                $pUpdateSqlite = Route::on($this->connectionSqlite)->find($p->id);
+                $pUpdateSqlite = Route::on($this->connectionSqlite)->where("id", $p->id)->first();
                 if ($pUpdateSqlite) {
                     $pUpdateSqlite->id = $p->id;
                     $pUpdateSqlite->title = $p->title;
@@ -159,7 +155,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
     public function delete($id): bool{
         $deleted = false;
         try {
-            $mySqlItem = Route::on($this->connectionMySql)->find($id)->first();
+            $mySqlItem = Route::on($this->connectionMySql)->where("id", $id)->first();
             if ($mySqlItem) {
                 $mySqlItem->delete();
                 $deleted = true;
@@ -167,7 +163,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
 
             if(!app()->runningUnitTests()){
-                $sqliteItem = Route::on($this->connectionSqlite)->find($id)->first();
+                $sqliteItem =Route::on($this->connectionSqlite)->where("id", $id)->first();
                 if ($sqliteItem) {
                     $sqliteItem->delete();
                     $deleted = true;

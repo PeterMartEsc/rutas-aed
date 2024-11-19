@@ -83,12 +83,12 @@ class RouteRepositoryTest extends TestCase {
 
         $this->assertNotNull($saved, self::MESSAGE_ERROR);
 
-        $deleted = $this->repository->delete($saved);
+        $deleted = $this->repository->delete($saved->id);
         $this->assertTrue($deleted, self::MESSAGE_ERROR);
 
         try {
             $this->repository = new RouteRepository('fakeDb');
-            $this->repository->delete($saved);
+            $this->repository->delete($saved->id);
         } catch (\Exception $e) {
             $this->assertNotNull($e->getMessage());
         }
