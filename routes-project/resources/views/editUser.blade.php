@@ -105,6 +105,23 @@
             </div>
 
             <div class="row">
+                <div class="col-12 pb-4">
+                    <div class="card edit-card2 p-3 bg-light">
+                        <h5>Edit phone number</h5><br/>
+                        <form action="" method="POST">
+                            <label for="surname">
+                                <b>Phone number:</b>
+                                <input type="text" name="surname" id="surname" value="+34 ">
+                            </label><br/>
+                            <button type="submit" class="btn btn-success my-3">
+                                Update
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-12">
                     <div class="card edit-card2 p-3 bg-light">
                         <h5>Edit password</h5><br/>
