@@ -27,24 +27,25 @@
         }*/
     </style>
 </head>
-<body>
-    <header>
-        <nav class="navbar bg-success navbar-expand-md nav-custom">
-            <div class="container-fluid ms-3 me-3">
-                <a class="navbar-brand text-light" href="{{ route('routes') }}">Rutas-AED</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+<header>
+    <nav class="navbar bg-success navbar-expand-md nav-custom">
+        <div class="container-fluid ms-3 me-3">
+            <a class="navbar-brand text-light" href="{{ route('routes') }}">Rutas-AED</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-outline-light">
+                    <!-- not on use, allows app to translate text to the language selected in the aplication -->
+                    {{ __('Log Out') }}
                 </button>
-                <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-light">
-                        <!-- not on use, allows app to translate text to the language selected in the aplication -->
-                        {{ __('Log Out') }}
-                    </button>
-                </form>
-            </div>
-        </nav>
-    </header>
+            </form>
+        </div>
+    </nav>
+</header>
+<body>
+    
     <!--Contenedor principal -->
     <div class="container h-100 profile-container">
 
