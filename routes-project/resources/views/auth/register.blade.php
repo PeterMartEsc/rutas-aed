@@ -53,7 +53,7 @@
                     <div class="col-8 col-sm-8 col-md-10 mb-3">
                         <x-input-label for="password" class="form-label fw-bold text-uppercase" :value="__('Password')" />
 
-                        <x-text-input id="password" class="form-control" 
+                        <x-text-input id="password" class="form-control"
                                         type="password"
                                         name="password"
                                         required autocomplete="new-password"  />
@@ -65,7 +65,7 @@
                     <div class="col-8 col-sm-8 col-md-10 mb-3">
                         <x-input-label for="password_confirmation" class="form-label fw-bold text-uppercase text-center" :value="__('Confirm Password')" />
 
-                        <x-text-input id="password_confirmation" class="form-control" 
+                        <x-text-input id="password_confirmation" class="form-control"
                                         type="password"
                                         name="password_confirmation" required autocomplete="new-password" />
 
@@ -76,9 +76,9 @@
                         <x-primary-button  class="btn btn-success text-uppercase fw-bold">
                             {{ __('Register') }}
                         </x-primary-button>
-                        
+
                         <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                            {{ __('Already registered?') }}
+                            Already registered?
                         </a>
                     </div>
                 </div>

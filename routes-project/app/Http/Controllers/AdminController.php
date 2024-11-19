@@ -215,7 +215,6 @@ class AdminController extends Controller
     // if not mine i can only see/sign for routes
 
     public function signForRoute($userId, $routeId){
-
         $this->routeRepository->signForRoute($userId, $routeId);
 
     }

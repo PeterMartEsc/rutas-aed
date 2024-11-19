@@ -38,6 +38,9 @@ class Route extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function users(){
         return $this->belongsToMany(User::class, 'users_routes', 'route_id', 'user_id');
     }

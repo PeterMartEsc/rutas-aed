@@ -41,10 +41,9 @@ class User extends Authenticatable
         return $this->hasMany(Route::class);
     }
 
-
     /**
-    * 
-    */
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function routesUsers(){
         return $this->belongsToMany(Route::class, 'users_routes', 'route_id', 'user_id');
     }

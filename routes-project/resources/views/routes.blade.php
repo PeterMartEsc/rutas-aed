@@ -99,8 +99,6 @@
                                 alt="{{$selectedroute['id']}}" class="selected-image mx-auto">
                                 <div class="row m-auto">
                                     <div class="col-6 p-3">
-                                        <form action="" method="POST" class="">
-                                            @csrf
                                             <label for="where">
                                                 <b>Where:</b>
                                                 <!--<input type="text" name="where" value="" readonly>-->
@@ -143,7 +141,6 @@
                                                     <input type="radio" name="noP" id="noP" value="0" {{ $selectedroute['pets_allowed'] == 0 ? 'checked' : '' }} disabled >
                                                 </label>
                                             </label>
-                                        </form>
                                     </div>
 
                                     <div class="col-6 p-3">
@@ -151,17 +148,21 @@
                                         <p>{{$selectedroute['description']}}</p>
 
                                         @if (in_array($selectedroute, $followedroutes))
-                                            <form action="" method="POST" class="d-inline">
+                                            <form action="{{route('signout-route')}}" method="POST" class="d-inline">
                                                 @csrf
-                                                <button type="submit" class="btn btn-success">
-                                                    Sign
+                                                <input type="hidden" name="userId" value={{auth()->user()->id}}>
+                                                <input type="hidden" name="routeId" value={{$selectedroute['id']}}>
+                                                <button type="submit" class="btn btn-danger">
+                                                    Sign me out
                                                 </button>
                                             </form>
                                         @else
-                                            <form action="" method="POST" class="d-inline">
+                                            <form action="{{route('sign-route')}}" method="POST" class="d-inline">
                                                 @csrf
+                                                <input type="hidden" name="userId" value={{auth()->user()->id}}>
+                                                <input type="hidden" name="routeId" value={{$selectedroute['id']}}>
                                                 <button type="submit" class="btn btn-success">
-                                                    Sign-out
+                                                    Sign me in
                                                 </button>
                                             </form>
                                         @endif

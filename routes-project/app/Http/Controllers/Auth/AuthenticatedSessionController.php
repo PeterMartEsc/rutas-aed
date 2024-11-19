@@ -39,9 +39,8 @@ class AuthenticatedSessionController extends Controller
             default:
                 return redirect()->route('auth.login');
         }
-
-        return redirect()->intended(RouteServiceProvider::HOME);
-    }
+            return redirect()->route('auth.login');
+        }
 
     /**
      * Destroy an authenticated session.
