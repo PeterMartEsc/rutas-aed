@@ -326,5 +326,21 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         return $route;
     }
 
+    public function filterRoutes($filter){
+        $list = [];
+        try {
+            $routesMysql = Route::on($this->connectionMySql)
+            ->where('title', 'regexp', "^$filter")->get();
+            $list = $routesMysql->toArray();
+
+        } catch (\Exception $e) {
+            $routesSqlite = Route::on($this->connectionSqlite)
+            ->where('title', 'regexp', "^$filter")->get();
+            $list = $routesSqlite->toArray();
+        }
+
+        return $list;
+    
+    }
 }
 
