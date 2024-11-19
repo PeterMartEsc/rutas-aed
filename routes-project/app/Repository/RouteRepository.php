@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Models\Route;
+use App\Models\User;
 use App\Repository\Abstract\RepositoryAbstract;
 use App\Repository\Interface\IRepository;
 use Exception;
@@ -106,7 +107,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         try {
             $pUpdate = Route::on($this->connectionMySql)->where("id", $p->id)->first();
 
-            
+
             if ($pUpdate) {
                 $pUpdate->id = $p->id;
                 $pUpdate->title = $p->title;
@@ -199,16 +200,16 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
      */
     public function getRoutesOrderedByDate($userId): array{
         $list = [];
-    
+
         try {
             $routesMysql = Route::on($this->connectionMySql)
-                ->join('users_routes', 'users_routes.route_id', '=', 'routes.id') 
-                ->where('users_routes.user_id', '=', $userId) 
+                ->join('users_routes', 'users_routes.route_id', '=', 'routes.id')
+                ->where('users_routes.user_id', '=', $userId)
                 ->orderBy('routes.date_route', 'asc')
-                ->get(['routes.*']); 
+                ->get(['routes.*']);
 
             $list = $routesMysql->toArray();
-            
+
         } catch (\Exception $e) {
             $routesSqlite = Route::on($this->connectionSqlite)
                 ->join('users_routes', 'users_routes.route_id', '=', 'routes.id')
@@ -228,14 +229,14 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
      */
     public function getNearestDateRoute($userId): ?array{
         $route = null;
-    
+
         try {
             $route = Route::on($this->connectionMySql)
-                ->join('users_routes', 'users_routes.route_id', '=', 'routes.id') 
-                ->where('users_routes.user_id', '=', $userId) 
+                ->join('users_routes', 'users_routes.route_id', '=', 'routes.id')
+                ->where('users_routes.user_id', '=', $userId)
                 ->orderBy('routes.date_route', 'asc')
-                ->first(['routes.*']); 
-            
+                ->first(['routes.*']);
+
         } catch (\Exception $e) {
             $route = Route::on($this->connectionSqlite)
                 ->join('users_routes', 'users_routes.route_id', '=', 'routes.id')
@@ -246,4 +247,81 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
         return $route ? $route->toArray() : null ;
     }
+
+    public function signForRoute($userId, $routeId) : bool {
+        $result = false;
+
+        try {
+            $routeSql = new Route();
+            $routeSql->id = $routeId;
+
+            $routeSql->users()->attach($userId);
+
+            $userSql = new User();
+            $userSql->id = $userId;
+            $userSql->routesUsers()->attach($routeId);
+
+            $result = true;
+
+            if(!app()->runningUnitTests()){
+                //setConnection($this->connectionSqlite)->save();
+                return true;
+            }
+
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage());
+            return $result;
+        }
+
+        return $result;
+
+    }
+
+    public function signoutForRoute($userId, $routeId) : bool {
+        $result = false;
+
+        try {
+
+            $routeSql = new Route();
+            $routeSql->id = $routeId;
+
+            $routeSql->users()->detach($userId);
+
+            $userSql = new User();
+            $userSql->id = $userId;
+            $userSql->routesUsers()->detach($routeId);
+
+            $result = true;
+
+            if(!app()->runningUnitTests()){
+                return true;
+            }
+
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage());
+            return $result;
+        }
+
+        return $result;
+
+    }
+
+    public function checkIfRouteIsMine($userId, $routeId) : Route | null{
+        $route = null;
+        try {
+            $route = Route::on($this->connectionMySql)
+                ->where('user_id', '=', $userId)
+                ->where('id', '=', $routeId)
+                ->first();
+        } catch (\Exception $e) {
+            $route = Route::on($this->connectionMySql)
+            ->where('user_id', '=', $userId)
+            ->where('id', '=', $routeId)
+            ->first();
+        }
+
+        return $route;
+    }
+
 }
+
