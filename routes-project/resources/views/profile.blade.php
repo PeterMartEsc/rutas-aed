@@ -28,32 +28,32 @@
     </style>
 </head>
 <body>
-    <!--Contenedor principal -->
-    <div class="container h-100 profile-container">
+    <header>
+        <nav class="navbar bg-success navbar-expand-md nav-custom">
+            <div class="container-fluid ms-3 me-3">
+                <a class="navbar-brand text-light" href="index.html">Rutas-AED</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-lg-0">
 
-        <div class="row py-3">
-            <div class="logout d-flex justify-content-between">
-
-                <form action="{{ route('routes') }}" method="GET" class="d-inline">
-                    <!-- because of the method being "get" it is unnecesary a csrf token -->
-                    <button type="submit" class="btn btn-success">
-                        <!-- not on use, allows app to translate text to the language selected in the aplication -->
-                        {{ __('Routes') }}
-                    </button>
-                </form>
-
+                    </ul>
+                </div>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-outline-light">
                         <!-- not on use, allows app to translate text to the language selected in the aplication -->
                         {{ __('Log Out') }}
                     </button>
                 </form>
             </div>
+        </nav>
+    </header>
+    <!--Contenedor principal -->
+    <div class="container h-100 profile-container">
 
-        </div>
-
-        <div class="row h-100">
+        <div class="row h-100 py-3">
             @auth
 
             <!-- Columna Izquierda-->
@@ -76,6 +76,10 @@
                             <a href="/rout-companions" class="btn btn-outline-success text-start">
                                 <i class="bi bi-people-fill p-2 pe-3"></i>
                                 Route companions
+                            </a>
+                            <a href="{{ route('routes') }}" class="btn btn-outline-success text-start">
+                                <i class="bi bi-people-fill p-2 pe-3"></i>
+                                Search Routes
                             </a>
                         </div>
                     </div>
