@@ -192,4 +192,42 @@ class RouteRepositoryTest extends TestCase {
         $this->assertNotNull($find, self::MESSAGE_ERROR);
 
     }
+
+    public function test_007_find_routes_created_by_userId(): void {
+        $list = $this->repository->findRoutesCreatedByUserId(2);
+        $this->assertNotNull($list, self::MESSAGE_ERROR);
+
+        try {
+            $this->repository = new RouteRepository('fakeDb');
+            $list = $this->repository->findRoutesCreatedByUserId(2);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
+    }
+
+
+    public function test_008_get_routes_ordered_by_date(): void {
+        $list = $this->repository->getRoutesOrderedByDate(2);
+        $this->assertNotNull($list, self::MESSAGE_ERROR);
+
+        try {
+            $this->repository = new RouteRepository('fakeDb');
+            $list = $this->repository->getRoutesOrderedByDate(2);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
+    }
+
+    public function test_009_get_nearest_date_route(): void {
+        $nearestRoute = $this->repository->getNearestDateRoute(2);
+        $this->assertNotNull($nearestRoute, self::MESSAGE_ERROR);
+        $this->assertEquals(1, $nearestRoute['id'], self::MESSAGE_ERROR);
+
+        try {
+            $this->repository = new RouteRepository('fakeDb');
+            $nearestRoute = $this->repository->getNearestDateRoute(2);
+        } catch (\Exception $e) {
+            $this->assertNotNull($e->getMessage());
+        }
+    }
 }

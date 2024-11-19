@@ -181,7 +181,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
     /**
      * Function find all routes created by a user
      */
-    public function findRouteByUserId($userId): array{
+    public function findRoutesCreatedByUserId($userId): array{
         $list = [];
 
         try {
@@ -196,7 +196,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
     }
 
     /**
-     * Function to find all routes of an users ordered by date
+     * Function to find all routes that a user has signed for ordered by date
      */
     public function getRoutesOrderedByDate($userId): array{
         $list = [];
@@ -219,6 +219,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
             $list = $routesSqlite->toArray();
         }
+
 
         return $list;
     }
