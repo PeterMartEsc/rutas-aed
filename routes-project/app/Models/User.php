@@ -25,7 +25,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    //use HasFactory; 
+    //use HasFactory;
 
     public $timestamps = false;
     /**
@@ -39,6 +39,14 @@ class User extends Authenticatable
     public function routes()
     {
         return $this->hasMany(Route::class);
+    }
+
+
+    /**
+    * 
+    */
+    public function routesUsers(){
+        return $this->belongsToMany(Route::class, 'users_routes', 'route_id', 'user_id');
     }
 
     /**

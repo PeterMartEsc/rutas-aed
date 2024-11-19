@@ -25,7 +25,7 @@ class Route extends Model
 {
 
     public $timestamps = false;
-    
+
     /**
      * @var array
      */
@@ -34,8 +34,11 @@ class Route extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
-    {
+    public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function users(){
+        return $this->belongsToMany(User::class, 'users_routes', 'route_id', 'user_id');
     }
 }

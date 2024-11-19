@@ -213,4 +213,10 @@ class AdminController extends Controller
     // sign for routes + signout,
     // if the route is mine i can edit/delete
     // if not mine i can only see/sign for routes
+
+    public function signForRoute($userId, $routeId){
+
+        $this->routeRepository->signForRoute($userId, $routeId);
+
+    }
 }
