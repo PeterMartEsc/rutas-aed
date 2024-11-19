@@ -73,7 +73,7 @@
                                 Route companions
                             </a>
                             <a href="{{ route('routes') }}" class="btn btn-outline-success text-start">
-                                <i class="bi bi-people-fill p-2 pe-3"></i>
+                                <i class="bi bi-compass p-2 pe-3"></i>
                                 Search Routes
                             </a>
                         </div>

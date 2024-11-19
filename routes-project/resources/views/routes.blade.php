@@ -37,11 +37,10 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                    @csrf
+                <form action="{{ route('user-dashboard') }}" method="GET" class="d-inline">
                     <button type="submit" class="btn btn-outline-light">
                         <!-- not on use, allows app to translate text to the language selected in the aplication -->
-                        {{ __('Log Out') }}
+                        Profile
                     </button>
                 </form>
             </div>
@@ -97,7 +96,7 @@
                         <ul class="list-group">
                             @if(isset($selectedroute))
                                 <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
-                                alt="{{$selectedroute['id']}}" class="selected-image mx-auto p-2">
+                                alt="{{$selectedroute['id']}}" class="selected-image mx-auto">
                                 <div class="row m-auto">
                                     <div class="col-6 p-3">
                                         <form action="" method="POST" class="">
@@ -150,6 +149,22 @@
                                     <div class="col-6 p-3">
                                         <p>{{$selectedroute['title']}}</p>
                                         <p>{{$selectedroute['description']}}</p>
+
+                                        @if (in_array($selectedroute, $followedroutes))
+                                            <form action="" method="POST" class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success">
+                                                    Sign
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="" method="POST" class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success">
+                                                    Sign-out
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             @endif
