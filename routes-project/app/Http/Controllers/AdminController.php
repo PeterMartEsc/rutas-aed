@@ -11,21 +11,20 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
 
-    protected $routesRepository;
+    protected $routeRepository;
     protected $userRepository;
 
     public function __construct(){
         $this->middleware('auth');
         $this->middleware('role:Admin');
 
-        $this->routesRepository = new RouteRepository();
+        $this->routeRepository = new RouteRepository();
         $this->userRepository = new UserRepository();
     }
 
     public function index(){
         $users = $this->userRepository->findAll();
-        $routes = $this->routesRepository->findAll();
-
+        $routes = $this->routeRepository->findAll();
         return view('profileAdmin', compact('users', 'routes'));
     }
 
@@ -40,7 +39,6 @@ class AdminController extends Controller
         $users = $this->userRepository->findAll();
         return view('profileAdmin', compact('users'));
     }
-
 
 
     /**
@@ -106,7 +104,7 @@ class AdminController extends Controller
      * function to find all routes
      */
     public function findAllRoutes(){
-        $routes = $this->routesRepository->findAll();
+        $routes = $this->routeRepository->findAll();
         return view('adminRoutes', compact('routes'));
     }
 
@@ -124,7 +122,7 @@ class AdminController extends Controller
         $description = $request->input('description');
         $user_id = $request->input('user_id');
 
-        $route = $this->routesRepository->save(new Route([
+        $route = $this->routeRepository->save(new Route([
             'title' => $title,
             'location' => $location,
             'distance' => $distance,
@@ -151,7 +149,7 @@ class AdminController extends Controller
      * Function to search for a route to edit
      */
     public function searchRouteToEdit($id, $title){
-        $route = $this->routesRepository->findById($id);
+        $route = $this->routeRepository->findById($id);
 
         if($route && $route->title === $title){
             return view('editRoute', compact('route'));
@@ -172,7 +170,7 @@ class AdminController extends Controller
         $description = $request->input('description');
         $user_id = $request->input('user_id');
 
-        $route = $this->routesRepository->update(new Route([
+        $route = $this->routeRepository->update(new Route([
                 'id' => $id,
                 'title' => $title,
                 'location' => $location,
@@ -200,7 +198,7 @@ class AdminController extends Controller
      * Function to delete a route
      */
     public function deleteRoute($id){
-        $deleted = $this->routesRepository->delete($id);
+        $deleted = $this->routeRepository->delete($id);
 
         $message = "Something went wrong while deleting the route";
 

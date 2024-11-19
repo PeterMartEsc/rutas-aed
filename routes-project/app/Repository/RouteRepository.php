@@ -7,7 +7,6 @@ use App\Repository\Abstract\RepositoryAbstract;
 use App\Repository\Interface\IRepository;
 use Exception;
 
-use Illuminate\Support\Facades\DB;
 /**
  * @author Nabil Leon Alvarez <@nalleon>
  * @author Pedro Martin Escuela <@PeterMartEsc>
