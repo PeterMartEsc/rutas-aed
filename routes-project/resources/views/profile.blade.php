@@ -19,14 +19,6 @@
             height: 300px;
         }
 
-        .edit-users, .edit-routes{
-            border: solid 1px black;
-
-            height: 300px;
-
-            align-self:flex-end;
-        }
-
         .edit-card{
             height: 300px;
         }
@@ -39,16 +31,26 @@
     <!--Contenedor principal -->
     <div class="container h-100 profile-container">
 
-        <div class="row pt-3">
-            <div class="logout text-end">
+        <div class="row py-3">
+            <div class="logout d-flex justify-content-between">
+
+                <form action="{{ route('routes') }}" method="GET" class="d-inline">
+                    <!-- because of the method being "get" it is unnecesary a csrf token -->
+                    <button type="submit" class="btn btn-success">
+                        <!-- not on use, allows app to translate text to the language selected in the aplication -->
+                        {{ __('Routes') }}
+                    </button>
+                </form>
 
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-success">
+                        <!-- not on use, allows app to translate text to the language selected in the aplication -->
                         {{ __('Log Out') }}
                     </button>
                 </form>
             </div>
+
         </div>
 
         <div class="row h-100">
@@ -85,7 +87,7 @@
             <!-- Columna Derecha -->
             <div class="col-6">
 
-                <div class="row h-50 d-flex align-items-center borde">
+                <div class="row mt-2 d-flex align-items-center borde">
                     <!-- Contenedor Ruta Actual -->
                     <div class="col mb-4 ">
 

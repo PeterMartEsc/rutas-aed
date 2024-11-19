@@ -16,10 +16,36 @@ class UserController extends Controller
     }
 
     public function index(){
-        $routes = $this->routesRepository->findAll();
-        //filtrado de rutas seguidas
-        //filtrado de rutas creadas
 
-        return view('profile', compact('routes'));
+        //nearest route
+        $nextroute = $this->routesRepository->getNearestDateRoute(auth()->user()->id);
+        //filter followed routes
+        $followedroutes = $this->routesRepository->getRoutesOrderedByDate(auth()->user()->id);
+        //filter created routes
+        $createdroutes = $this->routesRepository->findRouteByUserId(auth()->user()->id);
+
+        return view('profile', compact('nextroute', 'followedroutes', 'createdroutes'));
+    }
+
+    public function prepareRoutes(){
+
+        $routes = $this->getAvailableRoutes();
+
+        return view('routes', compact('routes'));
+    }
+
+    public function getAvailableRoutes(){
+        //all routes
+        $routes = $this->routesRepository->findAll();
+        return $routes;
+    }
+
+    public function selectRoute(Request $request){
+        $selectedid = $request->route_id;
+        $selectedroute = $this->routesRepository->findById($selectedid);
+
+        $routes = $this->getAvailableRoutes();
+
+        return view('routes', compact('selectedroute', 'routes'));
     }
 }
