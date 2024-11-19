@@ -104,6 +104,8 @@ class UserController extends Controller
 
         if (!empty($filter)) {
             $routes = $this->routeRepository->filterRoutes($filter);
+        } else{
+            return redirect()->route('routes');
         }
 
         return view('routes', compact('routes', 'filter'));
