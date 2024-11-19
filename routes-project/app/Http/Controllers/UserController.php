@@ -73,7 +73,6 @@ class UserController extends Controller
         $routeId = $request->input('routeId');
         $isSigned = $this->routeRepository->signForRoute($userId, $routeId);
 
-
         if (!$isSigned){
             return redirect()->route('routes');
         }

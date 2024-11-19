@@ -177,70 +177,70 @@
                             </ul>
                         </div>
                     </div>
-                @elseif(isset($nearestRoute))
+                @elseif(isset($nearestRouteByUser))
                     <div class="card routes-list">
                         <div class="card-header section-title selected-header">
                             <p class="pb-3">
-                                @if(isset($nearestRoute))
-                                    {{$nearestRoute['title']}}
+                                @if(isset($nearestRouteByUser))
+                                    {{$nearestRouteByUser['title']}}
                                 @endif
                             </p>
                         </div>
                         <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                         <div class="card-body overflow-auto">
                             <ul class="list-group">
-                                @if(isset($nearestRoute))
+                                @if(isset($nearestRouteByUser))
                                     <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
-                                    alt="{{$nearestRoute['id']}}" class="selected-image mx-auto">
+                                    alt="{{$nearestRouteByUser['id']}}" class="selected-image mx-auto">
                                     <div class="row m-auto">
                                         <div class="col-6 p-3">
                                                 <label for="where">
                                                     <b>Where:</b>
                                                     <!--<input type="text" name="where" value="" readonly>-->
-                                                    {{$nearestRoute['location']}}
+                                                    {{$nearestRouteByUser['location']}}
                                                 </label><br/>
                                                 <label for="date">
                                                     <b>Date:</b>
                                                     <!--<input type="text" name="where" value="" readonly>-->
-                                                    {{$nearestRoute['date_route']}}
+                                                    {{$nearestRouteByUser['date_route']}}
                                                 </label><br/>
                                                 <label for="distance">
                                                     <b>Distance:</b>
                                                     <!--<input type="text" name="where" value="" readonly>-->
-                                                    {{$nearestRoute['distance']}} km
+                                                    {{$nearestRouteByUser['distance']}} km
                                                 </label><br/>
                                                 <label for="difficulty">
                                                     <b>Difficulty:</b>
                                                     <!--<input type="text" name="where" value="" readonly>-->
-                                                    {{$nearestRoute['difficulty']}}
+                                                    {{$nearestRouteByUser['difficulty']}}
                                                 </label><br/>
                                                 <label for="vehicle">
                                                     <b>Vehicle:</b>
                                                     <label for="yes">
                                                         Yes
-                                                        <input type="radio" name="yesV" id="yesV" value="1" {{ $nearestRoute['vehicle_needed'] == 1 ? 'checked' : '' }} disabled >
+                                                        <input type="radio" name="yesV" id="yesV" value="1" {{ $nearestRouteByUser['vehicle_needed'] == 1 ? 'checked' : '' }} disabled >
                                                     </label>
                                                     <label for="no">
                                                         No
-                                                        <input type="radio" name="noV" id="noV" value="0" {{ $nearestRoute['vehicle_needed'] == 0 ? 'checked' : '' }} disabled >
+                                                        <input type="radio" name="noV" id="noV" value="0" {{ $nearestRouteByUser['vehicle_needed'] == 0 ? 'checked' : '' }} disabled >
                                                     </label>
                                                 </label><br/>
                                                 <label for="vehicle">
                                                     <b>Pets:</b>
                                                     <label for="yes">
                                                         Yes
-                                                        <input type="radio" name="yesP" id="yesP" value="1" {{ $nearestRoute['pets_allowed'] == 1 ? 'checked' : '' }} disabled >
+                                                        <input type="radio" name="yesP" id="yesP" value="1" {{ $nearestRouteByUser['pets_allowed'] == 1 ? 'checked' : '' }} disabled >
                                                     </label>
                                                     <label for="no">
                                                         No
-                                                        <input type="radio" name="noP" id="noP" value="0" {{ $nearestRoute['pets_allowed'] == 0 ? 'checked' : '' }} disabled >
+                                                        <input type="radio" name="noP" id="noP" value="0" {{ $nearestRouteByUser['pets_allowed'] == 0 ? 'checked' : '' }} disabled >
                                                     </label>
                                                 </label>
                                         </div>
 
                                         <div class="col-6 p-3">
-                                            <p>{{$nearestRoute['title']}}</p>
-                                            <p>{{$nearestRoute['description']}}</p>
+                                            <p>{{$nearestRouteByUser['title']}}</p>
+                                            <p>{{$nearestRouteByUser['description']}}</p>
 
                                         </div>
 
@@ -249,7 +249,7 @@
                                                     <form action="{{route('signout-route')}}" method="POST" class="d-inline">
                                                     @csrf
                                                     <input type="hidden" name="userId" value={{auth()->user()->id}}>
-                                                    <input type="hidden" name="routeId" value={{$nearestRoute['id']}}>
+                                                    <input type="hidden" name="routeId" value={{$nearestRouteByUser['id']}}>
                                                     <button type="submit" class="btn btn-danger">
                                                         Sign me out
                                                     </button>
@@ -258,7 +258,7 @@
                                                 <form action="{{route('sign-route')}}" method="POST" class="d-inline">
                                                     @csrf
                                                     <input type="hidden" name="userId" value={{auth()->user()->id}}>
-                                                    <input type="hidden" name="routeId" value={{$nearestRoute['id']}}>
+                                                    <input type="hidden" name="routeId" value={{$nearestRouteByUser['id']}}>
                                                     <button type="submit" class="btn btn-success">
                                                         Sign me in
                                                     </button>
