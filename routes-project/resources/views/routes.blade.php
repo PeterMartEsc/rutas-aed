@@ -106,22 +106,22 @@
                                                 <b>Vehicle:</b>
                                                 <label for="yes">
                                                     Yes
-                                                    <input type="radio" name="yesV" id="yesV" value="1" {{ $selectedroute['vehicle_needed'] == 1 ? 'checked' : '' }}>
+                                                    <input type="radio" name="yesV" id="yesV" value="1" {{ $selectedroute['vehicle_needed'] == 1 ? 'checked' : '' }} disabled >
                                                 </label>
                                                 <label for="no">
                                                     No
-                                                    <input type="radio" name="noV" id="noV" value="0" {{ $selectedroute['vehicle_needed'] == 0 ? 'checked' : '' }}>
+                                                    <input type="radio" name="noV" id="noV" value="0" {{ $selectedroute['vehicle_needed'] == 0 ? 'checked' : '' }} disabled >
                                                 </label>
                                             </label><br/>
                                             <label for="vehicle">
                                                 <b>Pets:</b>
                                                 <label for="yes">
                                                     Yes
-                                                    <input type="radio" name="yesP" id="yesP" value="1" {{ $selectedroute['pets_allowed'] == 1 ? 'checked' : '' }}>
+                                                    <input type="radio" name="yesP" id="yesP" value="1" {{ $selectedroute['pets_allowed'] == 1 ? 'checked' : '' }} disabled >
                                                 </label>
                                                 <label for="no">
                                                     No
-                                                    <input type="radio" name="noP" id="noP" value="0" {{ $selectedroute['pets_allowed'] == 0 ? 'checked' : '' }}>
+                                                    <input type="radio" name="noP" id="noP" value="0" {{ $selectedroute['pets_allowed'] == 0 ? 'checked' : '' }} disabled >
                                                 </label>
                                             </label>
                                         </form>
