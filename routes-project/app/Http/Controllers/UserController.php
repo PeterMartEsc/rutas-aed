@@ -22,7 +22,7 @@ class UserController extends Controller
         //filter followed routes
         $followedroutes = $this->routesRepository->getRoutesOrderedByDate(auth()->user()->id);
         //filter created routes
-        $createdroutes = $this->routesRepository->findRouteByUserId(auth()->user()->id);
+        $createdroutes = $this->routesRepository->findRoutesCreatedByUserId(auth()->user()->id);
 
         return view('profile', compact('nextroute', 'followedroutes', 'createdroutes'));
     }
