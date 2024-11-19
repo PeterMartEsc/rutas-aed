@@ -15,16 +15,25 @@
             height: 100%;
         }
 
-        .info{
-            height: 300px;
+        .header-edit{
+            margin: auto;
+            width: 100vh;
+            border: none;
+            height: 0;
+            margin-bottom: 10px;
         }
 
         .edit-card{
-            height: 300px;
+            height: 140px;
+            width: 100vh;
+            margin: auto;
         }
-        /*.borde{
-            border: solid 1px black;
-        }*/
+
+        .edit-card2{
+            height: 180px;
+            width: 100vh;
+            margin: auto;
+        }
     </style>
 </head>
 <header>
@@ -51,45 +60,64 @@
 
         <div class="row">
             @auth
+            <div class="row">
+                <div class="card mt-2 header-edit p-2">
+                    <h5>Edit profile details</h5><br/>
+                </div>
+            </div>
 
             <div class="row">
-                <div class="col-12">
-                    <form action="" method="POST" class="d-inline">
-                        @csrf
-                        <input type="hidden" name="id" value="{{auth()->user()->id}}">
-                        <button type="submit" class="btn btn-success">
-                            Update photo
-                        </button>
-                    </form>
+
+                <div class="col-12 p-4">
+                    <div class="card edit-card p-3 bg-light">
+                        <h5>Edit profile photo</h5><br/>
+                        <form action="" method="POST" class="d-inline">
+                            @csrf
+                            <input type="hidden" name="id" value="{{auth()->user()->id}}">
+                            <button type="submit" class="btn btn-success">
+                                Update photo
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12 pb-4">
+                    <div class="card edit-card2 p-3 bg-light">
+                        <h5>Edit personal data</h5><br/>
+                        <form action="" method="POST">
+                            <label for="name" class="pe-2">
+                                <b>Name:</b>
+                                <input type="text" name="name" id="name">
+                            </label>
+                            <label for="surname">
+                                <b>Surname:</b>
+                                <input type="text" name="surname" id="surname">
+                            </label><br/>
+                            <button type="submit" class="btn btn-success my-3">
+                                Update
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
-                    <form action="" method="POST">
-                        <label for="name">
-                            <b>Name:</b>
-                            <input type="text" name="name" id="name">
-                        </label>
-                        <label for="surname">
-                            <b>Surname:</b>
-                            <input type="text" name="surname" id="surname">
-                        </label>
-                        <button type="submit">Update</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <form action="" method="POST">
-                        <label for="password">
-                            <b>New password:</b>
-                            <input type="text" name="password" id="password">
-                        </label>
-                        <!-- confirm new password -->
-                        <button type="submit">Update</button>
-                    </form>
+                    <div class="card edit-card2 p-3 bg-light">
+                        <h5>Edit password</h5><br/>
+                        <form action="" method="POST">
+                            <label for="password">
+                                <b>New password:</b>
+                                <input type="text" name="password" id="password">
+                            </label><br/>
+                            <button type="submit" class="btn btn-success my-3">
+                                Update
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
