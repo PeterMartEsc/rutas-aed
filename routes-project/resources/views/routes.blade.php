@@ -101,16 +101,27 @@
                                                 <b>Difficulty:</b>
                                                 <!--<input type="text" name="where" value="" readonly>-->
                                                 {{$selectedroute['difficulty']}}
-                                            </label>
+                                            </label><br/>
                                             <label for="vehicle">
-                                                Vehicle
+                                                <b>Vehicle:</b>
                                                 <label for="yes">
                                                     Yes
-                                                    <input type="radio" name="yes" id="yes">
+                                                    <input type="radio" name="yesV" id="yesV">
                                                 </label>
                                                 <label for="no">
                                                     No
-                                                    <input type="radio" name="no" id="no">
+                                                    <input type="radio" name="noV" id="noV">
+                                                </label>
+                                            </label><br/>
+                                            <label for="vehicle">
+                                                <b>Pets:</b>
+                                                <label for="yes">
+                                                    Yes
+                                                    <input type="radio" name="yesP" id="yesP">
+                                                </label>
+                                                <label for="no">
+                                                    No
+                                                    <input type="radio" name="noP" id="noP">
                                                 </label>
                                             </label>
                                         </form>
