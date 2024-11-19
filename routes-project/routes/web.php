@@ -32,7 +32,7 @@ Route::middleware(['role:Admin'])->group(function () {
  * For users
  */
 Route::middleware(['role:User'])->group(function () {
-    Route::get('/user-dashboard', [UserController::class, 'index'])->name('user-dashboard');
+    Route::get('/user/profile', [UserController::class, 'index'])->name('user-dashboard');
 });
 
 
@@ -43,9 +43,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/RoutesManage', function () {
-    return view('routesManage');
-});
+Route::get('/routes', [UserController::class, 'prepareRoutes'])->name('routes');
+
+Route::post('/routes/selected', [UserController::class, 'selectRoute'])->name('selected.route');
 
 
 
