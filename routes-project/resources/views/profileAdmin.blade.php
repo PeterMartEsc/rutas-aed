@@ -87,7 +87,7 @@
 
                     <div class="options">
                         <div class="btn-group-vertical w-100 ">
-                            <a href="/" class="btn btn-outline-success text-start" >
+                            <a href="{{ route('edit.profile')}}" class="btn btn-outline-success text-start" >
                                 <i class="bi bi-person p-2 pe-3"></i>
                                 Edit personal information
                             </a>

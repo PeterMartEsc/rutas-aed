@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
-        "readme"
+        "readme",
+        "view.editUser.Admin"
     ],
     "git.ignoreLimitWarning": true
 }

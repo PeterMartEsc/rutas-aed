@@ -28,6 +28,10 @@ Route::get('/', function () {
  */
 Route::middleware(['role:Admin'])->group(function () {
     Route::get('/admin/profile', [RouteController::class, 'index'])->name('dashboard');
+    Route::get('/admin/profile/edit', [AdminController::class, 'indexEditProfile'])->name('edit.profile');
+    Route::get('/admin/profile', [RouteController::class, 'index'])->name('dashboard.updated');
+
+
     Route::get('/admin/{user}/edit', [AdminController::class, 'searchUserToEdit'])->name('admin.edit.user');
     Route::patch('/admin/update', [AdminController::class, 'editUser'])->name('admin.update.user');
     Route::delete('/admin/delete-user', [AdminController::class, 'deleteUser'])->name('delete-user');

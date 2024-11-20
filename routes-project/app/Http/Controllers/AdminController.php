@@ -108,6 +108,8 @@ class AdminController extends Controller
         return redirect()->route('dashboard')->with('message', $message);
     }
 
-
+    public function indexEditProfile(){
+        return view('editUser');
+    }
 
 }
