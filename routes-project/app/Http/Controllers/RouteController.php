@@ -6,6 +6,7 @@ use App\Models\Route;
 use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RouteController extends Controller{
     protected $routeRepository;
@@ -21,9 +22,13 @@ class RouteController extends Controller{
     }
 
     public function index(){
-        if(auth()->user()->role_id === 1){
+        $user = Auth::user();
+        $role = $user->role->name ?? null;
+
+        if($role == 'Admin'){
             $users = $this->userRepository->findAll();
-            return view('profileAdmin', compact( 'users'));
+            $routes = $this->routeRepository->findAll();
+            return view('profileAdmin', compact('users', 'routes'));
         }
 
         $nextroute = $this->routeRepository->getNearestDateRouteByUser(auth()->user()->id);
