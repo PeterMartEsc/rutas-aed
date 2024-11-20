@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Image;
-use App\Models\Route;
+
 use App\Models\User;
-use App\Repository\ImageRepository;
 use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
@@ -25,7 +23,6 @@ class AdminController extends Controller
 
         $this->routeRepository = new RouteRepository();
         $this->userRepository = new UserRepository();
-        $this->imageRepository = new ImageRepository();
     }
 
     public function index(){

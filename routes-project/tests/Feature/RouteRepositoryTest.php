@@ -2,16 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Role;
 use App\Models\Route;
-use App\Models\User;
 use App\Repository\RouteRepository;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Hash;
-use Mockery;
+
 use Tests\TestCase;
 
 class RouteRepositoryTest extends TestCase {
@@ -219,13 +215,13 @@ class RouteRepositoryTest extends TestCase {
     }
 
     public function test_009_get_nearest_date_route(): void {
-        $nearestRoute = $this->repository->getNearestDateRoute(2);
+        $nearestRoute = $this->repository->getNearestDateRouteByUser(2);
         $this->assertNotNull($nearestRoute, self::MESSAGE_ERROR);
         $this->assertEquals(1, $nearestRoute['id'], self::MESSAGE_ERROR);
 
         try {
             $this->repository = new RouteRepository('fakeDb');
-            $nearestRoute = $this->repository->getNearestDateRoute(2);
+            $nearestRoute = $this->repository->getNearestDateRouteByUser(2);
         } catch (\Exception $e) {
             $this->assertNotNull($e->getMessage());
         }

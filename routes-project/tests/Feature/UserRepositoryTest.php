@@ -39,7 +39,6 @@ class UserRepositoryTest extends TestCase {
         $user->email = 'test@email.com';
         $user->password = Hash::make('testingPassword');
         $user->phone = '+34123456789';
-        $user->id_image = null;
         $user->id_role = 2;
 
         $saved = $this->repository->save($user);
@@ -48,7 +47,6 @@ class UserRepositoryTest extends TestCase {
         $this->assertEquals($user->surname, $saved->surname, self::MESSAGE_ERROR);
         $this->assertEquals($user->email, $saved->email, self::MESSAGE_ERROR);
         $this->assertEquals($user->phone, $saved->phone, self::MESSAGE_ERROR);
-        $this->assertEquals($user->id_image, $saved->id_image, self::MESSAGE_ERROR);
         $this->assertEquals($user->id_role, $saved->id_role, self::MESSAGE_ERROR);
 
         
@@ -67,7 +65,6 @@ class UserRepositoryTest extends TestCase {
         $user->email = 'test@email.com';
         $user->password = Hash::make('testingPassword');
         $user->phone = '+34123456789';
-        $user->id_image = null;
         $user->id_role = 2;
 
         $saved = $this->repository->save($user);
@@ -92,7 +89,6 @@ class UserRepositoryTest extends TestCase {
         $user->email = 'test@email.com';
         $user->password = Hash::make('testingPassword');
         $user->phone = '+34123456789';
-        $user->id_image = null;
         $user->id_role = 2;
 
         $saved = $this->repository->save($user);
@@ -105,7 +101,6 @@ class UserRepositoryTest extends TestCase {
         $objectToUpdate->email = 'testUpdate@email.com';
         $objectToUpdate->password = Hash::make('testingPasswordUpdate');
         $objectToUpdate->phone = '+34987654321';
-        $objectToUpdate->id_image = 1;
         $objectToUpdate->id_role = 1;
 
 
@@ -119,7 +114,6 @@ class UserRepositoryTest extends TestCase {
         $this->assertEquals($objectToUpdate->surname, $updated->surname);
         $this->assertEquals($objectToUpdate->email, $updated->email);
         $this->assertEquals($objectToUpdate->phone, $updated->phone);
-        $this->assertEquals($objectToUpdate->id_image, $updated->id_image);
         $this->assertEquals($objectToUpdate->id_role, $updated->id_role);
 
         try {
@@ -137,7 +131,6 @@ class UserRepositoryTest extends TestCase {
         $user->email = 'test@email.com';
         $user->password = Hash::make('testingPassword');
         $user->phone = '+34123456789';
-        $user->id_image = null;
         $user->id_role = 2;
 
         $saved = $this->repository->save($user);
@@ -159,7 +152,6 @@ class UserRepositoryTest extends TestCase {
         $user->email = 'test@email.com';
         $user->password = Hash::make('testingPassword');
         $user->phone = '+34123456789';
-        $user->id_image = null;
         $user->id_role = 2;
 
         $saved = $this->repository->save($user);

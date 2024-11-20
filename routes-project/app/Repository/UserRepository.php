@@ -59,7 +59,6 @@ class UserRepository extends RepositoryAbstract implements IRepository{
                 $pSqlite->email = $p->email;
                 $pSqlite->phone = $p->phone;
                 $pSqlite->password = $p->password;
-                $pSqlite->id_image = $p->id_image;
                 $pSqlite->id_role = $p->id_role;    
                 $pSqlite->setConnection($this->connectionSqlite)->save();
             }
@@ -118,7 +117,6 @@ class UserRepository extends RepositoryAbstract implements IRepository{
                 $pUpdate->email = $p->email;
                 $pUpdate->phone = $p->phone;
                 $pUpdate->password = $p->password;
-                $pUpdate->id_image = $p->id_image;
                 $pUpdate->id_role = $p->id_role;
                 $pUpdate->save();
                 $updated = true;
@@ -133,7 +131,6 @@ class UserRepository extends RepositoryAbstract implements IRepository{
                     $pUpdateSqlite->email = $p->email;
                     $pUpdateSqlite->phone = $p->phone;
                     $pUpdateSqlite->password = $p->password;
-                    $pUpdateSqlite->id_image = $p->id_image;
                     $pUpdateSqlite->id_role = $p->id_role;
                     $pUpdateSqlite->save();
                     $updated = true;
