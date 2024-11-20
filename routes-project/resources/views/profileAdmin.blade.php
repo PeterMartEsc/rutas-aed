@@ -63,31 +63,27 @@
     </header>
 </head>
 <body>
+
     <!--Contenedor principal -->
     <div class="container h-100 profile-container">
-
-
-
-        <div class="row h-100">
+        <div class="row h-100 py-3">
             @auth
 
-            <!-- Columna Izquierda-->
-            <div class="col-6 ">
-
+            <div class="col-12 col-md-6">
                 <div class="info d-flex align-items-center">
-                    <img class="p-5" src="example.png" alt="ppp"/>
+                    <img class="p-5" src="example.png" alt="pfp"/>
                     <p class="pe-5"><b>Name: </b>{{auth()->user()->name}}</p>
                     <p class="pe-5"><b>Surname: </b> {{auth()->user()->surname}}</p>
                 </div>
                 <br/>
-                <div class="card p-3">
+                <div class="card p-3 mt-2">
                     @if (session('message'))
                         <p class="text-center"><b>{{ session('message') }}</b></p>
                     @endif
 
                     <div class="options">
                         <div class="btn-group-vertical w-100 ">
-                            <a href="{{ route('edit.profile')}}" class="btn btn-outline-success text-start" >
+                            <a href="{{route('edit.profile')}}" class="btn btn-outline-success text-start">
                                 <i class="bi bi-person p-2 pe-3"></i>
                                 Edit personal information
                             </a>
@@ -97,18 +93,15 @@
                             </a>
                         </div>
                     </div>
-
                 </div>
-
             </div>
 
-            <!-- Columna Derecha -->
-            <div class="col-6">
+            <div class="col-12 mb-md-3 col-md-6">
+                
 
                 <div class="row h-50 d-flex align-items-center borde">
                     <!-- Contenedor Gestion Usuarios -->
                     <div class="col mb-4 ">
-
                         <div class="card edit-card">
                             <div class="card-header section-title">Users</div>
                             <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
@@ -134,31 +127,55 @@
                     </div>
                 </div>
 
-                <div class="row h-50 d-flex align-items-center borde">
-                    <!-- Contenedor Gestion Rutas -->
-                    <div class="col">
+                <div class="row">
+                    <!-- Followed Routes -->
+                    <div class="col-12 mb-md-3 col-md-6">
+                        <div class="card edit-card">
+                            <div class="card-header section-title">Followed Routes</div>
+                            <div class="card-body overflow-auto">
+                                <ul class="list-group">
+                                    @if(isset($followedroutes))
+                                        @foreach ( $followedroutes as $route )
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <form action="{{ route('selected.route') }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="route_id" value="{{ $route['id'] }}">
+                                                    <button type="submit" class="btn" style="border: none; background: none;">
+                                                        <i class="bi bi-map"></i> {{$route['title']}}
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        @endforeach
+                                    @endif
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- All Routes -->
+                    <div class="col-12 mb-md-3 col-md-6">
                         <div class="card edit-card">
                             <div class="card-header section-title">Routes</div>
-                            <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                             <div class="card-body overflow-auto">
                                 <ul class="list-group">
                                     @if(isset($routes))
                                         @foreach ( $routes as $route )
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <span><i class="bi bi-map"></i> {{$route['title']}}</span>
-                                                <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
-                                            </li>
-
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <form action="{{ route('edit-route') }}" method="GET" class="d-inline">
+                                                <input type="hidden" name="route_id" value="{{ $route['id'] }}">
+                                                <button type="submit" class="btn" style="border: none; background: none;">
+                                                    <i class="bi bi-map"></i> {{$route['title']}}
+                                                </button>
+                                            </form>
+                                        </li>
                                         @endforeach
                                     @endif
-                                    <!-- Añadir más rutas aquí -->
                                 </ul>
                             </div>
                         </div>
-
                     </div>
                 </div>
+
 
             </div>
             @endauth

@@ -27,8 +27,8 @@
     <nav class="navbar bg-success navbar-expand-md nav-custom">
         <div class="container-fluid ms-3 me-3">
             <a class="navbar-brand text-light" href="{{ route('routes') }}">Rutas-AED</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
                     aria-expanded="false" aria-label="Toggle navigation">
 
                 <span class="navbar-toggler-icon"></span>
@@ -39,7 +39,7 @@
                     <li class="list-group-item m-1 nav-item">
                         <a class="ms-3 link-underline link-underline-opacity-0 link-light me-1 fw-bold" href="{{ route('dashboard') }}">
                             <i class="bi bi-house-door-fill"></i> Profile
-                        </a>
+                        </a> 
                     </li>
                     <li class="list-group-item m-1 nav-item">
                         <a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('routes') }}">
@@ -87,6 +87,10 @@
                                 <i class="bi bi-person p-2 pe-3"></i>
                                 Edit personal information
                             </a>
+                            <a href="/rout-companions" class="btn btn-outline-success text-start">
+                                <i class="bi bi-people-fill p-2 pe-3"></i>
+                                Route companions
+                            </a>
                             <a href="{{ route('routes') }}" class="btn btn-outline-success text-start">
                                 <i class="bi bi-compass p-2 pe-3"></i>
                                 Search Routes
@@ -132,7 +136,7 @@
                                                         <i class="bi bi-map"></i> {{$route['title']}}
                                                     </button>
                                                 </form>
-                                            </li>
+                                            </li>   
                                         @endforeach
                                     @endif
                                 </ul>
@@ -141,7 +145,7 @@
                     </div>
 
                     <!-- Routes Created -->
-                    <div class="col-12 mb-md-3 col-md-6">
+                    <div class="col-12 mb-md-3 col-md-6"> 
                         <div class="card edit-card">
                             <div class="card-header section-title">Routes Created</div>
                             <div class="card-body overflow-auto">
@@ -155,7 +159,7 @@
                                                         <i class="bi bi-map"></i> {{$route['title']}}
                                                     </button>
                                                 </form>
-                                            </li>
+                                            </li>   
                                         @endforeach
                                     @endif
                                 </ul>

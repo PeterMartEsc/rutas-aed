@@ -30,7 +30,8 @@ class RouteController extends Controller{
         if($role == 'Admin'){
             $users = $this->userRepository->findAll();
             $routes = $this->routeRepository->findAll();
-            return view('profileAdmin', compact('users', 'routes'));
+            $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
+            return view('profileAdmin', compact('users', 'routes',  'followedroutes'));
         }
 
         $nextroute = $this->routeRepository->getNearestDateRouteByUser(auth()->user()->id);
@@ -41,7 +42,6 @@ class RouteController extends Controller{
     }
 
     public function indexUpdateData(Request $request){
-
         $userUpdate = new User();
         $userUpdate->id = auth()->user()->id;
         $userUpdate->name = $request->input('name');
@@ -56,7 +56,6 @@ class RouteController extends Controller{
             $userUpdate->password = $password;
         } else {
             $userAux = $this->userRepository->findById($userUpdate->id);
-            //dd( $userUpdate->id );
             $userUpdate->password = $userAux->password;
         }
 
@@ -216,10 +215,15 @@ class RouteController extends Controller{
         $description = $request->input('description');
         $user_id = auth()->user()->id;
 
-        $checkIfIsMine = $this->routeRepository->checkIfRouteIsMine($user_id, $id);
-        if(!$checkIfIsMine){
-            $message = "Route is not yours to edit";
-            return redirect()->route('routes')->with('message', $message);
+        $user = Auth::user();
+        $role = $user->role->name ?? null;
+
+        if($role ==! 'Admin'){
+            $checkIfIsMine = $this->routeRepository->checkIfRouteIsMine($user_id, $id);
+            if(!$checkIfIsMine){
+                $message = "Route is not yours to edit";
+                return redirect()->route('routes')->with('message', $message);
+            }
         }
 
         $routeUpdate = new Route();
@@ -235,7 +239,6 @@ class RouteController extends Controller{
         $routeUpdate->user_id = $user_id;
 
         $route = $this->routeRepository->update($routeUpdate);
-
 
         $route = $this->routeRepository->findById($id);
         $this->uploadRouteMainImage($route, $request);
