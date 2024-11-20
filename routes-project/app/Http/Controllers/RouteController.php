@@ -8,7 +8,7 @@ use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+
 /**
  * @author Nabil Leon Alvarez <@nalleon>
  * @author Pedro Martin Escuela <@PeterMartEsc>

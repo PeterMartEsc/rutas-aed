@@ -72,6 +72,8 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to find by Id a route
+    * @param id
+     * @return object|null
      */
     public function findById($id): object | null {
         $pToFind = null;
@@ -87,6 +89,8 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to find by name a route
+    * @param id
+     * @return object|null
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
@@ -102,6 +106,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to to update a route
+     * 
      */
     public function update($p): bool {
         $updated = false;
@@ -152,6 +157,8 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to delete a route
+     * @param id
+     * @return boolean true if route deleyed, false otherwise
      */
     public function delete($id): bool{
         $deleted = false;
@@ -181,6 +188,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function find all routes created by a user
+    * @param userId to get routes crated
      */
     public function findRoutesCreatedByUserId($userId): array{
         $list = [];
@@ -198,6 +206,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to find all routes that a user has signed for ordered by date
+     * @param userId to get its routes
      */
     public function getRoutesOrderedByDate($userId): array{
         $list = [];
@@ -227,6 +236,8 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to find the nearest route of an user
+     * @param string $userId
+     * @return array|null
      */
     public function getNearestDateRouteByUser($userId): ?array{
         $route = null;
@@ -249,6 +260,10 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         return $route ? $route->toArray() : null ;
     }
 
+    /**
+     * Function to find the nearest route globally
+     * @return array|null
+     */
     public function getNearestDateRouteGlobally(): ?array{
         $route = null;
 
@@ -266,6 +281,11 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         return $route ? $route->toArray() : null ;
     }
 
+    /**
+     * Function to sign in a route
+     * @param userid, routeid, to sign in
+     * @return array|null
+     */
     public function signForRoute($userId, $routeId) : bool {
         try {
             $route = $this->findById($routeId);
@@ -286,6 +306,12 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         return false;
     }
 
+
+    /**
+     * Function to sign out a route
+     * @param userid, routeid, to sign in
+     * @return array|null
+     */
     public function signoutForRoute($userId, $routeId) : bool {
 
         try {
@@ -311,6 +337,11 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         return false;
     }
 
+    /**
+     * Function to check if a route is from a user
+     * @param userid routeid
+     * @return array|null
+     */
     public function checkIfRouteIsMine($userId, $routeId) : Route | null{
         $route = null;
         try {
@@ -328,6 +359,12 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         return $route;
     }
 
+    /**
+     * Function to filter the routes
+     * @param filter to check
+     * @return array
+     */
+
     public function filterRoutes($filter){
         $list = [];
         try {
@@ -343,7 +380,11 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
         return $list;
     }
-
+    /**
+     * Function to check if a route has users signed in
+     * @param routeId to check
+     * @return bool true if route has users, false otherwise
+     */
     public function checkIfRouteHasUsersSigned($routeId): bool{
         try {
             $routeExists = DB::connection($this->connectionMySql)->
