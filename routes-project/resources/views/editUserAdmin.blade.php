@@ -25,8 +25,8 @@
         <nav class="navbar bg-success navbar-expand-md nav-custom">
             <div class="container-fluid ms-3 me-3">
                 <a class="navbar-brand text-light" href="{{ route('routes') }}">Rutas-AED</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -66,7 +66,7 @@
                 <h5 class="card-title text-center mb-4">Editing: {{$selecteduser['email']}}</h5>
                 <form action="{{ route('admin.update.user') }}" method="POST" enctype="multipart/form-data" class="row g-3">
                     @csrf
-                    @method('PUT')
+                    @method('PATCH')
                     <div class="col-md-6">
                         <label for="name" class="form-label"><b>Name:</b></label>
                         <input type="text" id="name" name="name" class="form-control" value="{{ $selecteduser['name'] }}" placeholder="Enter your name" required>
@@ -102,9 +102,10 @@
                                 >User</option>
                         </select>
                     </div>
-                        
+
                     <div class="col-12 text-center mb-3">
                         <input type="hidden" name="user_id" value="{{$selecteduser['id']}}">
+                        <input type="hidden" name="email" value="{{$selecteduser['email']}}">
                         <button type="submit" class="btn btn-success w-100">Edit Profile</button>
                     </div>
                 </form>

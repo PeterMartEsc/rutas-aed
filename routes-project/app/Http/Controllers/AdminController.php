@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Route;
 use App\Models\User;
+use App\Repository\ImageRepository;
 use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
@@ -14,6 +16,8 @@ class AdminController extends Controller
 
     protected $routeRepository;
     protected $userRepository;
+    protected $imageRepository;
+
 
     public function __construct(){
         $this->middleware('auth');
@@ -21,6 +25,7 @@ class AdminController extends Controller
 
         $this->routeRepository = new RouteRepository();
         $this->userRepository = new UserRepository();
+        $this->imageRepository = new ImageRepository();
     }
 
     public function index(){
@@ -56,19 +61,27 @@ class AdminController extends Controller
      * Function to edit a user
      */
     public function editUser(Request $request){
-        $user = $this->userRepository->findById($request->id);
 
-        $name = $request->input('name');
-        $surname = $request->input('surname');
-        //$email = $request->input('email');
-        $phone = $request->input('phone');
+        $userUpdate = new User();
+        $userUpdate->id = $request->input('user_id');
+        $userUpdate->name = $request->input('name');
+        $userUpdate->surname = $request->input('surname');
+        $userUpdate->email = $request->input('email');
+        $userUpdate->phone = $request->input('phone');
+        $userUpdate->role_id = $request->input('role_id');
+        $userUpdate->password = $request->input('password');
+
+        dd($userUpdate);
+
         if($request->password){
             $unhashedpassword = $request->input('password');
             $password = Hash::make($unhashedpassword);
+            $userUpdate->password = $password;
         }
+
         $role = $request->input('role');
 
-        return redirect()->route('admin.manageUsers')->with('message', 'User updated successfully');
+        return redirect()->route('dashboard')->with('message', 'User updated successfully');
     }
 
 
@@ -78,7 +91,7 @@ class AdminController extends Controller
      * TODO: if user has routes published the fk on routes must change to null before deleting
      */
     public function deleteUser(Request $request){
-        
+
         $id=3;
         $hasRoutes = $this->routeRepository->findRoutesCreatedByUserId($id);
 
