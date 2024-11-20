@@ -236,7 +236,7 @@ class RouteController extends Controller{
 
         if($checkIfRouteHasUsers){
             $message = "Route cannot be deleted because it has users signed up";
-            return redirect()->route('routes')->with('message', $message);
+            return redirect()->route('dashboard')->with('message', $message);
         }
 
         $deleted = $this->routeRepository->delete($id);

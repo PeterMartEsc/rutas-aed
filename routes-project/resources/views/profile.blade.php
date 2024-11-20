@@ -77,6 +77,10 @@
                 </div>
                 <br/>
                 <div class="card p-3 mt-2">
+                    @if (session('message'))
+                        <p class="text-center"><b>{{ session('message') }}</b></p>
+                    @endif
+
                     <div class="options">
                         <div class="btn-group-vertical w-100 ">
                             <a href="{{route('edit.profile')}}" class="btn btn-outline-success text-start">

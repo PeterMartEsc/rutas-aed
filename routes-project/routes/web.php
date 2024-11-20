@@ -53,7 +53,6 @@ Route::middleware(['role:User'])->group(function () {
     Route::get('/route/edit', [RouteController::class, 'searchRouteToEdit'])->name('edit-route');
     Route::put('/route/update', [RouteController::class, 'editRoute'])->name('update-route');
     Route::delete('/delete-route', [RouteController::class, 'deleteRoute'])->name('delete-route');
-
 });
 
 
