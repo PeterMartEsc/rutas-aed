@@ -86,9 +86,14 @@
                         <label for="distance" class="form-label"><b>Distance:</b></label>
                         <input type="number" id="distance" name="distance" class="form-control" placeholder="Distance in km" required>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 text-dark">
                         <label for="difficulty" class="form-label"><b>Difficulty:</b></label>
-                        <input type="number" id="difficulty" name="difficulty" class="form-control" placeholder="Enter difficulty level" min="1" max="10" required>
+                        <select id="difficulty" name="difficulty" class="form-control" required>
+                            <option value="" disabled selected>Select difficulty</option>
+                            @for ($i = 1; $i <= 10; $i++)
+                                <option value="{{ $i }}"> {{$i}}</option>
+                            @endfor
+                        </select>
                     </div>
                     <div class="col-md-6">
                         <label><b>Vehicle:</b></label><br>

@@ -132,9 +132,14 @@
                                     @if(isset($followedroutes))
                                         @foreach ( $followedroutes as $route )
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
-                                                <span><i class="bi bi-map"></i> {{$route['title']}}</span>
-                                            </li>
+                                                <form action="{{ route('selected.route') }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="route_id" value="{{ $route['id'] }}">
+                                                    <button type="submit" class="btn" style="border: none; background: none;">
+                                                        <i class="bi bi-map"></i> {{$route['title']}}
+                                                    </button>
+                                                </form>
+                                            </li>   
                                         @endforeach
                                     @endif
                                     <!-- Añadir más rutas aquí -->
@@ -157,9 +162,13 @@
                                     @if(isset($createdroutes))
                                         @foreach ( $createdroutes as $route )
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
-                                                <span><i class="bi bi-map"></i> {{$route['title']}}</span>
-                                            </li>
+                                                <form action="{{ route('edit-route') }}" method="GET" class="d-inline">
+                                                    <input type="hidden" name="route_id" value="{{ $route['id'] }}">
+                                                    <button type="submit" class="btn" style="border: none; background: none;">
+                                                        <i class="bi bi-map"></i> {{$route['title']}}
+                                                    </button>
+                                                </form>
+                                            </li>   
                                         @endforeach
                                     @endif
                                     <!-- Añadir más rutas aquí -->
