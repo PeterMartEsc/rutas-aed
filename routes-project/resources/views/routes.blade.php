@@ -26,6 +26,7 @@
 
         .selected-image{
             width: 500px;
+            height: 350px;
         }
     </style>
 </head>
@@ -88,7 +89,7 @@
                                             @csrf
                                             <input type="hidden" name="route_id" value="{{ $route['id'] }}">
                                             <button type="submit" class="btn" style="border: none; background: none;">
-                                                <img src="" alt="{{$route['id']}}"> {{$route['title']}}
+                                                <i class="bi bi-map me-2"></i> {{$route['title']}}
                                             </button>
                                         </form>
                                     </li>
@@ -115,8 +116,19 @@
                         <div class="card-body overflow-auto">
                             <ul class="list-group">
                                 @if(isset($selectedroute))
-                                    <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
-                                    alt="{{$selectedroute['id']}}" class="selected-image mx-auto">
+                                    @php
+                                        $imagePath = 'images/' . $selectedroute['title'] . '/' . $selectedroute['title'] . '.png';
+                                    @endphp
+
+                                    @if (file_exists(public_path($imagePath))) 
+                                        <img src="{{ asset($imagePath) }}" alt="Img {{$selectedroute['title']}}" class="selected-image mx-auto">
+                                    @else
+                                        <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
+                                            alt="{{$selectedroute['title']}}" class="selected-image mx-auto">
+                                    @endif
+
+                            
+                                    
                                     <div class="row m-auto">
                                         <div class="col-6 p-3">
                                                 <label for="where">
@@ -160,7 +172,7 @@
                                         </div>
 
                                         <div class="col-6 p-3">
-                                            <p>{{$selectedroute['title']}}</p>
+                                            <h5 class="fw-bold">{{$selectedroute['title']}}</h5>
                                             <p>{{$selectedroute['description']}}</p>
 
                                         </div>
@@ -203,8 +215,16 @@
                         <div class="card-body overflow-auto">
                             <ul class="list-group">
                                 @if(isset($nearestRouteByUser))
-                                    <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
-                                    alt="{{$nearestRouteByUser['id']}}" class="selected-image mx-auto">
+                                    @php
+                                        $imagePath = 'images/' . $nearestRouteByUser['title'] . '/' . $nearestRouteByUser['title'] . '.png';
+                                    @endphp
+
+                                    @if (file_exists(public_path($imagePath))) 
+                                        <img src="{{ asset($imagePath) }}" alt="Img {{$nearestRouteByUser['title']}}" class="selected-image mx-auto">
+                                    @else
+                                        <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
+                                            alt="{{$nearestRouteByUser['title']}}" class="selected-image mx-auto">
+                                    @endif
                                     <div class="row m-auto">
                                         <div class="col-6 p-3">
                                                 <label for="where">
@@ -248,7 +268,7 @@
                                         </div>
 
                                         <div class="col-6 p-3">
-                                            <p>{{$nearestRouteByUser['title']}}</p>
+                                            <h5 class="fw-bold">{{$nearestRouteByUser['title']}}</h5>
                                             <p>{{$nearestRouteByUser['description']}}</p>
 
                                         </div>
@@ -291,8 +311,16 @@
                         <div class="card-body overflow-auto">
                             <ul class="list-group">
                                 @if(isset($nearestRouteGlobally))
+                                @php
+                                    $imagePath = 'images/' . $nearestRouteGlobally['title'] . '/' . $nearestRouteGlobally['title'] . '.png';
+                                @endphp
+
+                                @if (file_exists(public_path($imagePath))) 
+                                    <img src="{{ asset($imagePath) }}" alt="Img {{$nearestRouteGlobally['title']}}" class="selected-image mx-auto">
+                                @else
                                     <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
-                                    alt="{{$nearestRouteGlobally['id']}}" class="selected-image mx-auto">
+                                        alt="{{$nearestRouteGlobally['title']}}" class="selected-image mx-auto">
+                                @endif
                                     <div class="row m-auto">
                                         <div class="col-6 p-3">
                                                 <label for="where">
@@ -336,7 +364,7 @@
                                         </div>
 
                                         <div class="col-6 p-3">
-                                            <p>{{$nearestRouteGlobally['title']}}</p>
+                                            <h5 class="fw-bold">{{$nearestRouteGlobally['title']}}</h5>
                                             <p>{{$nearestRouteGlobally['description']}}</p>
 
                                         </div>

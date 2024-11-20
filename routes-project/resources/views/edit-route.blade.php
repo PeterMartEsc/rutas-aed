@@ -128,13 +128,12 @@
                         {{$route['description']}} 
                         </textarea>
                     </div>
-                    <div class="col-md-6 text-center mb-3">
+                    <div class="col-12 text-center mb-3">
                         <input type="hidden" name="route_id" value="{{$route['id']}}">
                         <button type="submit" class="btn btn-success w-100">Edit Route</button>
-                        
                     </div>
                 </form>
-                    <div class="col-md-6 text-center mb-3">
+                    <div class="col-12 text-center mt-3 mb-3">
                         <form action="{{route('delete-route')}}" method="POST">
                             @csrf
                             @method('DELETE')

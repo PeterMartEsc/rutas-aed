@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Route;
 use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class RouteController extends Controller{
     protected $routeRepository;
@@ -65,6 +67,10 @@ class RouteController extends Controller{
         $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
 
         $routeIsInMyFollowing = false;
+
+        if($selectedroute == null){
+            return view('routes', compact('selectedroute', 'routes', 'followedroutes', 'routeIsInMyFollowing'));
+        }
 
         foreach($followedroutes as $followedRoute){ 
             if($followedRoute['id'] == $selectedroute['id']){
@@ -148,6 +154,10 @@ class RouteController extends Controller{
             'user_id' => $user_id
         ]));
 
+        $route = $this->routeRepository->findByUniqueKey($title);
+
+        $this->uploadRouteMainImage($route, $request);    
+
         return redirect()->route('routes');
     }
 
@@ -202,6 +212,10 @@ class RouteController extends Controller{
 
         $route = $this->routeRepository->update($routeUpdate);
 
+
+        $route = $this->routeRepository->findById($id);
+        $this->uploadRouteMainImage($route, $request);    
+
         $message = "Route successfully updated";
 
         if (!$route){
@@ -237,4 +251,57 @@ class RouteController extends Controller{
     }
 
 
+    public function uploadRouteMainImage(Route $route, Request $request) {
+        if(!$route) {
+            return false;
+        }
+
+        $directoryName = $route->title;
+        $path = public_path('images/' . $directoryName);
+
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $image = $request->file('image');
+            $imageName = $route->title . '.' . $image->getClientOriginalExtension();
+            $image->move($path, $imageName);
+
+            return true;
+        }
+        
+    
+        return false;
+    }
+    
+
+    
+
+    public function uploadImagesAfterFinished(Route $route, Request $request){
+        if(!$route){
+            return false;
+        } 
+        
+        if ($route->date_route > now()){
+            return false;
+        }
+
+        $directoryName = $route->title;
+        $path = public_path('images/' . $directoryName);
+
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $image = $request->file('image');
+            $user = Auth::user();
+            $imageName = $user->name . '_'. $user->id  . '_' .$route->title. '_'. $image->getClientOriginalName();
+            $image->move($path, $imageName);
+            return true;
+        }
+
+        return false;
+    }
 }
