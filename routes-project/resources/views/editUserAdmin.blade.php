@@ -30,7 +30,7 @@
         }
 
         .edit-card2{
-            height: 180px;
+            height: 340px;
             width: 100vh;
             margin: auto;
         }
@@ -40,16 +40,26 @@
     <nav class="navbar bg-success navbar-expand-md nav-custom">
         <div class="container-fluid ms-3 me-3">
             <a class="navbar-brand text-light" href="{{ route('routes') }}">Rutas-AED</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-outline-light">
-                    <!-- not on use, allows app to translate text to the language selected in the aplication -->
-                    {{ __('Log Out') }}
-                </button>
-            </form>
+
+            <div id="navbarSupportedContent" class="collapse navbar-collapse">
+                <ul class="d-flex align-items-start navbar-nav me-auto mb-2 mb-lg-0 ms-5">
+                    <li class="list-group-item m-1 nav-item"><a class="ms-3 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('dashboard') }}"><i class="bi bi-house-door-fill"></i> Profile</a> </li>
+                    <li class="list-group-item m-1 nav-item"><a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-light me-1 fw-bold" href="{{ route('routes') }}"><i class="bi bi-tree-fill"></i> Routes</a></li>
+                    <li class="list-group-item m-1 nav-item"><a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-dark me-1 fw-bold"  href="{{ route('create-route') }}"><i class="bi bi-map-fill"></i></i> Create Routes</a></li>
+                </ul>
+                <form action="{{ route('logout') }}" method="POST" class="d-inline ms-5">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light d-flex ms-5">
+                        {{ __('Log Out') }}
+                    </button>
+                </form>
+            </div>
         </div>
     </nav>
 </header>
@@ -87,7 +97,8 @@
                 <div class="col-12 pb-4">
                     <div class="card edit-card2 p-3 bg-light">
                         <h5>Edit personal data</h5><br/>
-                        <form action="" method="POST">
+                        <form action="{{ route('admin.update.user')}}" method="POST">
+                            <input type="hidden" name="name" id="name" value="{{$selecteduser->id}}">
                             <label for="name" class="pe-2">
                                 <b>Name:</b>
                                 <input type="text" name="name" id="name"
@@ -103,44 +114,37 @@
                                         value="{{ $selecteduser->surname}}"
                                     @endif
                                 >
-                            </label><br/>
-                            <button type="submit" class="btn btn-success my-3">
-                                Update
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12 pb-4">
-                    <div class="card edit-card2 p-3 bg-light">
-                        <h5>Edit phone number</h5><br/>
-                        <form action="" method="POST">
-                            <label for="surname">
+                            </label><br/><br/>
+                            <label for="phone-number">
                                 <b>Phone number:</b>
-                                <input type="text" name="surname" id="surname"
+                                <input type="text" name="phone-number" id="phone-number"
                                 @if (isset($selecteduser))
                                     value="{{ $selecteduser->phone}}"
                                 @endif
                                 >
-                            </label><br/>
-                            <button type="submit" class="btn btn-success my-3">
-                                Update
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="card edit-card2 p-3 bg-light">
-                        <h5>Edit password</h5><br/>
-                        <form action="" method="POST">
+                            </label><br/><br/>
                             <label for="password">
                                 <b>New password:</b>
-                                <input type="text" name="password" id="password">
+                                <input type="password" id="password" name="password" minlength="8">
+                            </label><br/><br/>
+                            <label for="rol">
+                                <b>Rol:</b>
+                                <select id="role" name="role">
+                                    <option value="1"
+                                    @if (isset($selecteduser))
+                                        @if ($selecteduser->rol == 1)
+                                            selected
+                                        @endif
+                                    @endif
+                                    >Admin</option>
+                                    <option value="2"
+                                    @if (isset($selecteduser))
+                                        @if ($selecteduser->rol == 2)
+                                            selected
+                                        @endif
+                                    @endif
+                                    >User</option>
+                                </select>
                             </label><br/>
                             <button type="submit" class="btn btn-success my-3">
                                 Update

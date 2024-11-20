@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -44,33 +45,28 @@ class AdminController extends Controller
     /**
       * Function to search for a specific user to edit it
       */
-    public function searchUserToEdit($id, $email){
-        $user = $this->userRepository->findById($id);
+    public function searchUserToEdit($id){
 
-        if($user && $user->email === $email){
-            return view('editUser', compact('user'));
-        }
+        $selecteduser = $this->userRepository->findById($id);
+        //dd($selecteduser);
+        return view('editUserAdmin', compact('selecteduser'));
     }
 
     /**
      * Function to edit a user
      */
-    public function editUser(Request $request, $id){
+    public function editUser(Request $request){
+        $user = $this->userRepository->findById($request->id);
+
         $name = $request->input('name');
         $surname = $request->input('surname');
-        $email = $request->input('email');
+        //$email = $request->input('email');
         $phone = $request->input('phone');
-        $password = $request->input('password');
+        if($request->password){
+            $unhashedpassword = $request->input('password');
+            $password = Hash::make($unhashedpassword);
+        }
         $role = $request->input('role');
-        $user = $this->userRepository->update(new User([
-            'name' => $name,
-            'surname' => $surname,
-            'email' => $email,
-            'phone' => $phone,
-            'password' => $password,
-            'id_role' => $role,
-            'id_image' => null, // TODO: add image upload feature
-        ]), $id);
 
         return redirect()->route('admin.manageUsers')->with('message', 'User updated successfully');
     }

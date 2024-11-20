@@ -28,7 +28,9 @@ Route::get('/', function () {
  */
 Route::middleware(['role:Admin'])->group(function () {
     Route::get('/admin/profile', [RouteController::class, 'index'])->name('dashboard');
-    Route::get('/admin/{user}/edit', [AdminController::class, 'editUser'])->name('admin.edit.user');
+    Route::get('/admin/{user}/edit', [AdminController::class, 'searchUserToEdit'])->name('admin.edit.user');
+    Route::post('/admin/profile', [AdminController::class, 'editUser'])->name('admin.update.user');
+
 });
 
 /**
