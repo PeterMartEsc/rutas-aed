@@ -71,7 +71,7 @@
 
             <div class="col-12 col-md-6">
                 <div class="info d-flex align-items-center">
-                    <img class="p-5" src="example.png" alt="pfp"/>
+                    <!--<img class="p-5" src="example.png" alt="ppp"/>-->
                     <p class="pe-5"><b>Name: </b>{{auth()->user()->name}}</p>
                     <p class="pe-5"><b>Surname: </b> {{auth()->user()->surname}}</p>
                 </div>
@@ -97,7 +97,7 @@
             </div>
 
             <div class="col-12 mb-md-3 col-md-6">
-                
+
 
                 <div class="row h-50 d-flex align-items-center borde">
                     <!-- Contenedor Gestion Usuarios -->

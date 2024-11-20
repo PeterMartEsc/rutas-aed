@@ -78,10 +78,6 @@
                         <label for="surname" class="form-label"><b>Surname:</b></label>
                         <input type="text" id="surname" name="surname" class="form-control" placeholder="Enter your surname" required>
                     </div>
-                    <div class="col-12">
-                        <label for="image" class="form-label"><b>Change your pfp:</b></label>
-                        <input type="file" id="image" name="image" class="form-control" accept="image/png" >
-                    </div>
                     <div class="col-md-6">
                         <label for="phone" class="form-label"><b>Phone:</b></label>
                         <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone number" required>
