@@ -26,6 +26,7 @@
 
         .selected-image{
             width: 500px;
+            height: 350px;
         }
     </style>
 </head>
@@ -171,7 +172,7 @@
                                         </div>
 
                                         <div class="col-6 p-3">
-                                            <p>{{$selectedroute['title']}}</p>
+                                            <h5 class="fw-bold">{{$selectedroute['title']}}</h5>
                                             <p>{{$selectedroute['description']}}</p>
 
                                         </div>
@@ -267,7 +268,7 @@
                                         </div>
 
                                         <div class="col-6 p-3">
-                                            <p>{{$nearestRouteByUser['title']}}</p>
+                                            <h5 class="fw-bold">{{$nearestRouteByUser['title']}}</h5>
                                             <p>{{$nearestRouteByUser['description']}}</p>
 
                                         </div>
@@ -363,7 +364,7 @@
                                         </div>
 
                                         <div class="col-6 p-3">
-                                            <p>{{$nearestRouteGlobally['title']}}</p>
+                                            <h5 class="fw-bold">{{$nearestRouteGlobally['title']}}</h5>
                                             <p>{{$nearestRouteGlobally['description']}}</p>
 
                                         </div>

@@ -260,7 +260,7 @@ class RouteController extends Controller{
         $path = public_path('images/' . $directoryName);
 
         if (!file_exists($path)) {
-            mkdir($path, 0777, true);
+            mkdir($path, 0755, true);
         }
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -279,19 +279,27 @@ class RouteController extends Controller{
     
 
     public function uploadImagesAfterFinished(Route $route, Request $request){
-        if($route && $route->date_route < now()){
-            $directoryName = $route->title . '_' . Carbon::parse($route->date_route)->format('Y-m-d');
-            $path = 'routes/images/' . $directoryName;
+        if(!$route){
+            return false;
+        } 
+        
+        if ($route->date_route > now()){
+            return false;
+        }
 
-            Storage::makeDirectory($path);
+        $directoryName = $route->title;
+        $path = public_path('images/' . $directoryName);
 
-            if (request()->hasFile('image') && request()->file('image')->isValid()) {
-                $image = $request->file('image');
-                $imageName = $route->title . $image->getClientOriginalExtension();
-                $image->storeAs($path, $imageName);
-                return Storage::url($path . '/' . $imageName);
-            }
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
 
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $image = $request->file('image');
+            $user = Auth::user();
+            $imageName = $user->name . '_'. $user->id  . '_' .$route->title. '_'. $image->getClientOriginalName();
+            $image->move($path, $imageName);
+            return true;
         }
 
         return false;
