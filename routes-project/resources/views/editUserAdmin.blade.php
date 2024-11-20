@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="author" content="Nabil Leon Alvarez <@nalleon>">
     <meta name="author" content="Pedro Martin Escuela <@PeterMartEsc>">
-    <title>Edit Route</title>
+    <title>Edit User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
@@ -25,8 +25,8 @@
         <nav class="navbar bg-success navbar-expand-md nav-custom">
             <div class="container-fluid ms-3 me-3">
                 <a class="navbar-brand text-light" href="{{ route('routes') }}">Rutas-AED</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -102,7 +102,7 @@
                                 >User</option>
                         </select>
                     </div>
-                        
+
                     <div class="col-12 text-center mb-3">
                         <input type="hidden" name="user_id" value="{{$selecteduser['id']}}">
                         <button type="submit" class="btn btn-success w-100">Edit Profile</button>

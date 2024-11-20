@@ -7,6 +7,7 @@ use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class RouteController extends Controller{
     protected $routeRepository;
@@ -38,6 +39,23 @@ class RouteController extends Controller{
         return view('profile', compact('nextroute', 'followedroutes', 'createdroutes'));
     }
 
+    public function indexUpdateData(Request $request){
+        $user = Auth::user();
+        $role = $user->role->name ?? null;
+
+        if($role == 'Admin'){
+            $users = $this->userRepository->findAll();
+            $routes = $this->routeRepository->findAll();
+            return view('profileAdmin', compact('users', 'routes'));
+        }
+
+        $nextroute = $this->routeRepository->getNearestDateRouteByUser(auth()->user()->id);
+        $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
+        $createdroutes = $this->routeRepository->findRoutesCreatedByUserId(auth()->user()->id);
+
+        return view('profile', compact('nextroute', 'followedroutes', 'createdroutes'));
+    }
+
     public function prepareRoutes(){
         $routes = $this->routeRepository->findAll();
         $nearestRouteByUser = $this->routeRepository->getNearestDateRouteByUser(auth()->user()->id);
@@ -45,21 +63,21 @@ class RouteController extends Controller{
 
         $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
         $routeIsInMyFollowing = false;
-        
+
         foreach($followedroutes as $followedRoute){
             if($followedRoute['id'] == $nearestRouteByUser['id']){
                 $routeIsInMyFollowing = true;
                 break;
             }
         }
-        
+
         return view('routes', compact('routes', 'nearestRouteByUser', 'nearestRouteGlobally', 'routeIsInMyFollowing'));
     }
 
 
     public function selectRoute(Request $request){
         $selectedid = $request->route_id;
-        $selectedroute = $this->routeRepository->findById($selectedid);        
+        $selectedroute = $this->routeRepository->findById($selectedid);
 
         $routes = $this->routeRepository->findAll();
         $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
@@ -70,7 +88,7 @@ class RouteController extends Controller{
             return view('routes', compact('selectedroute', 'routes', 'followedroutes', 'routeIsInMyFollowing'));
         }
 
-        foreach($followedroutes as $followedRoute){ 
+        foreach($followedroutes as $followedRoute){
             if($followedRoute['id'] == $selectedroute['id']){
                 $routeIsInMyFollowing = true;
                 break;
@@ -97,7 +115,7 @@ class RouteController extends Controller{
         $routeId = $request->input('routeId');
 
         $isSigned = $this->routeRepository->signOutForRoute($userId, $routeId);
-        
+
         if (!$isSigned){
             return redirect()->route('routes');
         }
@@ -109,7 +127,7 @@ class RouteController extends Controller{
      * Show the search form and results.
      */
     public function search(Request $request){
-        $filter = $request->input('filter', ''); 
+        $filter = $request->input('filter', '');
         $routes = [];
 
         if (!empty($filter)) {
@@ -154,7 +172,7 @@ class RouteController extends Controller{
 
         $route = $this->routeRepository->findByUniqueKey($title);
 
-        $this->uploadRouteMainImage($route, $request);    
+        $this->uploadRouteMainImage($route, $request);
 
         return redirect()->route('routes');
     }
@@ -212,7 +230,7 @@ class RouteController extends Controller{
 
 
         $route = $this->routeRepository->findById($id);
-        $this->uploadRouteMainImage($route, $request);    
+        $this->uploadRouteMainImage($route, $request);
 
         $message = "Route successfully updated";
 
@@ -268,19 +286,19 @@ class RouteController extends Controller{
 
             return true;
         }
-        
-    
+
+
         return false;
     }
-    
 
-    
+
+
 
     public function uploadImagesAfterFinished(Route $route, Request $request){
         if(!$route){
             return false;
-        } 
-        
+        }
+
         if ($route->date_route > now()){
             return false;
         }
