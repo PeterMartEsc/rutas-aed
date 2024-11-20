@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id(); 
             $table->foreignId('user_id')->constrained('users', 'id');
             $table->foreignId('route_id')->constrained('routes', 'id');
-
             $table->unique(['user_id', 'route_id']);
         });
     }

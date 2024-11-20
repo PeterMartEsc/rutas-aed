@@ -18,19 +18,17 @@ return new class extends Migration
             $table->id();
             $table->string('title')->unique();
             $table->string('location');
-            $table->integer('distance')->nullable();
+            $table->integer('distance');
             $table->timestamp('date_route')->useCurrent();
-            $table->integer('difficulty')->nullable();
+            $table->integer('difficulty');
             $table->boolean('pets_allowed')->default(false);
             $table->boolean('vehicle_needed')->default(false);
-            $table->string('description')->nullable();
+            $table->string('description');
             $table->timestamps();
-            $table->foreignId('user_id')->constrained('users', 'id');
+            $table->foreignId('user_id')->nullable()->constrained('users', 'id')
+            ->nullOnDelete();
         });
-
-
-
-    }
+        }
 
     /**
      * Reverse the migrations.

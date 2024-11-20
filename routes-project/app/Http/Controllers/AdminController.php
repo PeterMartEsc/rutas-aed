@@ -77,7 +77,16 @@ class AdminController extends Controller
      * Function to delete a user
      * TODO: if user has routes published the fk on routes must change to null before deleting
      */
-    public function deleteUser($id){
+    public function deleteUser(Request $request){
+        
+        $id=3;
+        $hasRoutes = $this->routeRepository->findRoutesCreatedByUserId($id);
+
+        if (count($hasRoutes) > 0){
+
+            $message = 'User has routes and therefore cannot be deleted';
+        }
+
         $deleted = $this->userRepository->delete($id);
 
         $message = "Something went wrong while deleting the user";
@@ -86,7 +95,7 @@ class AdminController extends Controller
             $message = "User successfully deleted";
         }
 
-        return redirect()->route('admin.profile')->with('message', $message);;
+        return redirect()->route('admin.profile')->with('message', $message);
     }
 
     /**
