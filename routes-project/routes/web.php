@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RouteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,12 +36,14 @@ Route::middleware(['role:Admin'])->group(function () {
 Route::middleware(['role:User'])->group(function () {
     Route::get('/user/profile', [UserController::class, 'index'])->name('user-dashboard');
     Route::get('/user/profile/edit', [UserController::class, 'indexEditProfile'])->name('edit.profile');
-    Route::get('/routes', [UserController::class, 'prepareRoutes'])->name('routes');
-    Route::any('/routes/selected', [UserController::class, 'selectRoute'])->name('selected.route');
+    Route::get('/routes', [RouteController::class, 'prepareRoutes'])->name('routes');
+    Route::any('/routes/selected', [RouteController::class, 'selectRoute'])->name('selected.route');
     Route::get('/route/{routeId}/upload-images', [ImageController::class, 'index'])->name('upload-images.route');
-    Route::post('/route/selected/signin', [UserController::class, 'signInForRoute'])->name('sign-route');
-    Route::post('/route/selected/signout', [UserController::class, 'signOutForRoute'])->name('signout-route');
-    Route::get('/routes/search', [UserController::class, 'search'])->name('routes.search');
+    Route::post('/route/selected/signin', [RouteController::class, 'signInForRoute'])->name('sign-route');
+    Route::post('/route/selected/signout', [RouteController::class, 'signOutForRoute'])->name('signout-route');
+    Route::get('/routes/search', [RouteController::class, 'search'])->name('routes.search');
+    Route::get('/route/{routeId}/edit', [RouteController::class, 'editRoute'])->name('edit.route');
+
 });
 
 
