@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 /**
  * @author Nabil Leon Alvarez <@nalleon>
@@ -21,11 +20,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $password
  * @property Route[] $routes
  * @property Role $role
- * @property Image $image
  */
 class User extends Authenticatable
 {
-    //use HasFactory;
+    use HasFactory;
 
     public $timestamps = false;
     /**
@@ -41,13 +39,7 @@ class User extends Authenticatable
         return $this->hasMany(Route::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function routesUsers(){
-        return $this->belongsToMany(Route::class, 'users_routes', 'route_id', 'user_id');
-    }
-
+   
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -56,11 +48,4 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'id_role');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function image()
-    {
-        return $this->belongsTo(Image::class, 'id_image');
-    }
 }

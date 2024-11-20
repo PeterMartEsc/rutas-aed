@@ -8,15 +8,22 @@ use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+/**
+ * @author Nabil Leon Alvarez <@nalleon>
+ * @author Pedro Martin Escuela <@PeterMartEsc>
+ */
 class AdminController extends Controller
 {
 
+    /**
+     * Properties
+     */
     protected $routeRepository;
     protected $userRepository;
-    protected $imageRepository;
 
-
+    /**
+     * Default constructor
+     */
     public function __construct(){
         $this->middleware('auth');
         $this->middleware('role:Admin');
@@ -25,28 +32,10 @@ class AdminController extends Controller
         $this->userRepository = new UserRepository();
     }
 
-    public function index(){
-        $users = $this->userRepository->findAll();
-        $routes = $this->routeRepository->findAll();
-        $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
-
-        return view('profileAdmin', compact('users', 'routes', 'followedroutes'));
-    }
-
-
-
-
-    /**
-      * Function to find all users in the database
-      */
-    public function findAllUsers(){
-        $users = $this->userRepository->findAll();
-        return view('profileAdmin', compact('users'));
-    }
-
-
     /**
       * Function to search for a specific user to edit it
+      * @param $id id of the user to edit
+      * @return view with the user data to be edited
       */
     public function searchUserToEdit($id){
         $selecteduser = $this->userRepository->findById($id);
@@ -56,6 +45,7 @@ class AdminController extends Controller
 
     /**
      * Function to edit a user
+     * @return redirect to dashboard/home with message
      */
     public function editUser(Request $request){
 
@@ -85,6 +75,7 @@ class AdminController extends Controller
 
     /**
      * Function to delete a user
+     * @return redirect to dashboard/home with message
      */
     public function deleteUser(Request $request){
 

@@ -9,11 +9,21 @@ use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+/**
+ * @author Nabil Leon Alvarez <@nalleon>
+ * @author Pedro Martin Escuela <@PeterMartEsc>
+ */
 class RouteController extends Controller{
+
+    /**
+     *  Properties
+     */
     protected $routeRepository;
     protected $userRepository;
 
+    /**
+     * Default constructor
+     */
     public function __construct(){
         $this->middleware('auth');
         $this->middleware('role:User');
@@ -22,6 +32,11 @@ class RouteController extends Controller{
         $this->userRepository = new UserRepository();
         $this->routeRepository = new RouteRepository();
     }
+
+    /**
+     * Function to show the home/dashboard of an user
+     * @return view based on the user's role
+     */
 
     public function index(){
         $user = Auth::user();
@@ -41,29 +56,11 @@ class RouteController extends Controller{
         return view('profile', compact('nextroute', 'followedroutes', 'createdroutes'));
     }
 
-    public function indexUpdateData(Request $request){
-        $userUpdate = new User();
-        $userUpdate->id = auth()->user()->id;
-        $userUpdate->name = $request->input('name');
-        $userUpdate->surname = $request->input('surname');
-        $userUpdate->email = $request->input('email');
-        $userUpdate->phone = $request->input('phone');
-        $userUpdate->id_role = $request->input('id_role');
 
-        if(!empty($request->input('password'))){
-            $unhashedpassword = $request->input('password');
-            $password = Hash::make($unhashedpassword);
-            $userUpdate->password = $password;
-        } else {
-            $userAux = $this->userRepository->findById($userUpdate->id);
-            $userUpdate->password = $userAux->password;
-        }
-
-        $this->userRepository->update($userUpdate);
-
-        return redirect()->route('dashboard')->with('message', 'User updated successfully');
-    }
-
+    /**
+     * Function to prepare the data to show of all routes
+     * @return view to routes with all routes, nearest route globally and the nearest route for the user
+     */
     public function prepareRoutes(){
         $routes = $this->routeRepository->findAll();
         $nearestRouteByUser = $this->routeRepository->getNearestDateRouteByUser(auth()->user()->id);
@@ -82,7 +79,11 @@ class RouteController extends Controller{
         return view('routes', compact('routes', 'nearestRouteByUser', 'nearestRouteGlobally', 'routeIsInMyFollowing'));
     }
 
-
+    /**
+     * Function to select a route to show its details
+     * @param Request of the route
+     * @return view routes with the details of the selected route
+     */
     public function selectRoute(Request $request){
         $selectedid = $request->route_id;
         $selectedroute = $this->routeRepository->findById($selectedid);
@@ -106,6 +107,11 @@ class RouteController extends Controller{
         return view('routes', compact('selectedroute', 'routes', 'followedroutes', 'routeIsInMyFollowing'));
     }
 
+    /**
+     * Function to sign in for a route
+     * @param Request of the route 
+     * @return view routes
+     */
     public function signInForRoute(Request $request){
         $userId = $request->input('userId');
         $routeId = $request->input('routeId');
@@ -118,6 +124,12 @@ class RouteController extends Controller{
         return redirect()->route('routes');
 
     }
+
+    /**
+     * Function to sign out of a route
+     * @param Request of the route 
+     * @return view routes
+     */
     public function signOutForRoute(Request $request){
         $userId = $request->input('userId');
         $routeId = $request->input('routeId');
@@ -133,6 +145,8 @@ class RouteController extends Controller{
 
     /**
      * Show the search form and results.
+     * @param Request $request
+     * @return view routes with the filtered routes
      */
     public function search(Request $request){
         $filter = $request->input('filter', '');
@@ -147,13 +161,18 @@ class RouteController extends Controller{
         return view('routes', compact('routes', 'filter'));
     }
 
-
+    /**
+     * Function to show the create route form 
+     * @return view create-route 
+     */
     public function createRouteView(){
         return view('create-route');
     }
 
     /**
      * Function to create a route
+     * @param Request $request
+     * @return redirect to routes page with success message if the route was created successfully, otherwise, redirects to the create route view.
      */
     public function createRoute(Request $request){
         $title = $request->input('title');
@@ -189,6 +208,8 @@ class RouteController extends Controller{
 
     /**
      * Function to search for a route to edit
+     * @param Request $request
+     * @return view edit-route with the route to edit
      */
     public function searchRouteToEdit(Request $request){
         $id = $request->input('route_id');
@@ -197,11 +218,13 @@ class RouteController extends Controller{
         if($route){
             return view('edit-route', compact('route'));
         }
-        return redirect()->route('index');
+        return redirect()->route('dashboard');
     }
 
     /**
      * Function to edit/update a route
+     * @param Request $request
+     * @return redirect to routes page with success message if the route was updated successfully, otherwise, redirects to the edit route view.
      */
     public function editRoute(Request $request){
         $id = $request->input('route_id');
@@ -256,6 +279,8 @@ class RouteController extends Controller{
 
     /**
      * Function to delete a route
+     * @param Request $request
+     * @return redirect to routes page with success message if the route was deleted successfully, otherwise, redirects to the dashboard.
      */
     public function deleteRoute(Request $request){
         $id = $request->input('route_id');
@@ -277,7 +302,12 @@ class RouteController extends Controller{
         return redirect()->route('routes')->with('message', $message);
     }
 
-
+    /**
+     * Function to upload the route main image 
+     * @param Route $route route to save an image for
+     * @param Request $request request with image file
+     * @return bool true if image was uploaded successfully, false otherwise  (if route is null or request does not contain image file)
+     */
     public function uploadRouteMainImage(Route $route, Request $request) {
         if(!$route) {
             return false;
@@ -298,13 +328,17 @@ class RouteController extends Controller{
             return true;
         }
 
-
         return false;
     }
 
 
 
-
+    /**
+     * Function to upload a image after a route has been finished
+     * @param Route $route to save an image for
+     * @param Request $request with the image file
+     * @return bool true if image was uploaded successfully, false otherwise  (if route is null or request does not contain image file)
+     */
     public function uploadImagesAfterFinished(Route $route, Request $request){
         if(!$route){
             return false;
