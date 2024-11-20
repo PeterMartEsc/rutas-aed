@@ -115,8 +115,19 @@
                         <div class="card-body overflow-auto">
                             <ul class="list-group">
                                 @if(isset($selectedroute))
-                                    <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
-                                    alt="{{$selectedroute['id']}}" class="selected-image mx-auto">
+                                    @php
+                                        $imagePath = 'images/' . $selectedroute['title'] . '/' . $selectedroute['title'] . '.png';
+                                    @endphp
+
+                                    @if (file_exists(public_path($imagePath))) 
+                                        <img src="{{ asset($imagePath) }}" alt="Img {{$selectedroute['title']}}" class="selected-image mx-auto">
+                                    @else
+                                        <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
+                                            alt="{{$selectedroute['title']}}" class="selected-image mx-auto">
+                                    @endif
+
+                            
+                                    
                                     <div class="row m-auto">
                                         <div class="col-6 p-3">
                                                 <label for="where">
@@ -203,8 +214,16 @@
                         <div class="card-body overflow-auto">
                             <ul class="list-group">
                                 @if(isset($nearestRouteByUser))
-                                    <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
-                                    alt="{{$nearestRouteByUser['id']}}" class="selected-image mx-auto">
+                                    @php
+                                        $imagePath = 'images/' . $nearestRouteByUser['title'] . '/' . $nearestRouteByUser['title'] . '.png';
+                                    @endphp
+
+                                    @if (file_exists(public_path($imagePath))) 
+                                        <img src="{{ asset($imagePath) }}" alt="Img {{$nearestRouteByUser['title']}}" class="selected-image mx-auto">
+                                    @else
+                                        <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
+                                            alt="{{$nearestRouteByUser['title']}}" class="selected-image mx-auto">
+                                    @endif
                                     <div class="row m-auto">
                                         <div class="col-6 p-3">
                                                 <label for="where">
@@ -291,8 +310,16 @@
                         <div class="card-body overflow-auto">
                             <ul class="list-group">
                                 @if(isset($nearestRouteGlobally))
+                                @php
+                                    $imagePath = 'images/' . $nearestRouteGlobally['title'] . '/' . $nearestRouteGlobally['title'] . '.png';
+                                @endphp
+
+                                @if (file_exists(public_path($imagePath))) 
+                                    <img src="{{ asset($imagePath) }}" alt="Img {{$nearestRouteGlobally['title']}}" class="selected-image mx-auto">
+                                @else
                                     <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
-                                    alt="{{$nearestRouteGlobally['id']}}" class="selected-image mx-auto">
+                                        alt="{{$nearestRouteGlobally['title']}}" class="selected-image mx-auto">
+                                @endif
                                     <div class="row m-auto">
                                         <div class="col-6 p-3">
                                                 <label for="where">

@@ -22,8 +22,6 @@ class ImageController extends Controller
     }
 
 
-
-
     public function uploadImages($routeId, Request $request){
         $route = $this->routesRepository->findById($routeId);
 
