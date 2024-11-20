@@ -34,8 +34,8 @@
     <nav class="navbar bg-success navbar-expand-md nav-custom">
         <div class="container-fluid ms-3 me-3">
             <a class="navbar-brand text-light" href="{{ route('routes') }}">Rutas-AED</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
 
                 <span class="navbar-toggler-icon"></span>
@@ -58,22 +58,22 @@
     </nav>
 </header>
 <body>
-    
+
 
     <!--Contenedor principal -->
     <div class="container h-100 profile-container">
 
         <div class="row">
             <!-- Lista de rutas -->
-            <div class="col-3 p-2 search">
+            <div class="col-md-3 col-12 p-2 search">
                 <div class="card routes-list">
                     <div class="card-header section-title">
                         <form class="d-flex" action="{{ route('routes.search') }}" method="GET" role="search">
-                            <input 
-                                class="form-control me-2" 
-                                type="search" 
-                                name="filter" 
-                                placeholder="Search" 
+                            <input
+                                class="form-control me-2"
+                                type="search"
+                                name="filter"
+                                placeholder="Search"
                                 aria-label="Search" >
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
@@ -103,7 +103,7 @@
             </div>
 
             <!-- Ruta seleccionada -->
-            <div class="col-9 p-2 selected-route">
+            <div class="col-md-9 col-12 p-2 selected-route">
                 @if (isset($selectedroute))
                     <div class="card routes-list">
                         <div class="card-header section-title selected-header">
@@ -120,15 +120,15 @@
                                         $imagePath = 'images/' . $selectedroute['title'] . '/' . $selectedroute['title'] . '.png';
                                     @endphp
 
-                                    @if (file_exists(public_path($imagePath))) 
+                                    @if (file_exists(public_path($imagePath)))
                                         <img src="{{ asset($imagePath) }}" alt="Img {{$selectedroute['title']}}" class="selected-image mx-auto">
                                     @else
                                         <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
                                             alt="{{$selectedroute['title']}}" class="selected-image mx-auto">
                                     @endif
 
-                            
-                                    
+
+
                                     <div class="row m-auto">
                                         <div class="col-6 p-3">
                                                 <label for="where">
@@ -219,7 +219,7 @@
                                         $imagePath = 'images/' . $nearestRouteByUser['title'] . '/' . $nearestRouteByUser['title'] . '.png';
                                     @endphp
 
-                                    @if (file_exists(public_path($imagePath))) 
+                                    @if (file_exists(public_path($imagePath)))
                                         <img src="{{ asset($imagePath) }}" alt="Img {{$nearestRouteByUser['title']}}" class="selected-image mx-auto">
                                     @else
                                         <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"
@@ -315,7 +315,7 @@
                                     $imagePath = 'images/' . $nearestRouteGlobally['title'] . '/' . $nearestRouteGlobally['title'] . '.png';
                                 @endphp
 
-                                @if (file_exists(public_path($imagePath))) 
+                                @if (file_exists(public_path($imagePath)))
                                     <img src="{{ asset($imagePath) }}" alt="Img {{$nearestRouteGlobally['title']}}" class="selected-image mx-auto">
                                 @else
                                     <img src="https://media.traveler.es/photos/635bfa3089708c1dafda9fa3/16:9/w_2560%2Cc_limit/2AMRHB9.jpg"

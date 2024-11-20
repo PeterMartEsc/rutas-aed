@@ -76,13 +76,13 @@
                     <p class="mb-0"><b>Surname: </b>{{ auth()->user()->surname }}</p>
                 </div>
                 <br/>
-                <div class="card p-3 mt-2">
+                <div class="card p-3 mt-2 mb-4">
                     @if (session('message'))
                         <p class="text-center"><b>{{ session('message') }}</b></p>
                     @endif
 
                     <div class="options">
-                        <div class="btn-group-vertical w-100 ">
+                        <div class="btn-group-vertical w-100">
                             <a href="{{route('edit.profile')}}" class="btn btn-outline-success text-start">
                                 <i class="bi bi-person p-2 pe-3"></i>
                                 Edit personal information
@@ -95,7 +95,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-12 mb-md-3 col-md-6">
                 <div class="row mb-4">
                     <!-- Next Route -->
@@ -117,7 +116,7 @@
 
                 <div class="row">
                     <!-- Followed Routes -->
-                    <div class="col-12 mb-md-3 col-md-6">
+                    <div class="col-12 mb-md-3 col-md-6 mb-4">
                         <div class="card edit-card">
                             <div class="card-header section-title">Followed Routes</div>
                             <div class="card-body overflow-auto">
@@ -141,7 +140,7 @@
                     </div>
 
                     <!-- Routes Created -->
-                    <div class="col-12 mb-md-3 col-md-6">
+                    <div class="col-12 mb-md-3 col-md-6 mb-4">
                         <div class="card edit-card">
                             <div class="card-header section-title">Routes Created</div>
                             <div class="card-body overflow-auto">
