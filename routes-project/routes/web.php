@@ -43,6 +43,7 @@ Route::middleware(['role:User'])->group(function () {
     Route::post('/route/selected/signout', [RouteController::class, 'signOutForRoute'])->name('signout-route');
     Route::get('/routes/search', [RouteController::class, 'search'])->name('routes.search');
     Route::get('/create-route', [RouteController::class, 'createRouteView'])->name('create-route');
+    Route::post('/create-route', [RouteController::class, 'createRoute'])->name('save-route');
     Route::get('/route/{routeId}/edit', [RouteController::class, 'editRoute'])->name('edit.route');
 
 });

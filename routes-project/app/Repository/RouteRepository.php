@@ -46,6 +46,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
             $p->refresh();
             $result = $p;
 
+
             if(!app()->runningUnitTests()){
                 $pSqlite = new Route();
                 $pSqlite->id = $p->id;

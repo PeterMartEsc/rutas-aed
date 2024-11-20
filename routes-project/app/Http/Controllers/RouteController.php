@@ -79,9 +79,6 @@ class RouteController extends Controller{
         $routeId = $request->input('routeId');
 
         $isSigned = $this->routeRepository->signOutForRoute($userId, $routeId);
-
-        $aux = $this->routeRepository->getRoutesOrderedByDate($userId);
-
         
         if (!$isSigned){
             return redirect()->route('routes');
@@ -110,6 +107,7 @@ class RouteController extends Controller{
     public function createRouteView(){
         return view('create-route');
     }
+
     /**
      * Function to create a route
      */
@@ -122,9 +120,9 @@ class RouteController extends Controller{
         $pets_allowed = $request->input('pets_allowed');
         $vehicle_needed = $request->input('vehicle_needed');
         $description = $request->input('description');
-        $user_id = $request->input('user_id');
+        $user_id = auth()->user()->id;
 
-        $route = $this->routeRepository->save(new Route([
+        $this->routeRepository->save(new Route([
             'title' => $title,
             'location' => $location,
             'distance' => $distance,
@@ -136,13 +134,7 @@ class RouteController extends Controller{
             'user_id' => $user_id
         ]));
 
-        if($route){
-            $message = "Route successfully created";
-        } else {
-            $message = "Error creating route";
-        }
-
-        return redirect()->route('admin.index')->with('message', $message);
+        return redirect()->route('routes');
     }
 
 
