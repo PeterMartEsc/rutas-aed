@@ -75,7 +75,6 @@ class AdminController extends Controller
         } else {
             $userAux = $this->userRepository->findById($userUpdate->id);
             $userUpdate->password = $userAux->password;
-    
         }
 
         $this->userRepository->update($userUpdate);
@@ -95,7 +94,7 @@ class AdminController extends Controller
 
         if (count($hasRoutes) > 0){
             $message = 'User has routes and therefore cannot be deleted';
-            return redirect()->route('admin.profile')->with('message', $message);
+            return redirect()->route('dashboard')->with('message', $message);
         }
 
         $deleted = $this->userRepository->delete($id);
@@ -106,7 +105,7 @@ class AdminController extends Controller
             $message = "User successfully deleted";
         }
 
-        return redirect()->route('admin.profile')->with('message', $message);
+        return redirect()->route('dashboard')->with('message', $message);
     }
 
 
