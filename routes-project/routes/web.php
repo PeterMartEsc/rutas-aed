@@ -44,8 +44,10 @@ Route::middleware(['role:User'])->group(function () {
     Route::post('/route/selected/signin', [RouteController::class, 'signInForRoute'])->name('sign-route');
     Route::post('/route/selected/signout', [RouteController::class, 'signOutForRoute'])->name('signout-route');
     Route::get('/routes/search', [RouteController::class, 'search'])->name('routes.search');
-    Route::get('/route/{routeId}/edit', [RouteController::class, 'editRoute'])->name('edit.route');
-
+    Route::get('/create-route', [RouteController::class, 'createRouteView'])->name('create-route');
+    Route::post('/create-route', [RouteController::class, 'createRoute'])->name('save-route');
+    Route::get('/route/edit', [RouteController::class, 'searchRouteToEdit'])->name('edit-route');
+    Route::put('/route/update', [RouteController::class, 'editRoute'])->name('update-route');
 });
 
 

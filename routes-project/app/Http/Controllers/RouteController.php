@@ -79,9 +79,6 @@ class RouteController extends Controller{
         $routeId = $request->input('routeId');
 
         $isSigned = $this->routeRepository->signOutForRoute($userId, $routeId);
-
-        $aux = $this->routeRepository->getRoutesOrderedByDate($userId);
-
         
         if (!$isSigned){
             return redirect()->route('routes');
@@ -106,6 +103,11 @@ class RouteController extends Controller{
         return view('routes', compact('routes', 'filter'));
     }
 
+
+    public function createRouteView(){
+        return view('create-route');
+    }
+
     /**
      * Function to create a route
      */
@@ -118,9 +120,9 @@ class RouteController extends Controller{
         $pets_allowed = $request->input('pets_allowed');
         $vehicle_needed = $request->input('vehicle_needed');
         $description = $request->input('description');
-        $user_id = $request->input('user_id');
+        $user_id = auth()->user()->id;
 
-        $route = $this->routeRepository->save(new Route([
+        $this->routeRepository->save(new Route([
             'title' => $title,
             'location' => $location,
             'distance' => $distance,
@@ -132,13 +134,7 @@ class RouteController extends Controller{
             'user_id' => $user_id
         ]));
 
-        if($route){
-            $message = "Route successfully created";
-        } else {
-            $message = "Error creating route";
-        }
-
-        return redirect()->route('admin.index')->with('message', $message);
+        return redirect()->route('routes');
     }
 
 
@@ -146,18 +142,21 @@ class RouteController extends Controller{
     /**
      * Function to search for a route to edit
      */
-    public function searchRouteToEdit($id, $title){
+    public function searchRouteToEdit(Request $request){
+        $id = $request->input('route_id');
         $route = $this->routeRepository->findById($id);
 
-        if($route && $route->title === $title){
-            return view('editRoute', compact('route'));
+        if($route){
+            return view('edit-route', compact('route'));
         }
+        return redirect()->route('index');
     }
 
     /**
      * Function to edit/update a route
      */
-    public function editRoute(Request $request, $id){
+    public function editRoute(Request $request){
+        $id = $request->input('route_id');
         $title = $request->input('title');
         $location = $request->input('location');
         $distance = $request->input('distance');
@@ -166,20 +165,28 @@ class RouteController extends Controller{
         $pets_allowed = $request->input('pets_allowed');
         $vehicle_needed = $request->input('vehicle_needed');
         $description = $request->input('description');
-        $user_id = $request->input('user_id');
+        $user_id = auth()->user()->id;
 
-        $route = $this->routeRepository->update(new Route([
-                'id' => $id,
-                'title' => $title,
-                'location' => $location,
-                'distance' => $distance,
-                'date_route' => $date_route,
-                'difficulty' => $difficulty,
-                'pets_allowed' => $pets_allowed,
-                'vehicle_needed' => $vehicle_needed,
-                'description' => $description,
-                'user_id' => $user_id
-        ]));
+        $checkIfIsMine = $this->routeRepository->checkIfRouteIsMine($user_id, $id);
+        if(!$checkIfIsMine){
+            $message = "Route is not yours to edit";
+            return redirect()->route('routes')->with('message', $message);
+        }
+
+
+        $routeUpdate = new Route();
+        $routeUpdate->id = $id;
+        $routeUpdate->title = $title;
+        $routeUpdate->location = $location;
+        $routeUpdate->distance = $distance;
+        $routeUpdate->date_route = $date_route;
+        $routeUpdate->difficulty = $difficulty;
+        $routeUpdate->pets_allowed = $pets_allowed;
+        $routeUpdate->vehicle_needed = $vehicle_needed;
+        $routeUpdate->description = $description;
+        $routeUpdate->user_id = $user_id;
+
+        $route = $this->routeRepository->update($routeUpdate);
 
         $message = "Route successfully updated";
 
@@ -187,7 +194,7 @@ class RouteController extends Controller{
             $message = "Something went wrong while updating the route";
         }
 
-        return redirect()->route('admin.profile')->with('message', $message);
+        return redirect()->route('routes')->with('message', $message);
     }
 
 
