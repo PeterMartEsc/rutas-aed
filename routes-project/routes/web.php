@@ -28,6 +28,8 @@ Route::get('/', function () {
  */
 Route::middleware(['role:Admin'])->group(function () {
     Route::get('/admin/profile', [AdminController::class, 'index'])->name('admin-profile');
+    Route::get('/admin/{user}/edit', [AdminController::class, 'editUser'])->name('admin.edit.user');
+
 });
 
 /**

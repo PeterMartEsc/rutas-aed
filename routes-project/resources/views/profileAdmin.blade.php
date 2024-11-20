@@ -56,7 +56,7 @@
     <!--Contenedor principal -->
     <div class="container h-100 profile-container">
 
-        
+
 
         <div class="row h-100">
             @auth
@@ -106,7 +106,9 @@
                                         <!-- Usuario de ejemplo -->
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <!-- El span hace que el icono y el texto se mantengan como un mismo elemento distribuido-->
-                                            <span><i class="bi bi-person"></i> {{$user['name']}} ({{$user['email']}})</span>
+                                            <a href="{{ route('admin.edit.user' , ['user' => $user['id']]) }}" class="text-decoration-none text-dark">
+                                                <span><i class="bi bi-person"></i> {{$user['name']}} ({{$user['email']}})</span>
+                                            </a>
                                             <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
                                         </li>
                                         @endforeach
