@@ -22,6 +22,7 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to find all roles
+     * @return array 
      */
     public function findAll(): array{
         $list = [];
@@ -39,6 +40,8 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to add an role
+     * @param Role $p
+     * @return Role | null
      */
     public function save($p): object | null{
         $result = null;
@@ -63,6 +66,8 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to find by Id an role
+     * @param int $id
+     * @return Role | null  If not found, return null.  If found, return the Role object.  If database error, throw an exception.  If sqlite error, return null.  If both errors, throw an exception.  If both errors, return null.  If both errors, throw an exception.  If both errors, return null.  If both errors, throw an exception.  If both errors, return null.  If both errors, throw an exception
      */
     public function findById($id): object | null {
         $pToFind = null;    
@@ -79,6 +84,8 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to find by name an role
+     * @param string $uniquekey
+     * @return Role | null  If not found, return null.  If found, return the Role object.  If database error, throw an exception.  If sqlite error, return null.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors,
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
@@ -95,6 +102,8 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to to update an role
+     * @param Role $p
+     * @return bool  True if updated, false otherwise.  If database error, throw an exception.  If sqlite error, return false.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an
      */
     public function update($p): bool {
         $updated = false;
@@ -128,6 +137,8 @@ class RoleRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to delete an role
+     * @param int $id
+     * @return bool  True if deleted, false otherwise.  If database error, throw an exception.  If sqlite error, return false.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an exception.  If both errors, throw an
      */
     public function delete($id): bool{
         $deleted = false;

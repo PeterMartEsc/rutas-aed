@@ -21,9 +21,9 @@ class UserRepository extends RepositoryAbstract implements IRepository{
     public function __construct(){}
 
 
-
     /**
      * Function to find all users
+     * @return array
      */
     public function findAll(): array{
         $list = [];
@@ -42,6 +42,8 @@ class UserRepository extends RepositoryAbstract implements IRepository{
 
     /**
      * Function to add an user
+     * @param User $p
+     * @return User|null
      */
     public function save($p): object | null{
         $result = null;
@@ -72,6 +74,8 @@ class UserRepository extends RepositoryAbstract implements IRepository{
 
     /**
      * Function to find by Id an user
+     * @param int $id
+     * @return User|null
      */
     public function findById($id): object | null {
         $pToFind = null;
@@ -87,7 +91,9 @@ class UserRepository extends RepositoryAbstract implements IRepository{
     }
 
     /**
-     * Function to find by name an user
+     * Function to find by email an user
+     * @param string $uniqueKey
+     * @return User|null
      */
     public function findByUniqueKey($uniqueKey): object | null {
         $pToFind = null;
@@ -105,6 +111,8 @@ class UserRepository extends RepositoryAbstract implements IRepository{
 
     /**
      * Function to to update an user
+     * @param User $p
+     * @return bool true if update, false otherwise
      */
     public function update($p): bool {
         $updated = false;
@@ -147,6 +155,8 @@ class UserRepository extends RepositoryAbstract implements IRepository{
 
     /**
      * Function to delete an user
+     * @param int $id User's id to delete
+     * @return bool True if the user was deleted, false otherwise 
      */
     public function delete($id): bool{
         $deleted = false;

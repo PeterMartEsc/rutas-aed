@@ -22,6 +22,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to find all routes
+     * @return array
      */
     public function findAll(): array{
         $list = [];
@@ -39,6 +40,8 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
 
     /**
      * Function to add an route
+     * @param p: Route entity
+     * @return object|null
      */
     public function save($p): object | null{
         $result = null;
