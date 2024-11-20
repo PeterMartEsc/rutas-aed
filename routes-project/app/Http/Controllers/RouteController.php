@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Route;
 use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class RouteController extends Controller{
     protected $routeRepository;
@@ -54,7 +52,7 @@ class RouteController extends Controller{
                 break;
             }
         }
-
+        
         return view('routes', compact('routes', 'nearestRouteByUser', 'nearestRouteGlobally', 'routeIsInMyFollowing'));
     }
 
