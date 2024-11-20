@@ -106,6 +106,10 @@ class RouteController extends Controller{
         return view('routes', compact('routes', 'filter'));
     }
 
+
+    public function createRouteView(){
+        return view('create-route');
+    }
     /**
      * Function to create a route
      */
