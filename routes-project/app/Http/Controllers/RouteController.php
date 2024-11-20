@@ -156,7 +156,7 @@ class RouteController extends Controller{
 
         $route = $this->routeRepository->findByUniqueKey($title);
 
-        $mainImg = $this->uploadImages($route, $request);    
+        $this->uploadRouteMainImage($route, $request);    
 
         return redirect()->route('routes');
     }
@@ -212,6 +212,10 @@ class RouteController extends Controller{
 
         $route = $this->routeRepository->update($routeUpdate);
 
+
+        $route = $this->routeRepository->findById($id);
+        $this->uploadRouteMainImage($route, $request);    
+
         $message = "Route successfully updated";
 
         if (!$route){
@@ -247,25 +251,26 @@ class RouteController extends Controller{
     }
 
 
-    public function uploadImages(Route $route, Request $request) {
-
-        if($route) {
-            $directoryName = $route->title;
-            $path = public_path('images/' . $directoryName);
-    
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
-    
-            if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                $image = $request->file('image');
-                $imageName = $route->title . '.' . $image->getClientOriginalExtension();
-    
-                $image->move($path, $imageName);
-    
-                return true;
-            }
+    public function uploadRouteMainImage(Route $route, Request $request) {
+        if(!$route) {
+            return false;
         }
+
+        $directoryName = $route->title;
+        $path = public_path('images/' . $directoryName);
+
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $image = $request->file('image');
+            $imageName = $route->title . '.' . $image->getClientOriginalExtension();
+            $image->move($path, $imageName);
+
+            return true;
+        }
+        
     
         return false;
     }
