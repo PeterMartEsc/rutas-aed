@@ -29,10 +29,9 @@ Route::get('/', function () {
 Route::middleware(['role:Admin'])->group(function () {
     Route::get('/admin/profile', [RouteController::class, 'index'])->name('dashboard');
     Route::get('/admin/{user}/edit', [AdminController::class, 'searchUserToEdit'])->name('admin.edit.user');
-    Route::put('/admin/{user}/update', [AdminController::class, 'editUser'])->name('admin.update.user');
+    Route::patch('/admin/update', [AdminController::class, 'editUser'])->name('admin.update.user');
     Route::delete('/admin/delete-user', [AdminController::class, 'deleteUser'])->name('delete-user');
 
-    Route::post('/admin/profile', [AdminController::class, 'editUser'])->name('admin.update.user');
 
 });
 
@@ -45,6 +44,7 @@ Route::middleware(['role:User'])->group(function () {
     Route::put('/user/profile', [RouteController::class, 'indexUpdateData'])->name('dashboard.updated');
 
     Route::get('/routes', [RouteController::class, 'prepareRoutes'])->name('routes');
+    //TODO: change to get/post
     Route::any('/routes/selected', [RouteController::class, 'selectRoute'])->name('selected.route');
     Route::get('/route/{routeId}/upload-images', [ImageController::class, 'index'])->name('upload-images.route');
     Route::post('/route/selected/signin', [RouteController::class, 'signInForRoute'])->name('sign-route');

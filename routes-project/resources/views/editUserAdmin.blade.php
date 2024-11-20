@@ -66,7 +66,7 @@
                 <h5 class="card-title text-center mb-4">Editing: {{$selecteduser['email']}}</h5>
                 <form action="{{ route('admin.update.user') }}" method="POST" enctype="multipart/form-data" class="row g-3">
                     @csrf
-                    @method('PUT')
+                    @method('PATCH')
                     <div class="col-md-6">
                         <label for="name" class="form-label"><b>Name:</b></label>
                         <input type="text" id="name" name="name" class="form-control" value="{{ $selecteduser['name'] }}" placeholder="Enter your name" required>
@@ -88,15 +88,15 @@
                         <input type="password" id="password" name="password" class="form-control" placeholder="Leave blank to keep current password">
                     </div>
                     <div class="col-12">
-                        <label for="role_id" class="form-label"><b>Role:</b></label>
-                        <select id="role_id" name="role_id" class="form-control">
+                        <label for="id_role" class="form-label"><b>Role:</b></label>
+                        <select id="id_role" name="id_role" class="form-control">
                             <option value="1"
-                                @if ($selecteduser->role_id == 1)
+                                @if ($selecteduser->id_role == 1)
                                     selected
                                 @endif
                                 >Admin</option>
                             <option value="2"
-                                @if ($selecteduser->role_id == 2)
+                                @if ($selecteduser->id_role == 2)
                                     selected
                                 @endif
                                 >User</option>
@@ -105,6 +105,7 @@
 
                     <div class="col-12 text-center mb-3">
                         <input type="hidden" name="user_id" value="{{$selecteduser['id']}}">
+                        <input type="hidden" name="email" value="{{$selecteduser['email']}}">
                         <button type="submit" class="btn btn-success w-100">Edit Profile</button>
                     </div>
                 </form>
