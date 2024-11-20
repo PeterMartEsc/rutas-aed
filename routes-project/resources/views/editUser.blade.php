@@ -67,6 +67,9 @@
                 <form action="{{ route('dashboard.updated') }}" method="POST" enctype="multipart/form-data" class="row g-3">
                     @csrf
                     @method('PUT')
+                    <input type="hidden" id="email" name="email" value="{{auth()->user()->email}}">
+                    <input type="hidden" id="id_role" name="id_role" value="{{auth()->user()->id_role}}">
+
                     <div class="col-md-6">
                         <label for="name" class="form-label"><b>Name:</b></label>
                         <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>

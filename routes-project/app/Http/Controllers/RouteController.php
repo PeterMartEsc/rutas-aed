@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Route;
+use App\Models\User;
 use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
@@ -40,20 +41,28 @@ class RouteController extends Controller{
     }
 
     public function indexUpdateData(Request $request){
-        $user = Auth::user();
-        $role = $user->role->name ?? null;
 
-        if($role == 'Admin'){
-            $users = $this->userRepository->findAll();
-            $routes = $this->routeRepository->findAll();
-            return view('profileAdmin', compact('users', 'routes'));
+        $userUpdate = new User();
+        $userUpdate->id = auth()->user()->id;
+        $userUpdate->name = $request->input('name');
+        $userUpdate->surname = $request->input('surname');
+        $userUpdate->email = $request->input('email');
+        $userUpdate->phone = $request->input('phone');
+        $userUpdate->id_role = $request->input('id_role');
+
+        if(!empty($request->input('password'))){
+            $unhashedpassword = $request->input('password');
+            $password = Hash::make($unhashedpassword);
+            $userUpdate->password = $password;
+        } else {
+            $userAux = $this->userRepository->findById($userUpdate->id);
+            //dd( $userUpdate->id );
+            $userUpdate->password = $userAux->password;
         }
 
-        $nextroute = $this->routeRepository->getNearestDateRouteByUser(auth()->user()->id);
-        $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
-        $createdroutes = $this->routeRepository->findRoutesCreatedByUserId(auth()->user()->id);
+        $this->userRepository->update($userUpdate);
 
-        return view('profile', compact('nextroute', 'followedroutes', 'createdroutes'));
+        return redirect()->route('dashboard')->with('message', 'User updated successfully');
     }
 
     public function prepareRoutes(){
