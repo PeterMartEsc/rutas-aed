@@ -27,16 +27,15 @@ Route::get('/', function () {
  * For administration
  */
 Route::middleware(['role:Admin'])->group(function () {
-    Route::get('/admin/profile', [AdminController::class, 'index'])->name('admin-profile');
+    Route::get('/admin/profile', [RouteController::class, 'index'])->name('dashboard');
     Route::get('/admin/{user}/edit', [AdminController::class, 'editUser'])->name('admin.edit.user');
-
 });
 
 /**
  * For users
  */
 Route::middleware(['role:User'])->group(function () {
-    Route::get('/user/profile', [UserController::class, 'index'])->name('user-dashboard');
+    Route::get('/user/profile', [RouteController::class, 'index'])->name('dashboard');
     Route::get('/user/profile/edit', [UserController::class, 'indexEditProfile'])->name('edit.profile');
     Route::get('/routes', [RouteController::class, 'prepareRoutes'])->name('routes');
     Route::any('/routes/selected', [RouteController::class, 'selectRoute'])->name('selected.route');
@@ -48,6 +47,8 @@ Route::middleware(['role:User'])->group(function () {
     Route::post('/create-route', [RouteController::class, 'createRoute'])->name('save-route');
     Route::get('/route/edit', [RouteController::class, 'searchRouteToEdit'])->name('edit-route');
     Route::put('/route/update', [RouteController::class, 'editRoute'])->name('update-route');
+    Route::delete('/delete-route', [RouteController::class, 'deleteRoute'])->name('delete-route');
+
 });
 
 

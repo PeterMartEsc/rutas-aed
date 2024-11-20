@@ -21,8 +21,6 @@
             max-width: 600px;
         }
     </style>
-</head>
-<body>
     <header>
         <nav class="navbar bg-success navbar-expand-md nav-custom">
             <div class="container-fluid ms-3 me-3">
@@ -35,7 +33,7 @@
                 <div id="navbarSupportedContent" class="collapse navbar-collapse">
                     <ul class="d-flex align-items-start navbar-nav me-auto mb-2 mb-lg-0 ms-5">
                         <li class="list-group-item m-1 nav-item">
-                            <a class="ms-3 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('user-dashboard') }}">
+                            <a class="ms-3 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('dashboard') }}">
                                 <i class="bi bi-house-door-fill"></i> Profile
                             </a>
                         </li>
@@ -60,6 +58,8 @@
             </div>
         </nav>
     </header>
+</head>
+<body>
     <div class="container center-container">
         <div class="card shadow-lg">
             <div class="card-body">
@@ -133,14 +133,15 @@
                         <button type="submit" class="btn btn-success w-100">Edit Route</button>
                         
                     </div>
+                </form>
                     <div class="col-md-6 text-center mb-3">
-                        <form action="POST">
+                        <form action="{{route('delete-route')}}" method="POST">
                             @csrf
+                            @method('DELETE')
                             <input type="hidden" name="route_id" value="{{$route['id']}}">
                             <button type="submit" class="btn btn-danger w-100">Delete Route</button>
                         </form>
                     </div>
-                </form>
             </div>
         </div>
     </div>

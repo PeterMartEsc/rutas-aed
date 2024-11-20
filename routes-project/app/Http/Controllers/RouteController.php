@@ -4,23 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Models\Route;
 use App\Repository\RouteRepository;
+use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 
 class RouteController extends Controller{
     protected $routeRepository;
+    protected $userRepository;
 
     public function __construct(){
         $this->middleware('auth');
         $this->middleware('role:User');
         $this->middleware('role:Admin');
 
+        $this->userRepository = new UserRepository();
         $this->routeRepository = new RouteRepository();
     }
 
     public function index(){
+        if(auth()->user()->role_id === 1){
+            $users = $this->userRepository->findAll();
+            return view('profileAdmin', compact( 'users'));
+        }
+
         $nextroute = $this->routeRepository->getNearestDateRouteByUser(auth()->user()->id);
         $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
         $createdroutes = $this->routeRepository->findRoutesCreatedByUserId(auth()->user()->id);
+
         return view('profile', compact('nextroute', 'followedroutes', 'createdroutes'));
     }
 
@@ -202,7 +211,15 @@ class RouteController extends Controller{
     /**
      * Function to delete a route
      */
-    public function deleteRoute($id){
+    public function deleteRoute(Request $request){
+        $id = $request->input('route_id');
+        $checkIfRouteHasUsers = $this->routeRepository->checkIfRouteHasUsersSigned($id);
+
+        if($checkIfRouteHasUsers){
+            $message = "Route cannot be deleted because it has users signed up";
+            return redirect()->route('routes')->with('message', $message);
+        }
+
         $deleted = $this->routeRepository->delete($id);
 
         $message = "Something went wrong while deleting the route";
@@ -211,7 +228,7 @@ class RouteController extends Controller{
             $message = "Route successfully deleted";
         }
 
-        return redirect()->route('admin.profile')->with('message', $message);
+        return redirect()->route('routes')->with('message', $message);
     }
 
 

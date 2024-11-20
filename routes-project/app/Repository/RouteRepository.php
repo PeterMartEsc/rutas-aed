@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repository\Abstract\RepositoryAbstract;
 use App\Repository\Interface\IRepository;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @author Nabil Leon Alvarez <@nalleon>
@@ -301,6 +302,7 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
                 }
             }
 
+
         } catch (\Exception $e) {
             throw new Exception($e->getMessage());
             return false;
@@ -340,7 +342,32 @@ class RouteRepository extends RepositoryAbstract implements IRepository {
         }
 
         return $list;
-    
+    }
+
+    public function checkIfRouteHasUsersSigned($routeId): bool{
+        try {
+            $routeExists = DB::connection($this->connectionMySql)->
+            table('users_routes')->where('route_id', $routeId)->exists();
+        
+            if ($routeExists) {
+                return true; 
+            } else {
+                return false;
+            }
+        
+        } catch (\Exception $e) {
+            $routeExists = DB::connection($this->connectionSqlite)->
+            table('users_routes')->where('route_id', $routeId)->exists();
+        
+            if ($routeExists) {
+                return true; 
+            } else {
+                return false;
+            }
+        }
+        
+        return false;
+
     }
 }
 

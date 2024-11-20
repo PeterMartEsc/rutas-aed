@@ -42,7 +42,7 @@
 
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
                 <ul class="d-flex align-items-start navbar-nav me-auto mb-2 mb-lg-0 ms-5">
-                    <li class="list-group-item m-1 nav-item"><a class="ms-3 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('user-dashboard') }}"><i class="bi bi-house-door-fill"></i> Profile</a> </li>
+                    <li class="list-group-item m-1 nav-item"><a class="ms-3 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('dashboard') }}"><i class="bi bi-house-door-fill"></i> Profile</a> </li>
                     <li class="list-group-item m-1 nav-item"><a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-light me-1 fw-bold" href="{{ route('routes') }}"><i class="bi bi-tree-fill"></i> Routes</a></li>
                     <li class="list-group-item m-1 nav-item"><a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-dark me-1 fw-bold"  href="{{ route('create-route') }}"><i class="bi bi-map-fill"></i></i> Create Routes</a></li>
                 </ul>
@@ -112,7 +112,6 @@
                                 @endif
                             </p>
                         </div>
-                        <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                         <div class="card-body overflow-auto">
                             <ul class="list-group">
                                 @if(isset($selectedroute))
@@ -122,22 +121,18 @@
                                         <div class="col-6 p-3">
                                                 <label for="where">
                                                     <b>Where:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$selectedroute['location']}}
                                                 </label><br/>
                                                 <label for="date">
                                                     <b>Date:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$selectedroute['date_route']}}
                                                 </label><br/>
                                                 <label for="distance">
                                                     <b>Distance:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$selectedroute['distance']}} km
                                                 </label><br/>
                                                 <label for="difficulty">
                                                     <b>Difficulty:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$selectedroute['difficulty']}}
                                                 </label><br/>
                                                 <label for="vehicle">
@@ -205,7 +200,6 @@
                                 @endif
                             </p>
                         </div>
-                        <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                         <div class="card-body overflow-auto">
                             <ul class="list-group">
                                 @if(isset($nearestRouteByUser))
@@ -215,22 +209,18 @@
                                         <div class="col-6 p-3">
                                                 <label for="where">
                                                     <b>Where:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$nearestRouteByUser['location']}}
                                                 </label><br/>
                                                 <label for="date">
                                                     <b>Date:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$nearestRouteByUser['date_route']}}
                                                 </label><br/>
                                                 <label for="distance">
                                                     <b>Distance:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$nearestRouteByUser['distance']}} km
                                                 </label><br/>
                                                 <label for="difficulty">
                                                     <b>Difficulty:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$nearestRouteByUser['difficulty']}}
                                                 </label><br/>
                                                 <label for="vehicle">
@@ -298,7 +288,6 @@
                                 @endif
                             </p>
                         </div>
-                        <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                         <div class="card-body overflow-auto">
                             <ul class="list-group">
                                 @if(isset($nearestRouteGlobally))
@@ -308,22 +297,18 @@
                                         <div class="col-6 p-3">
                                                 <label for="where">
                                                     <b>Where:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$nearestRouteGlobally['location']}}
                                                 </label><br/>
                                                 <label for="date">
                                                     <b>Date:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$nearestRouteGlobally['date_route']}}
                                                 </label><br/>
                                                 <label for="distance">
                                                     <b>Distance:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$nearestRouteGlobally['distance']}} km
                                                 </label><br/>
                                                 <label for="difficulty">
                                                     <b>Difficulty:</b>
-                                                    <!--<input type="text" name="where" value="" readonly>-->
                                                     {{$nearestRouteGlobally['difficulty']}}
                                                 </label><br/>
                                                 <label for="vehicle">
