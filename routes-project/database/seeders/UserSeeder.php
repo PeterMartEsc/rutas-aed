@@ -25,7 +25,6 @@ class UserSeeder extends Seeder
                 'email' => 'admin@example.com',
                 'phone' => '+34123456789',
                 'password' => Hash::make('1q2w3e4r'),
-                'id_image' => 1,
                 'id_role' => 1, 
             ],
             [
@@ -35,7 +34,6 @@ class UserSeeder extends Seeder
                 'email' => 'user@example.com',
                 'phone' => '+3487654321',
                 'password' => Hash::make('1q2w3e4r'), 
-                'id_image' => 2,
                 'id_role' => 2, 
             ]
         ]);

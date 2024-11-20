@@ -18,14 +18,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone');
             $table->string('password');
-            $table->unsignedBigInteger('id_image')->nullable();
             $table->unsignedBigInteger('id_role');
             $table->rememberToken();
             $table->timestamps();
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('id_image')->references('id')->on('images');
             $table->foreign('id_role')->references('id')->on('roles');
         });
     }
