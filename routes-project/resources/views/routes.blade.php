@@ -89,7 +89,7 @@
                                             @csrf
                                             <input type="hidden" name="route_id" value="{{ $route['id'] }}">
                                             <button type="submit" class="btn" style="border: none; background: none;">
-                                                <img src="" alt="{{$route['id']}}"> {{$route['title']}}
+                                                <i class="bi bi-map me-2"></i> {{$route['title']}}
                                             </button>
                                         </form>
                                     </li>
