@@ -110,13 +110,4 @@ class AdminController extends Controller
 
 
 
-
-    /**
-     * function to find all routes
-     */
-    public function findAllRoutes(){
-        $routes = $this->routeRepository->findAll();
-        return view('adminRoutes', compact('routes'));
-    }
-
 }
