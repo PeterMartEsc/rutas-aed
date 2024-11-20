@@ -127,7 +127,6 @@
                                             <a href="{{ route('admin.edit.user' , ['user' => $user['id']]) }}" class="text-decoration-none text-dark">
                                                 <span><i class="bi bi-person"></i> {{$user['name']}} ({{$user['email']}})</span>
                                             </a>
-                                            <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
                                         </li>
                                         @endforeach
                                     @endif
@@ -141,7 +140,7 @@
 
                 <div class="row">
                     <!-- Followed Routes -->
-                    <div class="col-12 mb-md-3 col-md-6">
+                    <div class="col-12 mb-md-3 col-md-6 mb-4">
                         <div class="card edit-card">
                             <div class="card-header section-title">Followed Routes</div>
                             <div class="card-body overflow-auto">
@@ -165,7 +164,7 @@
                     </div>
 
                     <!-- All Routes -->
-                    <div class="col-12 mb-md-3 col-md-6">
+                    <div class="col-12 mb-md-3 col-md-6 mb-4">
                         <div class="card edit-card">
                             <div class="card-header section-title">Routes</div>
                             <div class="card-body overflow-auto">
