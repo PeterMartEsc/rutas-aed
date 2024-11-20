@@ -66,7 +66,7 @@
             <div class="col-6 ">
 
                 <div class="info d-flex align-items-center">
-                    <img class="p-5" src="example.png" alt="ppp"/>
+                    <img class="p-5" src="example.png" alt="pfp"/>
                     <p class="pe-5"><b>Name: </b>{{auth()->user()->name}}</p>
                     <p class="pe-5"><b>Surname: </b> {{auth()->user()->surname}}</p>
                 </div>
@@ -100,7 +100,6 @@
                 <div class="row mt-2 d-flex align-items-center borde">
                     <!-- Contenedor Ruta Actual -->
                     <div class="col mb-4 ">
-
                         <div class="card edit-card">
                             <div class="card-header section-title">Next Route</div>
                             <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
@@ -120,11 +119,11 @@
                     </div>
                 </div>
 
-                <div class="row h-50 d-flex align-items-center borde">
+                <div class="row d-flex align-items-center borde">
                     <!-- Contenedor Gestion Seguidas -->
                     <div class="col">
 
-                        <div class="card edit-card">
+                        <div class="card edit-card mb-4">
                             <div class="card-header section-title">Followed Routes</div>
                             <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                             <div class="card-body overflow-auto">
@@ -150,7 +149,7 @@
                     </div>
                 </div>
 
-                <div class="row h-50 d-flex align-items-center borde">
+                <div class="row d-flex align-items-center borde">
                     <!-- Contenedor Gestion Rutas Creadas -->
                     <div class="col">
 
