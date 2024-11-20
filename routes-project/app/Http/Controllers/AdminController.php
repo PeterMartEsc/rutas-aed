@@ -28,7 +28,9 @@ class AdminController extends Controller
     public function index(){
         $users = $this->userRepository->findAll();
         $routes = $this->routeRepository->findAll();
-        return view('profileAdmin', compact('users', 'routes'));
+        $followedroutes = $this->routeRepository->getRoutesOrderedByDate(auth()->user()->id);
+
+        return view('profileAdmin', compact('users', 'routes', 'followedroutes'));
     }
 
 

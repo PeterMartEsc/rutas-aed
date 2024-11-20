@@ -47,9 +47,21 @@
 
                 <div id="navbarSupportedContent" class="collapse navbar-collapse">
                     <ul class="d-flex align-items-start navbar-nav me-auto mb-2 mb-lg-0 ms-5">
-                        <li class="list-group-item m-1 nav-item"><a class="ms-3 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('dashboard') }}"><i class="bi bi-house-door-fill"></i> Profile</a> </li>
-                        <li class="list-group-item m-1 nav-item"><a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-light me-1 fw-bold" href="{{ route('routes') }}"><i class="bi bi-tree-fill"></i> Routes</a></li>
-                        <li class="list-group-item m-1 nav-item"><a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-dark me-1 fw-bold"  href="{{ route('create-route') }}"><i class="bi bi-map-fill"></i></i> Create Routes</a></li>
+                        <li class="list-group-item m-1 nav-item">
+                            <a class="ms-3 link-underline link-underline-opacity-0 link-light me-1 fw-bold" href="{{ route('dashboard') }}">
+                                <i class="bi bi-house-door-fill"></i> Profile
+                            </a>
+                        </li>
+                        <li class="list-group-item m-1 nav-item">
+                            <a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('routes') }}">
+                                <i class="bi bi-tree-fill"></i> Routes
+                            </a>
+                        </li>
+                        <li class="list-group-item m-1 nav-item">
+                            <a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-dark me-1 fw-bold"  href="{{ route('create-route') }}">
+                                <i class="bi bi-map-fill"></i> Create Routes
+                            </a>
+                        </li>
                     </ul>
                     <form action="{{ route('logout') }}" method="POST" class="d-inline ms-5">
                         @csrf
@@ -71,9 +83,9 @@
 
             <div class="col-12 col-md-6">
                 <div class="info d-flex align-items-center">
-                    <!--<img class="p-5" src="example.png" alt="ppp"/>-->
-                    <p class="pe-5"><b>Name: </b>{{auth()->user()->name}}</p>
-                    <p class="pe-5"><b>Surname: </b> {{auth()->user()->surname}}</p>
+                    <i class="bi bi-person-plus-fill me-2"></i> <!-- Ajusta el espaciado con 'me-2' -->
+                    <p class="mb-0 me-4"><b>Name: </b>{{ auth()->user()->name }}</p>
+                    <p class="mb-0"><b>Surname: </b>{{ auth()->user()->surname }}</p>
                 </div>
                 <br/>
                 <div class="card p-3 mt-2">
