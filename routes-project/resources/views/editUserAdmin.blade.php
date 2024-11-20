@@ -88,15 +88,15 @@
                         <input type="password" id="password" name="password" class="form-control" placeholder="Leave blank to keep current password">
                     </div>
                     <div class="col-12">
-                        <label for="role_id" class="form-label"><b>Role:</b></label>
-                        <select id="role_id" name="role_id" class="form-control">
+                        <label for="id_role" class="form-label"><b>Role:</b></label>
+                        <select id="id_role" name="id_role" class="form-control">
                             <option value="1"
-                                @if ($selecteduser->role_id == 1)
+                                @if ($selecteduser->id_role == 1)
                                     selected
                                 @endif
                                 >Admin</option>
                             <option value="2"
-                                @if ($selecteduser->role_id == 2)
+                                @if ($selecteduser->id_role == 2)
                                     selected
                                 @endif
                                 >User</option>

@@ -195,7 +195,6 @@ class RouteController extends Controller{
             return redirect()->route('routes')->with('message', $message);
         }
 
-
         $routeUpdate = new Route();
         $routeUpdate->id = $id;
         $routeUpdate->title = $title;

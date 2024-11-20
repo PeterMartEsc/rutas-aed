@@ -68,18 +68,19 @@ class AdminController extends Controller
         $userUpdate->surname = $request->input('surname');
         $userUpdate->email = $request->input('email');
         $userUpdate->phone = $request->input('phone');
-        $userUpdate->role_id = $request->input('role_id');
-        $userUpdate->password = $request->input('password');
+        $userUpdate->id_role = $request->input('id_role');
 
-        dd($userUpdate);
-
-        if($request->password){
+        if(!empty($request->input('password'))){
             $unhashedpassword = $request->input('password');
             $password = Hash::make($unhashedpassword);
             $userUpdate->password = $password;
+        } else {
+            $userAux = $this->userRepository->findById($userUpdate->id);
+            $userUpdate->password = $userAux->password;
+    
         }
 
-        $role = $request->input('role');
+        $this->userRepository->update($userUpdate);
 
         return redirect()->route('dashboard')->with('message', 'User updated successfully');
     }
