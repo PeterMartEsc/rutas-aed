@@ -81,17 +81,20 @@
                 </div>
                 <br/>
                 <div class="card p-3">
+                    @if (session('message'))
+                        <p class="text-center"><b>{{ session('message') }}</b></p>
+                    @endif
 
                     <div class="options">
                         <div class="btn-group-vertical w-100 ">
-                            <a href="/editPer" class="btn btn-outline-success text-start" >
+                            <a href="/" class="btn btn-outline-success text-start" >
                                 <i class="bi bi-person p-2 pe-3"></i>
                                 Edit personal information
                             </a>
-                            <!--<a href="/routCompanions" class="btn btn-outline-success text-start">
-                                <i class="bi bi-people-fill p-2 pe-3"></i>
-                                Route companions
-                            </a>-->
+                            <a href="{{ route('routes') }}" class="btn btn-outline-success text-start">
+                                <i class="bi bi-compass p-2 pe-3"></i>
+                                Search Routes
+                            </a>
                         </div>
                     </div>
 
