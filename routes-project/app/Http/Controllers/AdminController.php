@@ -2,52 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Image;
-use App\Models\Route;
+
 use App\Models\User;
-use App\Repository\ImageRepository;
 use App\Repository\RouteRepository;
 use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+/**
+ * @author Nabil Leon Alvarez <@nalleon>
+ * @author Pedro Martin Escuela <@PeterMartEsc>
+ */
 class AdminController extends Controller
 {
 
+    /**
+     * Properties
+     */
     protected $routeRepository;
     protected $userRepository;
-    protected $imageRepository;
 
-
+    /**
+     * Default constructor
+     */
     public function __construct(){
         $this->middleware('auth');
         $this->middleware('role:Admin');
 
         $this->routeRepository = new RouteRepository();
         $this->userRepository = new UserRepository();
-        $this->imageRepository = new ImageRepository();
     }
-
-    public function index(){
-        $users = $this->userRepository->findAll();
-        $routes = $this->routeRepository->findAll();
-        return view('profileAdmin', compact('users', 'routes'));
-    }
-
-
-
-
-    /**
-      * Function to find all users in the database
-      */
-    public function findAllUsers(){
-        $users = $this->userRepository->findAll();
-        return view('profileAdmin', compact('users'));
-    }
-
 
     /**
       * Function to search for a specific user to edit it
+      * @param $id id of the user to edit
+      * @return view with the user data to be edited
       */
     public function searchUserToEdit($id){
         $selecteduser = $this->userRepository->findById($id);
@@ -57,6 +45,7 @@ class AdminController extends Controller
 
     /**
      * Function to edit a user
+     * @return redirect to dashboard/home with message
      */
     public function editUser(Request $request){
 
@@ -86,6 +75,7 @@ class AdminController extends Controller
 
     /**
      * Function to delete a user
+     * @return redirect to dashboard/home with message
      */
     public function deleteUser(Request $request){
 
@@ -107,7 +97,12 @@ class AdminController extends Controller
 
         return redirect()->route('dashboard')->with('message', $message);
     }
-
-
+    /**
+     * Function to show the edit form for the user profile
+     * @return view to edit the user profile
+     */
+    public function indexEditProfile(){
+        return view('editUser');
+    }
 
 }

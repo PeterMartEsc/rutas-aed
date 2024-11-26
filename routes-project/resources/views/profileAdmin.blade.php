@@ -47,9 +47,21 @@
 
                 <div id="navbarSupportedContent" class="collapse navbar-collapse">
                     <ul class="d-flex align-items-start navbar-nav me-auto mb-2 mb-lg-0 ms-5">
-                        <li class="list-group-item m-1 nav-item"><a class="ms-3 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('dashboard') }}"><i class="bi bi-house-door-fill"></i> Profile</a> </li>
-                        <li class="list-group-item m-1 nav-item"><a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-light me-1 fw-bold" href="{{ route('routes') }}"><i class="bi bi-tree-fill"></i> Routes</a></li>
-                        <li class="list-group-item m-1 nav-item"><a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-dark me-1 fw-bold"  href="{{ route('create-route') }}"><i class="bi bi-map-fill"></i></i> Create Routes</a></li>
+                        <li class="list-group-item m-1 nav-item">
+                            <a class="ms-3 link-underline link-underline-opacity-0 link-light me-1 fw-bold" href="{{ route('dashboard') }}">
+                                <i class="bi bi-house-door-fill"></i> Profile
+                            </a>
+                        </li>
+                        <li class="list-group-item m-1 nav-item">
+                            <a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('routes') }}">
+                                <i class="bi bi-tree-fill"></i> Routes
+                            </a>
+                        </li>
+                        <li class="list-group-item m-1 nav-item">
+                            <a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-dark me-1 fw-bold"  href="{{ route('create-route') }}">
+                                <i class="bi bi-map-fill"></i> Create Routes
+                            </a>
+                        </li>
                     </ul>
                     <form action="{{ route('logout') }}" method="POST" class="d-inline ms-5">
                         @csrf
@@ -63,31 +75,27 @@
     </header>
 </head>
 <body>
+
     <!--Contenedor principal -->
     <div class="container h-100 profile-container">
-
-
-
-        <div class="row h-100">
+        <div class="row h-100 py-3">
             @auth
 
-            <!-- Columna Izquierda-->
-            <div class="col-6 ">
-
+            <div class="col-12 col-md-6">
                 <div class="info d-flex align-items-center">
-                    <img class="p-5" src="example.png" alt="ppp"/>
-                    <p class="pe-5"><b>Name: </b>{{auth()->user()->name}}</p>
-                    <p class="pe-5"><b>Surname: </b> {{auth()->user()->surname}}</p>
+                    <i class="bi bi-person-plus-fill me-2"></i> <!-- Ajusta el espaciado con 'me-2' -->
+                    <p class="mb-0 me-4"><b>Name: </b>{{ auth()->user()->name }}</p>
+                    <p class="mb-0"><b>Surname: </b>{{ auth()->user()->surname }}</p>
                 </div>
                 <br/>
-                <div class="card p-3">
+                <div class="card p-3 mt-2">
                     @if (session('message'))
                         <p class="text-center"><b>{{ session('message') }}</b></p>
                     @endif
 
                     <div class="options">
                         <div class="btn-group-vertical w-100 ">
-                            <a href="/" class="btn btn-outline-success text-start" >
+                            <a href="{{route('edit.profile')}}" class="btn btn-outline-success text-start">
                                 <i class="bi bi-person p-2 pe-3"></i>
                                 Edit personal information
                             </a>
@@ -97,18 +105,15 @@
                             </a>
                         </div>
                     </div>
-
                 </div>
-
             </div>
 
-            <!-- Columna Derecha -->
-            <div class="col-6">
+            <div class="col-12 mb-md-3 col-md-6">
+
 
                 <div class="row h-50 d-flex align-items-center borde">
                     <!-- Contenedor Gestion Usuarios -->
                     <div class="col mb-4 ">
-
                         <div class="card edit-card">
                             <div class="card-header section-title">Users</div>
                             <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
@@ -122,7 +127,6 @@
                                             <a href="{{ route('admin.edit.user' , ['user' => $user['id']]) }}" class="text-decoration-none text-dark">
                                                 <span><i class="bi bi-person"></i> {{$user['name']}} ({{$user['email']}})</span>
                                             </a>
-                                            <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
                                         </li>
                                         @endforeach
                                     @endif
@@ -134,31 +138,55 @@
                     </div>
                 </div>
 
-                <div class="row h-50 d-flex align-items-center borde">
-                    <!-- Contenedor Gestion Rutas -->
-                    <div class="col">
+                <div class="row">
+                    <!-- Followed Routes -->
+                    <div class="col-12 mb-md-3 col-md-6 mb-4">
+                        <div class="card edit-card">
+                            <div class="card-header section-title">Followed Routes</div>
+                            <div class="card-body overflow-auto">
+                                <ul class="list-group">
+                                    @if(isset($followedroutes))
+                                        @foreach ( $followedroutes as $route )
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <form action="{{ route('selected.route') }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="route_id" value="{{ $route['id'] }}">
+                                                    <button type="submit" class="btn" style="border: none; background: none;">
+                                                        <i class="bi bi-map"></i> {{$route['title']}}
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        @endforeach
+                                    @endif
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- All Routes -->
+                    <div class="col-12 mb-md-3 col-md-6 mb-4">
                         <div class="card edit-card">
                             <div class="card-header section-title">Routes</div>
-                            <!-- overflow-auto habilita el scroll si el contenido excede el tamaño del contenedor -->
                             <div class="card-body overflow-auto">
                                 <ul class="list-group">
                                     @if(isset($routes))
                                         @foreach ( $routes as $route )
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <span><i class="bi bi-map"></i> {{$route['title']}}</span>
-                                                <button class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
-                                            </li>
-
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <form action="{{ route('edit-route') }}" method="GET" class="d-inline">
+                                                <input type="hidden" name="route_id" value="{{ $route['id'] }}">
+                                                <button type="submit" class="btn" style="border: none; background: none;">
+                                                    <i class="bi bi-map"></i> {{$route['title']}}
+                                                </button>
+                                            </form>
+                                        </li>
                                         @endforeach
                                     @endif
-                                    <!-- Añadir más rutas aquí -->
                                 </ul>
                             </div>
                         </div>
-
                     </div>
                 </div>
+
 
             </div>
             @endauth

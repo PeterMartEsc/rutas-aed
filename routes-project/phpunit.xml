@@ -16,6 +16,18 @@
         <include>
             <directory>app</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">./app/Http/Controllers/Auth</directory>
+            <directory suffix=".php">./tests/Feature/Auth</directory>
+            <directory>app/Http/Controllers</directory>
+            <directory>app/Http/Middleware</directory>
+            <directory>app/Http</directory>
+
+
+            <file>./app/Http/Middleware/Authenticate.php</file>
+            <file>./app/Providers/FortifyServiceProvider.php</file>
+            <file>./app/Providers/AuthServiceProvider.php</file>
+        </exclude>
     </source>
     <coverage>
         <report>

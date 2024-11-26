@@ -27,8 +27,8 @@
     <nav class="navbar bg-success navbar-expand-md nav-custom">
         <div class="container-fluid ms-3 me-3">
             <a class="navbar-brand text-light" href="{{ route('routes') }}">Rutas-AED</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
 
                 <span class="navbar-toggler-icon"></span>
@@ -39,7 +39,7 @@
                     <li class="list-group-item m-1 nav-item">
                         <a class="ms-3 link-underline link-underline-opacity-0 link-light me-1 fw-bold" href="{{ route('dashboard') }}">
                             <i class="bi bi-house-door-fill"></i> Profile
-                        </a> 
+                        </a>
                     </li>
                     <li class="list-group-item m-1 nav-item">
                         <a class="ms-3 link-offset-1 link-underline link-underline-opacity-0 link-dark me-1 fw-bold" href="{{ route('routes') }}">
@@ -71,25 +71,21 @@
 
             <div class="col-12 col-md-6">
                 <div class="info d-flex align-items-center">
-                    <img class="p-5" src="example.png" alt="pfp"/>
-                    <p class="pe-5"><b>Name: </b>{{auth()->user()->name}}</p>
-                    <p class="pe-5"><b>Surname: </b> {{auth()->user()->surname}}</p>
+                    <i class="bi bi-person-fill me-2"></i>
+                    <p class="mb-0 me-4"><b>Name: </b>{{ auth()->user()->name }}</p>
+                    <p class="mb-0"><b>Surname: </b>{{ auth()->user()->surname }}</p>
                 </div>
                 <br/>
-                <div class="card p-3 mt-2">
+                <div class="card p-3 mt-2 mb-4">
                     @if (session('message'))
                         <p class="text-center"><b>{{ session('message') }}</b></p>
                     @endif
 
                     <div class="options">
-                        <div class="btn-group-vertical w-100 ">
+                        <div class="btn-group-vertical w-100">
                             <a href="{{route('edit.profile')}}" class="btn btn-outline-success text-start">
                                 <i class="bi bi-person p-2 pe-3"></i>
                                 Edit personal information
-                            </a>
-                            <a href="/rout-companions" class="btn btn-outline-success text-start">
-                                <i class="bi bi-people-fill p-2 pe-3"></i>
-                                Route companions
                             </a>
                             <a href="{{ route('routes') }}" class="btn btn-outline-success text-start">
                                 <i class="bi bi-compass p-2 pe-3"></i>
@@ -99,7 +95,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-12 mb-md-3 col-md-6">
                 <div class="row mb-4">
                     <!-- Next Route -->
@@ -121,7 +116,7 @@
 
                 <div class="row">
                     <!-- Followed Routes -->
-                    <div class="col-12 mb-md-3 col-md-6">
+                    <div class="col-12 mb-md-3 col-md-6 mb-4">
                         <div class="card edit-card">
                             <div class="card-header section-title">Followed Routes</div>
                             <div class="card-body overflow-auto">
@@ -136,7 +131,7 @@
                                                         <i class="bi bi-map"></i> {{$route['title']}}
                                                     </button>
                                                 </form>
-                                            </li>   
+                                            </li>
                                         @endforeach
                                     @endif
                                 </ul>
@@ -145,7 +140,7 @@
                     </div>
 
                     <!-- Routes Created -->
-                    <div class="col-12 mb-md-3 col-md-6"> 
+                    <div class="col-12 mb-md-3 col-md-6 mb-4">
                         <div class="card edit-card">
                             <div class="card-header section-title">Routes Created</div>
                             <div class="card-body overflow-auto">
@@ -159,7 +154,7 @@
                                                         <i class="bi bi-map"></i> {{$route['title']}}
                                                     </button>
                                                 </form>
-                                            </li>   
+                                            </li>
                                         @endforeach
                                     @endif
                                 </ul>

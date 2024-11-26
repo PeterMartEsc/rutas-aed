@@ -28,11 +28,11 @@ Route::get('/', function () {
  */
 Route::middleware(['role:Admin'])->group(function () {
     Route::get('/admin/profile', [RouteController::class, 'index'])->name('dashboard');
+    Route::get('/admin/profile/edit', [AdminController::class, 'indexEditProfile'])->name('edit.profile');
+    Route::get('/admin/profile', [RouteController::class, 'index'])->name('dashboard.updated');
     Route::get('/admin/{user}/edit', [AdminController::class, 'searchUserToEdit'])->name('admin.edit.user');
     Route::patch('/admin/update', [AdminController::class, 'editUser'])->name('admin.update.user');
     Route::delete('/admin/delete-user', [AdminController::class, 'deleteUser'])->name('delete-user');
-
-
 });
 
 /**
@@ -41,10 +41,16 @@ Route::middleware(['role:Admin'])->group(function () {
 Route::middleware(['role:User'])->group(function () {
     Route::get('/user/profile', [RouteController::class, 'index'])->name('dashboard');
     Route::get('/user/profile/edit', [UserController::class, 'indexEditProfile'])->name('edit.profile');
+    Route::put('/user/profile', [UserController::class, 'indexUpdateData'])->name('dashboard.updated');
+});
+
+
+/**
+ * Shared
+ */
+Route::middleware('auth')->group(function () {
     Route::get('/routes', [RouteController::class, 'prepareRoutes'])->name('routes');
-    //TODO: change to get/post
     Route::any('/routes/selected', [RouteController::class, 'selectRoute'])->name('selected.route');
-    Route::get('/route/{routeId}/upload-images', [ImageController::class, 'index'])->name('upload-images.route');
     Route::post('/route/selected/signin', [RouteController::class, 'signInForRoute'])->name('sign-route');
     Route::post('/route/selected/signout', [RouteController::class, 'signOutForRoute'])->name('signout-route');
     Route::get('/routes/search', [RouteController::class, 'search'])->name('routes.search');

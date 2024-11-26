@@ -47,7 +47,6 @@ class UserTest extends TestCase{
         $user->email = 'test@email.com';
         $user->password = Hash::make('testingPassword');
         $user->phone = '+34123456789';
-        $user->id_image = 2;
         $user->id_role = 2;
         $user->save();
     
@@ -59,7 +58,6 @@ class UserTest extends TestCase{
         $this->assertEquals('test@email.com', $savedUser->email, self::MESSAGE_ERROR);
         $this->assertTrue(Hash::check('testingPassword', $savedUser->password), self::MESSAGE_ERROR);
         $this->assertEquals('+34123456789', $savedUser->phone, self::MESSAGE_ERROR);
-        $this->assertEquals(2, $savedUser->id_image, self::MESSAGE_ERROR);
         $this->assertEquals(2, $savedUser->id_role, self::MESSAGE_ERROR);
     }
     
@@ -71,7 +69,6 @@ class UserTest extends TestCase{
         $objectToAdd->email = 'test@email.com';
         $objectToAdd->password = Hash::make('testingPassword');
         $objectToAdd->phone = '+34123456789';
-        $objectToAdd->id_image = 2;
         $objectToAdd->id_role = 2;
         $objectToAdd->save();
 
@@ -87,7 +84,6 @@ class UserTest extends TestCase{
         $objectToUpdate->password = Hash::make('testingPasswordUpdate');
         $objectToUpdate->phone = '+3412345689';
         $objectToUpdate->id_role=1;
-        $objectToUpdate->id_image= 1;
         $objectToUpdate->save();
 
         $this->assertEquals(3, $objectToUpdate->id, self::MESSAGE_ERROR);
@@ -97,7 +93,6 @@ class UserTest extends TestCase{
         $this->assertTrue(Hash::check('testingPasswordUpdate', $objectToUpdate->password), self::MESSAGE_ERROR);
         $this->assertEquals('+3412345689', $objectToUpdate->phone, self::MESSAGE_ERROR);
         $this->assertEquals(1, $objectToUpdate->id_role, self::MESSAGE_ERROR);
-        $this->assertEquals(1, $objectToUpdate->id_image, self::MESSAGE_ERROR);
     }
 
     public function test_005_delete(): void{
@@ -107,7 +102,6 @@ class UserTest extends TestCase{
         $objectToAdd->email = 'test@email.com';
         $objectToAdd->password = Hash::make('testingPassword');
         $objectToAdd->phone = '+34123456789';
-        $objectToAdd->id_image = 2;
         $objectToAdd->id_role = 2;
         $objectToAdd->save();
 
@@ -145,14 +139,5 @@ class UserTest extends TestCase{
         $this->assertEquals('Admin', $role->name, self::MESSAGE_ERROR);
     }
 
-
-    public function test_008__user_belongs_to_image(): void {
-        $user = User::first();
-
-        $this->assertNotNull($user->image, self::MESSAGE_ERROR);
-
-        $image = $user->image;
-        $this->assertEquals('jpg', $image->type_image, self::MESSAGE_ERROR);
-    }
 }
 

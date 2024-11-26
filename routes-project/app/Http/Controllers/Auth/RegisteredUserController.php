@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
     protected $userRepository;
 
     public function __construct(){
-        $this->userRepository = new UserRepository(); 
+        $this->userRepository = new UserRepository();
     }
 
     /**
@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'phone' => ['required', 'string', 'max:15'], 
+            'phone' => ['required', 'string', 'max:15'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -51,13 +51,10 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'id_image' => null,
             'id_role' => 2,
         ]));
 
         event(new Registered($user));
-
-        Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
     }
