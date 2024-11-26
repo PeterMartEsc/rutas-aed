@@ -1,0 +1,76 @@
+#hay que copiar en la vps un fichero docker-compose/init.sql para el contenedor de base de datos
+#asÃ­ como un yaml para docker-compose llamado: personas_docker_compose.yaml
+name: Build and Deploy Docker image
+
+on:
+  push:
+    branches:
+      - main  # o el nombre de tu rama principal
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Utiliza un runner en Ubuntu
+    
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2  # Obtiene el cÃ³digo fuente del repositorio
+
+    - name: storage access
+      run: chmod 777 storage -R && chmod 777 database -R && chmod 777 bootstrap -R
+    
+    - name: Set up .env file
+      run: |
+        echo "APP_NAME=${{vars.ENV_APP_NAME}}" > .env
+        echo "APP_ENV=production" >> .env
+        echo "APP_KEY=${{ secrets.ENV_APP_KEY }}" >> .env
+        echo "DB_HOST=${{ vars.ENV_DB_HOST }}" >> .env
+        echo "DB_DATABASE=${{ vars.ENV_DB_DATABASE }}" >> .env
+        echo "DB_USERNAME=${{  vars.ENV_DB_USERNAME }}" >> .env
+        echo "DB_PASSWORD=${{ secrets.ENV_DB_PASSWORD }}" >> .env
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2  # Configura Docker Buildx para construir la imagen
+
+
+
+
+    - name: Log in to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}  # Usuario de DockerHub
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}  # ContraseÃ±a de DockerHub
+      
+    - name: Build and push laravel php-fpm
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        file: AppDockerfile
+        push: true
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/app-personas-image:latest
+    
+    - name: Build and push nginx
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        file: NginxDockerfile
+        push: true
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/app-personas-nginx-webserver-image:latest
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Deploy to digitalocean
+      uses: appleboy/ssh-action@master
+      with:
+        username: ${{ vars.HOSTING_USERNAME }}
+        host: ${{ vars.HOSTING_PC }}
+        key: ${{ secrets.HOSTING_KEY }}
+        script: |
+
+        
+            docker-compose -f personas_docker_compose.yaml down; 
+            docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-personas-image:latest;
+            docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-personas-nginx-image:latest;
+            docker-compose -f personas_docker_compose.yaml up -d;
