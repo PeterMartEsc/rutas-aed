@@ -1,0 +1,45 @@
+version: '3'
+services:
+  app-senderismo:
+    image: nalleon14716/app-senderismo-image
+    container_name: app-senderismo-container
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+#    volumes:
+#      - .:/var/www
+    networks:
+      - app-senderismo-network
+
+  app-senderismo-webserver:
+    image: nalleon14716/app-senderismo-nginx-webserver-image
+    container_name: app-senderismo-nginx-webserver
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+#    volumes:
+#     - .:/var/www
+#      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - app-senderismo-network
+
+  app-senderismo-mysqldb:
+    image: mysql:8.3.0
+    container_name: app-senderismo-mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 1q2w3e4r
+#    ports:
+#      - "3306:3306"
+    volumes:
+      - app-senderismo-dbdata
+      - ./docker-compose/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-senderismo-network
+
+volumes:
+  app-senderismo-dbdata:
+networks:
+  app-senderismo-network:
