@@ -1,5 +1,5 @@
 #hay que copiar en la vps un fichero docker-compose/init.sql para el contenedor de base de datos
-#asÃ­ como un yaml para docker-compose llamado: personas_docker_compose.yaml
+#asÃ­ como un yaml para docker-compose llamado: senderismo_docker_compose.yaml
 name: Build and Deploy Docker image
 
 on:
@@ -46,7 +46,7 @@ jobs:
         context: .
         file: AppDockerfile
         push: true
-        tags: ${{ vars.DOCKERHUB_USERNAME }}/app-personas-image:latest
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/app-senderismo-image:latest
     
     - name: Build and push nginx
       uses: docker/build-push-action@v6
@@ -54,7 +54,7 @@ jobs:
         context: .
         file: NginxDockerfile
         push: true
-        tags: ${{ vars.DOCKERHUB_USERNAME }}/app-personas-nginx-webserver-image:latest
+        tags: ${{ vars.DOCKERHUB_USERNAME }}/app-senderismo-nginx-webserver-image:latest
 
 
   deploy:
@@ -70,7 +70,7 @@ jobs:
         script: |
 
         
-            docker-compose -f personas_docker_compose.yaml down; 
-            docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-personas-image:latest;
-            docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-personas-nginx-image:latest;
-            docker-compose -f personas_docker_compose.yaml up -d;
+            docker-compose -f senderismo_docker_compose.yaml down; 
+            docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-senderismo-image:latest;
+            docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-senderismo-nginx-image:latest;
+            docker-compose -f senderismo_docker_compose.yaml up -d;

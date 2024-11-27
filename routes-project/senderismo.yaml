@@ -1,7 +1,7 @@
 version: '3'
 services:
   app-senderismo:
-    image: nalleon14716/app-senderismo-image
+    image: petermartesc/app-senderismo-image
     container_name: app-senderismo-container
     restart: unless-stopped
     tty: true
@@ -15,7 +15,7 @@ services:
       - app-senderismo-network
 
   app-senderismo-webserver:
-    image: nalleon14716/app-senderismo-nginx-webserver-image
+    image: petermartesc/app-senderismo-nginx-webserver-image
     container_name: app-senderismo-nginx-webserver
     restart: unless-stopped
     ports:
