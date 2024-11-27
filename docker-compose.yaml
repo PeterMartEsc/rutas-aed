@@ -19,7 +19,7 @@ services:
     container_name: app-senderismo-nginx-webserver
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "8092:80"
 #    volumes:
 #     - .:/var/www
 #      - ./docker-compose/nginx:/etc/nginx/conf.d/
