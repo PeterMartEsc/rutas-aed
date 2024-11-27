@@ -66,7 +66,7 @@ jobs:
         key: ${{ secrets.HOSTING_KEY }}
 
         script: |
-            docker-compose -f ../../senderismo_docker_compose.yaml down; 
+            docker-compose -f senderismo_docker_compose.yaml down; 
             docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-senderismo-image:latest;
             docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-senderismo-nginx-image:latest;
-            docker-compose -f ../../senderismo_docker_compose.yaml up -d;
+            docker-compose -f senderismo_docker_compose.yaml up -d;
