@@ -65,6 +65,7 @@ jobs:
         username: ${{ vars.HOSTING_USERNAME }}
         host: ${{ vars.HOSTING_PC }}
         key: ${{ secrets.HOSTING_KEY }}
+        
         script: |
             docker-compose -f senderismo_docker_compose.yaml down; 
             docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-senderismo-image:latest;

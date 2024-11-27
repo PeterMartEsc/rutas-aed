@@ -37,7 +37,7 @@ COPY . /var/www
 
 
 # Composer install
-RUN composer install --no-dev 
+#RUN composer install --no-dev 
 
 
 # Copy the existing application directory permissions to the working directory
