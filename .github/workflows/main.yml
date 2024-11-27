@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v2  # Obtiene el cÃ³digo fuente del repositorio
 
     - name: storage access
-      run: chmod 777 storage -R && chmod 777 database -R && chmod 777 bootstrap -R
+      run: chmod 777 ./routes-project/storage -R && chmod 777 ./routes-project/database -R && chmod 777 ./routes-project/bootstrap -R
     
     - name: Set up .env file
       run: |
