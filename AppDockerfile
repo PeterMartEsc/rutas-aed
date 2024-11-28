@@ -35,9 +35,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy the existing application directory contents to the working directory
 COPY . /var/www
 
+WORKDIR /var/www/routes-project
 
 # Composer install
-#RUN composer install --no-dev 
+RUN composer install --no-dev 
 
 
 # Copy the existing application directory permissions to the working directory
