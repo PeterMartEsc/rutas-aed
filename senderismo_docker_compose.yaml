@@ -35,7 +35,7 @@ services:
 #      - "3306:3306"
     volumes:
       - app-senderismo-dbdata
-      - ./docker-compose/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-senderismo-network
 

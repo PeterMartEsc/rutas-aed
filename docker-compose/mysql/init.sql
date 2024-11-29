@@ -17,11 +17,18 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+
+DROP DATABASE IF EXISTS `routes`;
+
+CREATE DATABASE `routes`;
+
+USE `routes`;
+
 --
 -- Base de datos: `routes`
 --
 
--- --------------------------------------------------------
+-- -------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `migrations`
