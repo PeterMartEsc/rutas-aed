@@ -28,11 +28,6 @@ USE `routes`;
 -- Base de datos: `routes`
 --
 
--- -------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `migrations`
---
 
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
