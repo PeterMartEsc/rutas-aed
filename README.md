@@ -10,8 +10,6 @@
 
 ***
 
-***
-
 ### Descripción de la aplicación
 
  Una aplicación online puedan apuntarse personas para hacer rutas senderistas, cualquiera de ellas puede organizar una ruta  ( esteblece el recorrido, la fecha , etc) y que los demás se apuntan se pondrán fotos de las rutas
