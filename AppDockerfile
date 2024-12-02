@@ -37,7 +37,7 @@ COPY ./routes-project/. /var/www
 
 WORKDIR /var/www
 
-# Composer install for laraveñ
+# Composer install
 RUN composer install --no-dev 
 
 
