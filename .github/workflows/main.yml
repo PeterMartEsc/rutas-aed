@@ -68,5 +68,5 @@ jobs:
         script: |
             docker-compose -f senderismo_docker_compose.yaml down; 
             docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-senderismo-image:latest;
-            docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-senderismo-nginx-image:latest;
+            docker rmi ${{ vars.DOCKERHUB_USERNAME }}/app-senderismo-nginx-webserver-image:latest;
             docker-compose -f senderismo_docker_compose.yaml up -d;
